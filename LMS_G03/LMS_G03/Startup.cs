@@ -19,6 +19,7 @@ using System.Text;
 using LMS_G03.Common;
 using LMS_G03.IServices;
 using LMS_G03.Services;
+using Microsoft.OpenApi.Models;
 
 namespace LMS_G03
 {
@@ -34,25 +35,6 @@ namespace LMS_G03
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("Policy1",
-            //        builder =>
-            //        {
-            //            builder.WithOrigins("http://localhost:39894",
-            //                                "http://localhost:39894");
-            //        });
-
-            //    options.AddPolicy("AnotherPolicy",
-            //        builder =>
-            //        {
-            //            builder.WithOrigins("http://localhost:39894")
-            //                                .AllowAnyHeader()
-            //                                .AllowAnyMethod();
-            //        });
-            //});
-
-
             Global.ConnectionString = Configuration.GetConnectionString("ConnStr");
             Global.DomainName = Configuration["DomainName"];
 
@@ -91,6 +73,13 @@ namespace LMS_G03
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Group3_LMS", Version = "v1" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,7 +88,12 @@ namespace LMS_G03
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Group3_LMS v1"));
+
             }
+
+
 
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
@@ -107,8 +101,6 @@ namespace LMS_G03
                 .AllowAnyHeader());
 
             app.UseRouting();
-
-            //app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

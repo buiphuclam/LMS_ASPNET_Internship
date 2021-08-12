@@ -23,6 +23,6 @@ namespace LMS_G03.Authentication
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
-        public bool IsMailConfirmed { get; set; }
+        public bool IsMailConfirmed { get; set; } = false;
     }
 }
