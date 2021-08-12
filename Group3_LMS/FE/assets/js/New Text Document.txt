@@ -1,4 +1,0 @@
-https://www.npmjs.com/package//axios
-https://masteringjs.io/axios
-https://freefrontend.com/bootstrap-login-forms/
-https://colorlib.com/wp/free-bootstrap-registration-forms/

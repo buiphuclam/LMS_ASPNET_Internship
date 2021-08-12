@@ -163,7 +163,7 @@ namespace LMS_G03.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
-        public MailModel GetMailObject(RegisterModel user)
+        private MailModel GetMailObject(RegisterModel user)
         {
             MailModel oMailModel = new MailModel();
             oMailModel.Subject = "Mail confirmation";
