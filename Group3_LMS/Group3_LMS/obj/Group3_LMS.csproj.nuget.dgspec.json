@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj": {}
   },
   "projects": {
@@ -16,6 +17,22 @@
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
+=======
+    "D:\\Lapp\\Thực tập\\gitlab\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj": {}
+  },
+  "projects": {
+    "D:\\Lapp\\Thực tập\\gitlab\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Lapp\\Thực tập\\gitlab\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj",
+        "projectName": "Group3_LMS",
+        "projectPath": "D:\\Lapp\\Thực tập\\gitlab\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Lapp\\Thực tập\\gitlab\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 711dba81f844de5be48c5e31069041edd653dc31
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -65,7 +82,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+>>>>>>> 711dba81f844de5be48c5e31069041edd653dc31
         }
       }
     }

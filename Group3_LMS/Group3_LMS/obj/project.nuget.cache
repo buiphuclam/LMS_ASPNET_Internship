@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "KO7gycWoTFH+N2mqj2izX4F8d/VQVMqAYCOQVncQxfbHaNiSoPkGekhkGC4qcI9jsgpG5hg18yXEeTtZ1VNP8w==",
   "success": true,
   "projectFilePath": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj",
+=======
+  "dgSpecHash": "c0EzuLc7401rTJZAU3Lhm9abjHTLcxm6BjSG7A57KNNJFe+tws/6aWNPZjmydNt1PcW4egJWrdGNnO2rSsFFcg==",
+  "success": true,
+  "projectFilePath": "D:\\Lapp\\Thực tập\\gitlab\\hcm21_cpl_net_04_group_03\\Group3_LMS\\Group3_LMS\\Group3_LMS.csproj",
+>>>>>>> 711dba81f844de5be48c5e31069041edd653dc31
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
