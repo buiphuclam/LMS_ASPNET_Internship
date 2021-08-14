@@ -41,8 +41,7 @@ namespace LMS_G03
             services.AddControllers();
             services.AddCors();
 
-            services.AddScoped<ILoginInfoService, LoginInfoService>();
-            services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IMailHelperService, MailHelperService>();
 
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
 
@@ -74,6 +73,13 @@ namespace LMS_G03
                 };
             });
 
+            services.Configure<IdentityOptions>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 8;
+
+                opts.SignIn.RequireConfirmedEmail = true;
+            });
 
             services.AddSwaggerGen(c =>
             {

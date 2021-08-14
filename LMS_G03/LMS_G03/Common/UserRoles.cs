@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LMS_G03.Authentication
+namespace LMS_G03.Common
 {
     public static class UserRoles
     {

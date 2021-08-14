@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LMS_G03.Authentication
 {
-    public class RegisterModel: CommonProperties
+    public class RegisterModel
     {
         [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
@@ -22,7 +22,5 @@ namespace LMS_G03.Authentication
         [Required(ErrorMessage = "Confirm Password is required")]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-
-        public bool IsMailConfirmed { get; set; } = false;
     }
 }
