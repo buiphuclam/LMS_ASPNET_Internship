@@ -9,6 +9,7 @@ namespace LMS_G03.Common
     {
         None = 0,
         Signup = 1,
-        UpdateConfirmMail = 2
+        UpdateConfirmMail = 2,
+        ChangePassword = 3
     }
 }

@@ -25,17 +25,15 @@ namespace LMS_G03.Controllers
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
-        private ILoginInfoService _loginInfoService;
-        private IMailService _mailService;
+        private IMailHelperService _mailHelperService;
 
         public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration
-            , ILoginInfoService loginInfoService, IMailService mailService)
+            , IMailHelperService mailHelperService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
-            _loginInfoService = loginInfoService;
-            _mailService = mailService;
+            _mailHelperService = mailHelperService;
         }
 
         [HttpPost]
@@ -43,7 +41,6 @@ namespace LMS_G03.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
-            string sMessage = "";
             var userExists = await userManager.FindByNameAsync(registerModel.Username);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.UserAlreadyCreated });
@@ -58,38 +55,22 @@ namespace LMS_G03.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = registerModel.Username
             };
-            //if(!(registerModel.Password.Equals(registerModel.ConfirmPassword)))
-            //    return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = Message.ErrorFound, Message = "User creation failed! ConfirmPassword and Password do not match." });
             var result = await userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User creation failed! One or more validation errors occurred." });
-
-            if (!user.EmailConfirmed)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.SomethingWrong });
+            else
             {
-                MailModel oMailModel = this.GetMailObject(registerModel);
-                await _mailService.SendMail(oMailModel);
-                return BadRequest(new { message = Message.MailSent });
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authenticate", new { token, email = registerModel.Email }, Request.Scheme);
+                bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
+
+                if (emailResponse)
+                    return Ok(new Response { Status = Message.Success, Message = Message.UserCreatedVerifyMail });
+                else
+                {
+                    return BadRequest(new { message = Message.ErrorFound });
+                }
             }
-
-            #region Send Mail
-            if(result.Succeeded)
-            {
-                MailModel oMailModel = this.GetMailObject(registerModel);
-                sMessage =  await _mailService.SendMail(oMailModel);
-            }
-            if (sMessage != Message.MailSent) return BadRequest(new { message = sMessage });
-            else return Ok(new Response { Status = Message.Success, Message = Message.UserCreatedVerifyMail});
-            #endregion
-
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("confirmmail")]
-        public async Task<IActionResult> ConfirmMail(string username)
-        {
-            string sMessage = await _loginInfoService.ConfirmMail(username);
-            return Ok(new { message = sMessage });
         }
 
         [HttpPost]
@@ -138,7 +119,7 @@ namespace LMS_G03.Controllers
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User already exists!" });
 
             User user = new User()
             {
@@ -148,7 +129,7 @@ namespace LMS_G03.Controllers
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User creation failed! Please check user details and try again." });
 
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
                 await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -160,19 +141,69 @@ namespace LMS_G03.Controllers
                 await userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new Response { Status = Message.Success, Message = "User created successfully!" });
         }
 
-        private MailModel GetMailObject(RegisterModel user)
+        [HttpPost]
+        [Route("changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel changePasswordModel)
         {
-            MailModel oMailModel = new MailModel();
-            oMailModel.Subject = "Mail confirmation";
-            oMailModel.Body = _mailService.GetMailBody(user);
-            oMailModel.ToMails = new List<string>()
+            var userExists = await userManager.FindByNameAsync(changePasswordModel.Username);
+            if (userExists == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+
+            userExists.SecurityStamp = Guid.NewGuid().ToString();
+            var result = await userManager.ChangePasswordAsync(userExists, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+            if (!result.Succeeded)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.SomethingWrong });
+            return Ok(new Response { Status = Message.Success, Message = Message.ChangePasswordSuccess });
+        }
+
+        [HttpPost]
+        [Route("forgetpassword")]
+        public async Task<IActionResult> ForgotPassword(ForgetPasswordModel forgetPasswordModel)
+        {
+            var user = await userManager.FindByEmailAsync(forgetPasswordModel.Email);
+            if (user == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var resetPasswordLink = Url.Action(nameof(ResetPassword), "Authenticate", new { token, email = user.Email }, Request.Scheme);
+            //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
+            bool emailResponse = _mailHelperService.SendEmail(forgetPasswordModel.Email, resetPasswordLink, "Reset password confirmation");
+
+            if (emailResponse)
+                return Ok(new Response { Status = Message.Success, Message = Message.MailSent });
+            else
             {
-                user.Email
-            };
-            return oMailModel;
+                return BadRequest(new { message = Message.ErrorFound });
+            }
+        }
+
+        [HttpPost]
+        [Route("resetpassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            var user = await userManager.FindByEmailAsync(resetPasswordModel.Email);
+            if (user == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+            var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.NewPassword);
+            if (!resetPassResult.Succeeded)
+            {
+                return BadRequest(new { message = Message.ErrorFound });
+            }
+            return Ok(new Response { Status = Message.Success, Message = Message.ChangePasswordSuccess });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("confirmemail")]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var userExists = await userManager.FindByEmailAsync(email);
+            if (userExists == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+            var result = await userManager.ConfirmEmailAsync(userExists, token);
+            return Ok(new Response { Status = Message.Success, Message = Message.ConfirmEmailSuccess });
         }
     }
 }

@@ -14,5 +14,9 @@ namespace LMS_G03.Common
         public static string InvalidUser = "Invalid user, please create account!";
         public static string MailSent = "Confirmation mail sent, please check your mailbox!";
         public static string UserCreatedVerifyMail = "User created! Check mailbox and verify!";
+        public static string MailNotFound = "Email address not found!";
+        public static string ConfirmEmailSuccess = "Confirm email successfully!";
+        public static string ChangePasswordSuccess = "Change password successfully!";
+        public static string SomethingWrong = "Something wrong, please check and try again!";
     }
 }
