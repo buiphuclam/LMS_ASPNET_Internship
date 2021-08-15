@@ -26,14 +26,16 @@ namespace LMS_G03.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
         private IMailHelperService _mailHelperService;
+        private IVerifyJwtService _verifyJwtService;
 
         public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration
-            , IMailHelperService mailHelperService)
+            , IMailHelperService mailHelperService, IVerifyJwtService verifyJwtService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
             _mailHelperService = mailHelperService;
+            _verifyJwtService = verifyJwtService;
         }
 
         [HttpPost]
@@ -97,20 +99,43 @@ namespace LMS_G03.Controllers
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
                 var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
+                    //issuer: _configuration["JWT:ValidIssuer"],
+                    issuer: user.Id,
                     audience: _configuration["JWT:ValidAudience"],
                     expires: DateTime.Now.AddHours(3),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
+                Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+                {
+                    HttpOnly = true
+                });
+
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    Message = "success"
                 });
+
+                //return Ok(new
+                //{
+                //    token = new JwtSecurityTokenHandler().WriteToken(token),
+                //    expiration = token.ValidTo
+                //});
             }
             return Unauthorized();
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new
+            {
+                Message = "success"
+            });
         }
 
         [HttpPost]
@@ -204,6 +229,27 @@ namespace LMS_G03.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
             var result = await userManager.ConfirmEmailAsync(userExists, token);
             return Ok(new Response { Status = Message.Success, Message = Message.ConfirmEmailSuccess });
+        }
+
+        [HttpGet]
+        [Route("user")]
+        public async Task<IActionResult> User()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+                var user = await userManager.FindByIdAsync(token.Issuer);
+                if (user == null)
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized();
+            }
+            
         }
     }
 }
