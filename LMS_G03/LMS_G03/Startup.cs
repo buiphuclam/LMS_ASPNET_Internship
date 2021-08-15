@@ -20,6 +20,7 @@ using LMS_G03.Common;
 using LMS_G03.IServices;
 using LMS_G03.Services;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Logging;
 
 namespace LMS_G03
 {
@@ -38,10 +39,12 @@ namespace LMS_G03
             Global.ConnectionString = Configuration.GetConnectionString("ConnStr");
             Global.DomainName = Configuration["DomainName"];
 
-            services.AddControllers();
             services.AddCors();
 
+            services.AddControllers();
+
             services.AddScoped<IMailHelperService, MailHelperService>();
+            services.AddScoped<IVerifyJwtService, VerifyJwtService>();
 
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
 
@@ -81,9 +84,11 @@ namespace LMS_G03
                 opts.SignIn.RequireConfirmedEmail = true;
             });
 
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Group3_LMS", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_G03", Version = "v1" });
             });
 
         }
@@ -102,9 +107,11 @@ namespace LMS_G03
 
 
             app.UseCors(builder => builder
-                .AllowAnyOrigin()
+                //.AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .SetIsOriginAllowed(hostName => true));
 
             app.UseRouting();
 
