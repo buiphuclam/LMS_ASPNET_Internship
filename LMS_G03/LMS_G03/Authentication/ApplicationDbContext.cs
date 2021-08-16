@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LMS_G03.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,14 +11,30 @@ namespace LMS_G03.Authentication
 {
     public class ApplicationDbContext: IdentityDbContext<User>
     {
+        public DbSet<UserInfo> UserInfo { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Course> Course { get; set; }
+        public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<CourseOffering> CourseOffering { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
-
+           
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Category>()
+            .HasMany(c => c.Courses)
+            .WithOne(e => e.CourseCategory)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<User>()
+            .HasDiscriminator<string>("Role")
+            .HasValue<User>("Student")
+            .HasValue<Teacher>("Teacher");
+
             builder.Entity<User>(b =>
             {
                 b.ToTable("Users");
@@ -52,6 +69,7 @@ namespace LMS_G03.Authentication
             {
                 b.ToTable("UserRoles");
             });
+
         }
     }
 }

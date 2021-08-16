@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace LMS_G03.Controllers
 {
     //Only Admin can access
-    [Authorize(Roles = UserRoles.Admin)]
+    [Authorize(Roles = UserRoles.Student)]
     [Authorize]
     [ApiController]
     [Route("[controller]")]

@@ -15,6 +15,7 @@ using LMS_G03.IServices;
 using LMS_G03.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using LMS_G03.Models;
 
 namespace LMS_G03.Controllers
 {
@@ -55,13 +56,23 @@ namespace LMS_G03.Controllers
             {
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.Username
+                UserName = registerModel.Username,
+                UserInfo = new UserInfo()
             };
+
             var result = await userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.SomethingWrong });
             else
             {
+                if (!await roleManager.RoleExistsAsync(UserRoles.Student))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Student));
+
+                if (await roleManager.RoleExistsAsync(UserRoles.Student))
+                {
+                    await userManager.AddToRoleAsync(user, UserRoles.Student);
+                }
+
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authenticate", new { token, email = registerModel.Email }, Request.Scheme);
                 bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
@@ -102,7 +113,7 @@ namespace LMS_G03.Controllers
                     //issuer: _configuration["JWT:ValidIssuer"],
                     issuer: user.Id,
                     audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
+                    expires: DateTime.Now.AddHours(24),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
@@ -130,8 +141,19 @@ namespace LMS_G03.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            Response.Cookies.Delete("jwt");
+            if (Request.Cookies["jwt"] != null)
+            {
+                var jwt = Request.Cookies["jwt"];
+                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+                Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+            }
 
+            Response.Cookies.Delete("jwt");
+            
             return Ok(new
             {
                 Message = "success"
@@ -139,8 +161,8 @@ namespace LMS_G03.Controllers
         }
 
         [HttpPost]
-        [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
+        [Route("register-teacher")]
+        public async Task<IActionResult> RegisterTeacher([FromBody] RegisterModel model)
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
@@ -156,14 +178,14 @@ namespace LMS_G03.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User creation failed! Please check user details and try again." });
 
-            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (!await roleManager.RoleExistsAsync(UserRoles.Teacher))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher));
+            if (!await roleManager.RoleExistsAsync(UserRoles.Student))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Student));
 
-            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+            if (await roleManager.RoleExistsAsync(UserRoles.Teacher))
             {
-                await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                await userManager.AddToRoleAsync(user, UserRoles.Teacher);
             }
 
             return Ok(new Response { Status = Message.Success, Message = "User created successfully!" });

@@ -7,7 +7,10 @@ namespace LMS_G03.Common
 {
     public static class UserRoles
     {
-        public const string Admin = "Admin";
-        public const string User = "User";
+        public const string SysAdmin = "SysAdmin";
+        public const string Teacher = "Teacher";
+        public const string ClassAdmin = "ClassAdmin";
+        public const string Intructor = "Intructor";
+        public const string Student = "Student";
     }
 }
