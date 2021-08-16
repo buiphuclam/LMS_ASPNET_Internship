@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210816083345_DbTest4")]
+    partial class DbTest4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,10 +63,6 @@ namespace LMS_G03.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -86,88 +84,6 @@ namespace LMS_G03.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Role").HasValue("Student");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.Category", b =>
-                {
-                    b.Property<string>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CategoryShortDetail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryId");
-
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.Course", b =>
-                {
-                    b.Property<string>("CourseId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CourseName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CourseShortDetail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CourseId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Course");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.CourseOffering", b =>
-                {
-                    b.Property<string>("SectionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CourseId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EndDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StartDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Term")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Year")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SectionId");
-
-                    b.HasIndex("CourseId")
-                        .IsUnique()
-                        .HasFilter("[CourseId] IS NOT NULL");
-
-                    b.HasIndex("Id");
-
-                    b.ToTable("CourseOffering");
                 });
 
             modelBuilder.Entity("LMS_G03.Models.UserInfo", b =>
@@ -327,35 +243,6 @@ namespace LMS_G03.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.Teacher", b =>
-                {
-                    b.HasBaseType("LMS_G03.Authentication.User");
-
-                    b.Property<string>("Degree")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Teacher");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.Course", b =>
-                {
-                    b.HasOne("LMS_G03.Models.Category", "CourseCategory")
-                        .WithMany("Courses")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.CourseOffering", b =>
-                {
-                    b.HasOne("LMS_G03.Models.Course", "Course")
-                        .WithOne("CourseOffering")
-                        .HasForeignKey("LMS_G03.Models.CourseOffering", "CourseId");
-
-                    b.HasOne("LMS_G03.Models.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("Id");
                 });
 
             modelBuilder.Entity("LMS_G03.Models.UserInfo", b =>

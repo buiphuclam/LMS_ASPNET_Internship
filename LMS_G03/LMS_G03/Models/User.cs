@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LMS_G03.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace LMS_G03.Authentication
         public override string SecurityStamp { get; set; }
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }
-
+        public virtual UserInfo UserInfo { get; set; }
     }
 }
