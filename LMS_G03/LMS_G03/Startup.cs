@@ -52,6 +52,8 @@ namespace LMS_G03
             services.AddCors();
 
             services.AddControllers();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllers().AddXmlSerializerFormatters();
 
             services.AddScoped<IMailHelperService, MailHelperService>();
@@ -89,10 +91,17 @@ namespace LMS_G03
 
             services.Configure<IdentityOptions>(opts =>
             {
+                opts.User.AllowedUserNameCharacters =
+                            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 8;
 
                 opts.SignIn.RequireConfirmedEmail = true;
+
+                // Default Lockout settings.
+                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                opts.Lockout.MaxFailedAccessAttempts = 5;
+                opts.Lockout.AllowedForNewUsers = true;
             });
 
             IdentityModelEventSource.ShowPII = true;
@@ -111,7 +120,7 @@ namespace LMS_G03
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Group3_LMS v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LMS_G03 v1"));
 
             }
 

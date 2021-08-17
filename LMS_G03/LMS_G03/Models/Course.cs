@@ -20,6 +20,8 @@ namespace LMS_G03.Models
         public string UpdatedDate { get; set; } = DateTime.Now.ToString();
         [ForeignKey("CategoryId")]
         public Category CourseCategory { get; set; }
-        public virtual CourseOffering CourseOffering { get; set; }
+        public ICollection<CourseOffering> CourseOfferings { get; set; }
+        public ICollection<Lectures> Lectures { get; set; }
+        public ICollection<Enroll> isEnroll { get; set; }
     }
 }
