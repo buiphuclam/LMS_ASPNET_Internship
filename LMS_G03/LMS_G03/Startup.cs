@@ -21,6 +21,7 @@ using LMS_G03.IServices;
 using LMS_G03.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace LMS_G03
 {
@@ -39,9 +40,19 @@ namespace LMS_G03
             Global.ConnectionString = Configuration.GetConnectionString("ConnStr");
             Global.DomainName = Configuration["DomainName"];
 
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IUriService>(o =>
+            {
+                var accessor = o.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(uri);
+            });
+
             services.AddCors();
 
             services.AddControllers();
+            services.AddControllers().AddXmlSerializerFormatters();
 
             services.AddScoped<IMailHelperService, MailHelperService>();
             services.AddScoped<IVerifyJwtService, VerifyJwtService>();

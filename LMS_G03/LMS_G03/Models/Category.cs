@@ -10,7 +10,7 @@ namespace LMS_G03.Models
     public class Category
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string CategoryShortDetail { get; set; }

@@ -78,10 +78,10 @@ namespace LMS_G03.Controllers
                 bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
 
                 if (emailResponse)
-                    return Ok(new Response { Status = Message.Success, Message = Message.UserCreatedVerifyMail });
+                    return Ok(new Response { Status = "200", Message = Message.UserCreatedVerifyMail });
                 else
                 {
-                    return BadRequest(new { message = Message.ErrorFound });
+                    return BadRequest(new Response { Status = "500", Message = Message.ErrorFound });
                 }
             }
         }
@@ -123,10 +123,7 @@ namespace LMS_G03.Controllers
                     HttpOnly = true
                 });
 
-                return Ok(new
-                {
-                    Message = "success"
-                });
+                return Ok(new Response { Status = "200", Message = Message.Success });
 
                 //return Ok(new
                 //{
@@ -154,10 +151,7 @@ namespace LMS_G03.Controllers
 
             Response.Cookies.Delete("jwt");
             
-            return Ok(new
-            {
-                Message = "success"
-            });
+            return Ok(new Response { Status = "200", Message = Message.Success });
         }
 
         [HttpPost]
@@ -197,13 +191,13 @@ namespace LMS_G03.Controllers
         {
             var userExists = await userManager.FindByNameAsync(changePasswordModel.Username);
             if (userExists == null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
 
             userExists.SecurityStamp = Guid.NewGuid().ToString();
             var result = await userManager.ChangePasswordAsync(userExists, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.SomethingWrong });
-            return Ok(new Response { Status = Message.Success, Message = Message.ChangePasswordSuccess });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "500", Message = Message.SomethingWrong });
+            return Ok(new Response { Status = "200", Message = Message.ChangePasswordSuccess });
         }
 
         [HttpPost]
@@ -212,17 +206,17 @@ namespace LMS_G03.Controllers
         {
             var user = await userManager.FindByEmailAsync(forgetPasswordModel.Email);
             if (user == null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
             var resetPasswordLink = Url.Action(nameof(ResetPassword), "Authenticate", new { token, email = user.Email }, Request.Scheme);
             //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
             bool emailResponse = _mailHelperService.SendEmail(forgetPasswordModel.Email, resetPasswordLink, "Reset password confirmation");
 
             if (emailResponse)
-                return Ok(new Response { Status = Message.Success, Message = Message.MailSent });
+                return Ok(new Response { Status = "200", Message = Message.MailSent });
             else
             {
-                return BadRequest(new { message = Message.ErrorFound });
+                return BadRequest(new Response { Status = "500", Message = Message.ErrorFound });
             }
         }
 
@@ -232,13 +226,13 @@ namespace LMS_G03.Controllers
         {
             var user = await userManager.FindByEmailAsync(resetPasswordModel.Email);
             if (user == null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
             var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.NewPassword);
             if (!resetPassResult.Succeeded)
             {
-                return BadRequest(new { message = Message.ErrorFound });
+                return BadRequest(new Response { Status = "500", Message = Message.ErrorFound });
             }
-            return Ok(new Response { Status = Message.Success, Message = Message.ChangePasswordSuccess });
+            return Ok(new Response { Status = "200", Message = Message.ChangePasswordSuccess });
         }
 
         [HttpGet]
@@ -248,9 +242,9 @@ namespace LMS_G03.Controllers
         {
             var userExists = await userManager.FindByEmailAsync(email);
             if (userExists == null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
             var result = await userManager.ConfirmEmailAsync(userExists, token);
-            return Ok(new Response { Status = Message.Success, Message = Message.ConfirmEmailSuccess });
+            return Ok(new Response { Status = "200", Message = Message.ConfirmEmailSuccess });
         }
 
         [HttpGet]
@@ -263,7 +257,7 @@ namespace LMS_G03.Controllers
                 var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
                 var user = await userManager.FindByIdAsync(token.Issuer);
                 if (user == null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.InvalidUser });
+                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
 
                 return Ok(user);
             }
