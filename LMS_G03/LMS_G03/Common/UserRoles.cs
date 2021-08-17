@@ -10,7 +10,7 @@ namespace LMS_G03.Common
         public const string SysAdmin = "SysAdmin";
         public const string Teacher = "Teacher";
         public const string ClassAdmin = "ClassAdmin";
-        public const string Intructor = "Intructor";
+        public const string Instructor = "Instructor";
         public const string Student = "Student";
     }
 }

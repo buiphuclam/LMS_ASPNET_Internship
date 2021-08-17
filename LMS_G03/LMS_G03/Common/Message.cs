@@ -9,6 +9,7 @@ namespace LMS_G03.Common
     {
         public static string Success = "Success!";
         public static string ErrorFound = "Error found!";
+        public static string NotFound = "Not found!";
         public static string UserAlreadyCreated = "User already created, please login!";
         public static string VerifyMail = "This mail has been taken from other account!";
         public static string InvalidUser = "Invalid user, please create account!";
