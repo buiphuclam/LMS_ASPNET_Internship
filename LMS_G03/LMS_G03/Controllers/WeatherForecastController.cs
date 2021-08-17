@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace LMS_G03.Controllers
 {
     //Only Admin can access
-    [Authorize(Roles = UserRoles.Student)]
-    [Authorize]
+    [Authorize(Roles = "SystemAdmin")]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

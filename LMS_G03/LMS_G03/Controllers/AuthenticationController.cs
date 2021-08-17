@@ -65,12 +65,12 @@ namespace LMS_G03.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.SomethingWrong });
             else
             {
-                if (!await roleManager.RoleExistsAsync(UserRoles.Student))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Student));
+                if (!await roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Student.ToString()));
 
-                if (await roleManager.RoleExistsAsync(UserRoles.Student))
+                if (await roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
                 {
-                    await userManager.AddToRoleAsync(user, UserRoles.Student);
+                    await userManager.AddToRoleAsync(user, UserRoles.Student.ToString());
                 }
 
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -172,14 +172,14 @@ namespace LMS_G03.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User creation failed! Please check user details and try again." });
 
-            if (!await roleManager.RoleExistsAsync(UserRoles.Teacher))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher));
-            if (!await roleManager.RoleExistsAsync(UserRoles.Student))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Student));
+            if (!await roleManager.RoleExistsAsync(UserRoles.Teacher.ToString()))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher.ToString()));
+            if (!await roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Student.ToString()));
 
-            if (await roleManager.RoleExistsAsync(UserRoles.Teacher))
+            if (await roleManager.RoleExistsAsync(UserRoles.Teacher.ToString()))
             {
-                await userManager.AddToRoleAsync(user, UserRoles.Teacher);
+                await userManager.AddToRoleAsync(user, UserRoles.Teacher.ToString());
             }
 
             return Ok(new Response { Status = Message.Success, Message = "User created successfully!" });

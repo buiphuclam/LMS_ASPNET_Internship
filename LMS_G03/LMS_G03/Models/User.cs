@@ -17,5 +17,6 @@ namespace LMS_G03.Authentication
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }
         public virtual UserInfo UserInfo { get; set; }
+        public ICollection<Enroll> Enroll { get; set; }
     }
 }

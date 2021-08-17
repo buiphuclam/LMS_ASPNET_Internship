@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace LMS_G03.Common
 {
-    public static class UserRoles
+    public enum UserRoles
     {
-        public const string SysAdmin = "SysAdmin";
-        public const string Teacher = "Teacher";
-        public const string ClassAdmin = "ClassAdmin";
-        public const string Instructor = "Instructor";
-        public const string Student = "Student";
+        SystemAdmin,
+        ClassAdmin,
+        Teacher,
+        MentorTA,
+        Instructor,
+        Student
     }
 }

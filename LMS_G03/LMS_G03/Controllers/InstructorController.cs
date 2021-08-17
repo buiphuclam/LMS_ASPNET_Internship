@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LMS_G03.Controllers
 {
-    [Authorize(Roles = UserRoles.Student)]
+    [Authorize(Roles = "Instructor")]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

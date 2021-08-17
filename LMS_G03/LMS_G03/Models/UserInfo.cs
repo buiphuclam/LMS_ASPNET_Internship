@@ -19,6 +19,6 @@ namespace LMS_G03.Models
         public string BirthCity { get; set; }
         [Key]
         [ForeignKey("Id")]
-        public virtual User User { get; set; }
+        public User User { get; set; }
     }
 }
