@@ -22,5 +22,6 @@ namespace LMS_G03.Models
         public Course Course { get; set; }
         [ForeignKey("Id")]
         public User Teacher { get; set; }
+        public ICollection<Enroll> isEnroll { get; set; }
     }
 }

@@ -27,11 +27,11 @@ namespace LMS_G03.Authentication
             base.OnModelCreating(builder);
 
             builder.Entity<Enroll>()
-                .HasKey(e => new { e.UserId, e.CourseId });
+                .HasKey(e => new { e.UserId, e.SectionId });
             builder.Entity<Enroll>()
-                .HasOne(c => c.Course)
+                .HasOne(c => c.Section)
                 .WithMany(i => i.isEnroll)
-                .HasForeignKey(id => id.CourseId);
+                .HasForeignKey(id => id.SectionId);
             builder.Entity<Enroll>()
                 .HasOne(u => u.User)
                 .WithMany(e => e.Enroll)
