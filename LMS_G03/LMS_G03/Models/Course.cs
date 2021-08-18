@@ -15,9 +15,11 @@ namespace LMS_G03.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string CourseId { get; set; }
         public string CourseName { get; set; }
+        public string CourseCode { get; set; }
         public string CourseShortDetail { get; set; }
         public string CreatedDate { get; set; }
-        public string UpdatedDate { get; set; } = DateTime.Now.ToString();
+        public byte[] CoourseImg { get; set; }
+        public string UpdatedDate { get; set; }
         [ForeignKey("CategoryId")]
         public Category CourseCategory { get; set; }
         public ICollection<CourseOffering> CourseOfferings { get; set; }

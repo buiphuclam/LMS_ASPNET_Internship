@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210818083127_DbTest8")]
+    partial class DbTest8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,13 +91,13 @@ namespace LMS_G03.Migrations
                     b.Property<string>("CategoryId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CategoryCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryShortDetail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryShortName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
@@ -115,13 +117,13 @@ namespace LMS_G03.Migrations
                     b.Property<byte[]>("CoourseImg")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("CourseCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourseShortDetail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CourseShortName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedDate")
@@ -152,7 +154,7 @@ namespace LMS_G03.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("SectionCode")
+                    b.Property<string>("SectionName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartDate")
@@ -206,10 +208,10 @@ namespace LMS_G03.Migrations
                     b.Property<string>("LectureDetail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LectureDuration")
+                    b.Property<string>("LectureName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LectureName")
+                    b.Property<string>("LectureTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LectureId");

@@ -3,6 +3,7 @@ using LMS_G03.Common;
 using LMS_G03.Common.Helpers;
 using LMS_G03.IServices;
 using LMS_G03.Models;
+using LMS_G03.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +29,6 @@ namespace LMS_G03.Controllers
         [HttpGet("getcourse")]
         public Task<IActionResult> GetCourse([FromQuery] PaginationFilter filter, string id) =>
             (id == null) ? GetAllCourse(filter) : GetCourseById(id);
-
-
         private async Task<IActionResult> GetCourseById(string id)
         {
             var course = await _context.Course.Where(a => a.CourseId.Equals(id)).FirstOrDefaultAsync();
@@ -59,6 +58,40 @@ namespace LMS_G03.Controllers
             }
             
             return Ok(pagedReponse);
+        }
+
+        [HttpPost("addcourse")]
+        public async Task<IActionResult> AddCourse([FromBody] CourseModel course)
+        {
+            var category = await _context.Category.FindAsync(course.CategoryId);
+            if (category == null)
+                return NotFound(new Response { Status = "404", Message = Message.NotFound });
+
+            string courseCode = "";
+            string str = course.CourseName.ToUpper();
+            str.Split(' ').ToList().ForEach(i => courseCode+=i[0]);
+
+            Course newcourse = new Course()
+            {
+                CourseName = course.CourseName,
+                CourseShortDetail = course.CourseShortDetail,
+                CreatedDate = DateTime.Now.ToString(),
+                UpdatedDate = DateTime.Now.ToString(),
+                CourseCode = category.CategoryCode + courseCode + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString(),
+                CourseCategory = category
+            };
+
+            _context.Course.Add(newcourse);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success, Data = newcourse });
         }
     }
 }
