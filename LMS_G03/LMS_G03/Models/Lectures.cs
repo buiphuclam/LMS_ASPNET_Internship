@@ -15,7 +15,7 @@ namespace LMS_G03.Models
         public string LectureName { get; set; }
         public string LectureDetail { get; set; }
         public string LectureDate { get; set; }
-        public string LectureTime { get; set; }
+        public string LectureDuration { get; set; }
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
     }

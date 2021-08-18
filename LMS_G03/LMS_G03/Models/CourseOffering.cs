@@ -13,8 +13,9 @@ namespace LMS_G03.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string SectionId { get; set; }
+        public string SectionCode { get; set; }
         public string Year { get; set; }
-        public string Term { get; set; }
+        public int Term { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         [ForeignKey("CourseId")]
