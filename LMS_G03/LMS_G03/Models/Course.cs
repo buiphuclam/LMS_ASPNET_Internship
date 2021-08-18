@@ -24,6 +24,5 @@ namespace LMS_G03.Models
         public Category CourseCategory { get; set; }
         public ICollection<CourseOffering> CourseOfferings { get; set; }
         public ICollection<Lectures> Lectures { get; set; }
-        public ICollection<Enroll> isEnroll { get; set; }
     }
 }
