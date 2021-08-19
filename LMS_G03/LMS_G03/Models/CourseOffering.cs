@@ -18,10 +18,11 @@ namespace LMS_G03.Models
         public int Term { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
-        [ForeignKey("CourseId")]
+        public string CourseId { get; set; }
         public Course Course { get; set; }
-        [ForeignKey("Id")]
+        public string TeacherId { get; set; }
         public User Teacher { get; set; }
+        [ForeignKey("SectionId")]
         public ICollection<Enroll> isEnroll { get; set; }
     }
 }

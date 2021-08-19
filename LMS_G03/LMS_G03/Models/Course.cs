@@ -20,9 +20,11 @@ namespace LMS_G03.Models
         public string CreatedDate { get; set; }
         public byte[] CoourseImg { get; set; }
         public string UpdatedDate { get; set; }
-        [ForeignKey("CategoryId")]
-        public Category CourseCategory { get; set; }
+        public string CategoryId { get; set; }
+        public Category Category { get; set; }
+        [ForeignKey("CourseId")]
         public ICollection<CourseOffering> CourseOfferings { get; set; }
+        [ForeignKey("CourseId")]
         public ICollection<Lectures> Lectures { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -16,7 +17,9 @@ namespace LMS_G03.Authentication
         public override string SecurityStamp { get; set; }
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }
-        public virtual UserInfo UserInfo { get; set; }
+        [ForeignKey("UserId")]
+        public UserInfo UserInfo { get; set; }
+        [ForeignKey("UserId")]
         public ICollection<Enroll> Enroll { get; set; }
     }
 }

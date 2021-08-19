@@ -15,6 +15,7 @@ namespace LMS_G03.Models
         public string CategoryName { get; set; }
         public string CategoryCode { get; set; }
         public string CategoryShortDetail { get; set; }
+        [ForeignKey("CategoryId")]
         public ICollection<Course> Courses { get; set; }
     }
 }

@@ -78,7 +78,7 @@ namespace LMS_G03.Controllers
                 CreatedDate = DateTime.Now.ToString(),
                 UpdatedDate = DateTime.Now.ToString(),
                 CourseCode = category.CategoryCode + courseCode + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString(),
-                CourseCategory = category
+                Category = category
             };
 
             _context.Course.Add(newcourse);
@@ -92,6 +92,58 @@ namespace LMS_G03.Controllers
             }
 
             return Ok(new Response { Status = "200", Message = Message.Success, Data = newcourse });
+        }
+
+        [HttpPost("addcourseoffering")]
+        public async Task<IActionResult> AddCourseOffering([FromBody] CourseOfferingModel courseOffering)
+        {
+            var course = await _context.Course.FindAsync(courseOffering.CourseId);
+            var teacher = await _context.Users.FindAsync(courseOffering.TeacherId);
+            if (course == null || teacher == null)
+                return NotFound(new Response { Status = "404", Message = Message.NotFound });
+
+            var noOfClass = _context.CourseOffering.Where(a => a.Course.CourseId.Equals(courseOffering.CourseId)).Count() + 1;
+
+            CourseOffering newclass = new CourseOffering()
+            {
+                SectionCode = course.CourseCode + courseOffering.Year + courseOffering.Term + "_" + noOfClass.ToString(),
+                Year = courseOffering.Year,
+                Term = courseOffering.Term,
+                StartDate = courseOffering.StartDate,
+                EndDate = courseOffering.EndDate,
+                Course = course,
+                Teacher = teacher,
+                isEnroll = null
+            };
+
+            _context.CourseOffering.Add(newclass);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success, Data = newclass });
+        }
+
+        [HttpGet("mycourse")]
+        public async Task<IActionResult> MyCourse(string id)
+        {
+            var enrolls = await _context.Enroll.Where(a => a.UserId.Equals(id)).ToListAsync();
+            if(enrolls.Count() == 0)
+                return NotFound(new Response { Status = "404", Message = Message.NotFound, Data = enrolls });
+
+            List<CourseOffering> mycourses = new List<CourseOffering>();
+            foreach (var enroll in enrolls)
+            {
+                var courseOffering = _context.CourseOffering.Where(a => a.SectionId.Equals(enroll.SectionId)).FirstOrDefault();
+                mycourses.Add(courseOffering);
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success, Data = mycourses });
         }
     }
 }

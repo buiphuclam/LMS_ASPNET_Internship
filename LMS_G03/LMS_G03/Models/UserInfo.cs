@@ -18,7 +18,6 @@ namespace LMS_G03.Models
         public string LivingCity { get; set; }
         public string BirthCity { get; set; }
         [Key]
-        [ForeignKey("Id")]
-        public User User { get; set; }
+        public string UserId { get; set; }
     }
 }

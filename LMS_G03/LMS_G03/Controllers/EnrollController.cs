@@ -26,6 +26,7 @@ namespace LMS_G03.Controllers
         {
             var student = await _context.Users.FindAsync(enroll.UserId);
             var courseSection = await _context.CourseOffering.FindAsync(enroll.SectionId);
+
             Enroll newEnroll = new Enroll()
             {
                 SectionId = enroll.SectionId,
@@ -35,8 +36,11 @@ namespace LMS_G03.Controllers
                 EnrollDate = DateTime.Now.ToString()
             };
 
-            student.Enroll = (ICollection<Enroll>)newEnroll;
-            courseSection.isEnroll = (ICollection<Enroll>)newEnroll;
+            await _context.Enroll.AddAsync(newEnroll);
+            courseSection.isEnroll.Add(newEnroll);
+            student.Enroll.Add(newEnroll);
+            
+            await _context.SaveChangesAsync();
 
             return Ok(new Response { Status = "200", Message = Message.Success, Data = student });
         }
