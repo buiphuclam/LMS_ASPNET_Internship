@@ -49,7 +49,7 @@ namespace LMS_G03.Authentication
 
             builder.Entity<Category>()
             .HasMany(c => c.Courses)
-            .WithOne(e => e.CourseCategory)
+            .WithOne(e => e.Category)
             .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<User>(b =>

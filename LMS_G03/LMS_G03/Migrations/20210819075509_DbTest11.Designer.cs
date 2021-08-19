@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210819075509_DbTest11")]
+    partial class DbTest11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,7 +86,9 @@ namespace LMS_G03.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("User");
                 });
@@ -387,8 +391,8 @@ namespace LMS_G03.Migrations
             modelBuilder.Entity("LMS_G03.Authentication.User", b =>
                 {
                     b.HasOne("LMS_G03.Models.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne("User")
+                        .HasForeignKey("LMS_G03.Authentication.User", "UserId");
                 });
 
             modelBuilder.Entity("LMS_G03.Models.Course", b =>
