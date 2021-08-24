@@ -18,11 +18,17 @@ namespace LMS_G03.Models
         public int Term { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        // Tai lieu chung cua lop
+        public string Document { get; set; }
+        // Drive folder id
+        public string SectionFolderId { get; set; }
         public string CourseId { get; set; }
         public Course Course { get; set; }
         public string TeacherId { get; set; }
         public User Teacher { get; set; }
         [ForeignKey("SectionId")]
         public ICollection<Enroll> isEnroll { get; set; }
+        [ForeignKey("SectionId")]
+        public ICollection<Lectures> Lectures { get; set; }
     }
 }
