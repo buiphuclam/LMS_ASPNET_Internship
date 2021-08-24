@@ -71,14 +71,17 @@ namespace LMS_G03.Controllers
             string str = course.CourseName.ToUpper();
             str.Split(' ').ToList().ForEach(i => courseCode+=i[0]);
 
+            courseCode = category.CategoryCode + DateTime.Now.Year.ToString() + "_" + courseCode;
+
             Course newcourse = new Course()
             {
                 CourseName = course.CourseName,
                 CourseShortDetail = course.CourseShortDetail,
                 CreatedDate = DateTime.Now.ToString(),
                 UpdatedDate = DateTime.Now.ToString(),
-                CourseCode = category.CategoryCode + courseCode + DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString(),
-                Category = category
+                CourseCode = courseCode,
+                Category = category,
+                CourseFolderId = GoogleDriveFilesRepository.CreateFolder(courseCode, "testmail.trustme@gmail.com", "root", "writer")
             };
 
             _context.Course.Add(newcourse);
@@ -103,17 +106,19 @@ namespace LMS_G03.Controllers
                 return NotFound(new Response { Status = "404", Message = Message.NotFound });
 
             var noOfClass = _context.CourseOffering.Where(a => a.Course.CourseId.Equals(courseOffering.CourseId)).Count() + 1;
+            string sectionCode = course.CourseCode + "_" + courseOffering.Year + "_" + courseOffering.Term + "_" + noOfClass.ToString();
 
             CourseOffering newclass = new CourseOffering()
             {
-                SectionCode = course.CourseCode + courseOffering.Year + courseOffering.Term + "_" + noOfClass.ToString(),
+                SectionCode = sectionCode,
                 Year = courseOffering.Year,
                 Term = courseOffering.Term,
                 StartDate = courseOffering.StartDate,
                 EndDate = courseOffering.EndDate,
                 Course = course,
                 Teacher = teacher,
-                isEnroll = null
+                isEnroll = null,
+                SectionFolderId = GoogleDriveFilesRepository.CreateFolder(sectionCode, teacher.Email, course.CourseFolderId, "writer")
             };
 
             _context.CourseOffering.Add(newclass);
@@ -125,7 +130,7 @@ namespace LMS_G03.Controllers
             {
                 return BadRequest(new Response { Status = "500", Message = ex.Message });
             }
-
+            
             return Ok(new Response { Status = "200", Message = Message.Success, Data = newclass });
         }
 

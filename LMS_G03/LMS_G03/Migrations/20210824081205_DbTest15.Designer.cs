@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210824081205_DbTest15")]
+    partial class DbTest15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,9 +129,6 @@ namespace LMS_G03.Migrations
                     b.Property<string>("CourseDocument")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CourseFolderId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
 
@@ -137,6 +136,9 @@ namespace LMS_G03.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FolderId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedDate")
@@ -164,10 +166,10 @@ namespace LMS_G03.Migrations
                     b.Property<string>("EndDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SectionCode")
+                    b.Property<string>("FolderId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SectionFolderId")
+                    b.Property<string>("SectionCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartDate")
@@ -215,6 +217,9 @@ namespace LMS_G03.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CourseId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -227,18 +232,12 @@ namespace LMS_G03.Migrations
                     b.Property<string>("LectureDetail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LectureFolderId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("LectureName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SectionId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("LectureId");
 
-                    b.HasIndex("SectionId");
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Lecture");
                 });
@@ -446,9 +445,9 @@ namespace LMS_G03.Migrations
 
             modelBuilder.Entity("LMS_G03.Models.Lectures", b =>
                 {
-                    b.HasOne("LMS_G03.Models.CourseOffering", "Section")
+                    b.HasOne("LMS_G03.Models.Course", "Course")
                         .WithMany("Lectures")
-                        .HasForeignKey("SectionId")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 

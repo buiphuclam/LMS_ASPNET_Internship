@@ -42,9 +42,9 @@ namespace LMS_G03.Authentication
             .WithOne(e => e.Course)
             .OnDelete(DeleteBehavior.SetNull);
 
-            builder.Entity<Course>()
+            builder.Entity<CourseOffering>()
             .HasMany(c => c.Lectures)
-            .WithOne(e => e.Course)
+            .WithOne(e => e.Section)
             .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Category>()

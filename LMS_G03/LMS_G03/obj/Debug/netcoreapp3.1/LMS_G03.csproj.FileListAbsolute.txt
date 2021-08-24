@@ -73,3 +73,9 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Google.Apis.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Google.Apis.Auth.PlatformServices.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Google.Apis.Auth.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Google.Apis.Core.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Google.Apis.Drive.v3.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.csproj.AssemblyReference.cache

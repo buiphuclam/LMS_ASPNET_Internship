@@ -19,12 +19,13 @@ namespace LMS_G03.Models
         public string CourseShortDetail { get; set; }
         public string CreatedDate { get; set; }
         public byte[] CoourseImg { get; set; }
+        // De cuong chung cua mon
+        public string CourseDocument { get; set; }
+        public string CourseFolderId { get; set; }
         public string UpdatedDate { get; set; }
         public string CategoryId { get; set; }
         public Category Category { get; set; }
         [ForeignKey("CourseId")]
         public ICollection<CourseOffering> CourseOfferings { get; set; }
-        [ForeignKey("CourseId")]
-        public ICollection<Lectures> Lectures { get; set; }
     }
 }
