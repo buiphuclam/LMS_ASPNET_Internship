@@ -32,7 +32,7 @@ namespace LMS_G03.Services
             }
             catch (Exception ex)
             {
-                // log exception
+                Console.WriteLine(ex.ToString());
             }
             return false;
         }

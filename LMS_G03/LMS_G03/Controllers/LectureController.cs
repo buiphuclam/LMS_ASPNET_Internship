@@ -21,8 +21,8 @@ namespace LMS_G03.Controllers
             _context = context;
         }
 
-        [HttpPost("addcourseoffering")]
-        public async Task<IActionResult> AddCourseOffering([FromBody] LectureModel lecture)
+        [HttpPost("addlecture")]
+        public async Task<IActionResult> AddLecture([FromBody] LectureModel lecture)
         {
             var section = await _context.CourseOffering.FindAsync(lecture.SectionId);
             if (section == null)
@@ -54,6 +54,36 @@ namespace LMS_G03.Controllers
             }
 
             return Ok(new Response { Status = "200", Message = Message.Success, Data = newlecture });
+        }
+
+        [HttpPost("submitassignment")]
+        public async Task<IActionResult> SubmitAssignment([FromBody] SubmitAssignmentModel submit)
+        {
+            var lecture = await _context.Lecture.FindAsync(submit.LectureId);
+            var user = await _context.Users.FindAsync(submit.UserId);
+            if (lecture == null || user == null)
+                return NotFound(new Response { Status = "404", Message = Message.NotFound });
+
+            AssignmentForLectures assignment = new AssignmentForLectures()
+            {
+                StudentId = user.Id,
+                Student = user,
+                LectureId = lecture.LectureId,
+                Lecture = lecture,
+                AssignmentFileId = GoogleDriveFilesRepository.UploadFileInFolder(lecture.LectureFolderId, submit.FilePath)
+            };
+
+            _context.Assignment.Add(assignment);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success, Data = assignment });
         }
     }
 }

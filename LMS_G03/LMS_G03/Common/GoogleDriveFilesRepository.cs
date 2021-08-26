@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Microsoft.AspNetCore.Http;
@@ -65,62 +66,48 @@ namespace LMS_G03.Common
 
             return file.Id;
         }
-        //public static void FileUploadInFolder(string folderId, HttpPostedFileBase file)
-        //{
-        //    if (file != null && file.ContentLength > 0)
-        //    {
-        //        Google.Apis.Drive.v3.DriveService service = GetService_v3();
 
-        //        string path = Path.Combine(HttpContext.Current.Server.MapPath("~/GoogleDriveFiles"),
-        //        Path.GetFileName(file.FileName));
-        //        file.SaveAs(path);
+        public static string UploadFileInFolder(string parentsId, string uploadFile)
+        {
+            if (System.IO.File.Exists(uploadFile))
+            {
+                Google.Apis.Drive.v3.DriveService service = GetService_v3();
 
-        //        var FileMetaData = new Google.Apis.Drive.v3.Data.File()
-        //        {
-        //            Name = Path.GetFileName(file.FileName),
-        //            MimeType = MimeMapping.GetMimeMapping(path),
-        //            Parents = new List<string>
-        //            {
-        //                folderId
-        //            }
-        //        };
+                Google.Apis.Drive.v3.Data.File body = new Google.Apis.Drive.v3.Data.File();
+                body.Name = System.IO.Path.GetFileName(uploadFile);
+                //body.Description = 
+                body.MimeType = GetMimeType(uploadFile);
+                body.Parents = new List<string> { parentsId };
+                byte[] byteArray = System.IO.File.ReadAllBytes(uploadFile);
+                System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
+                try
+                {
+                    FilesResource.CreateMediaUpload request = service.Files.Create(body, stream, GetMimeType(uploadFile));
+                    request.SupportsTeamDrives = true;
 
-        //        Google.Apis.Drive.v3.FilesResource.CreateMediaUpload request;
-        //        using (var stream = new System.IO.FileStream(path, System.IO.FileMode.Open))
-        //        {
-        //            request = service.Files.Create(FileMetaData, stream, FileMetaData.MimeType);
-        //            request.Fields = "id";
-        //            request.Upload();
-        //        }
-        //        var file1 = request.ResponseBody;
-        //    }
-        //}
-       
-        //public static void FileUpload(HttpPostedFileBase file)
-        //{
-        //    if (file != null && file.ContentLength > 0)
-        //    {
-        //        Google.Apis.Drive.v3.DriveService service = GetService_v3();
+                    request.Upload();
+                    return request.Body.Id;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        //        string path = Path.Combine(HttpContext.Current.Server.MapPath("~/GoogleDriveFiles"),
-        //        Path.GetFileName(file.FileName));
-        //        file.SaveAs(path);
-
-        //        var FileMetaData = new Google.Apis.Drive.v3.Data.File();
-        //        FileMetaData.Name = Path.GetFileName(file.FileName);
-        //        FileMetaData.MimeType = MimeMapping.GetMimeMapping(path);
-
-        //        Google.Apis.Drive.v3.FilesResource.CreateMediaUpload request;
-
-        //        using (var stream = new System.IO.FileStream(path, System.IO.FileMode.Open))
-        //        {
-        //            request = service.Files.Create(FileMetaData, stream, FileMetaData.MimeType);
-        //            request.Fields = "id";
-        //            request.Upload();
-        //        }
-        //    }
-        //}
-
-
+        private static string GetMimeType(string fileName) 
+        { 
+            string mimeType = "application/unknown"; 
+            string ext = System.IO.Path.GetExtension(fileName).ToLower(); 
+            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext); 
+            if (regKey != null && regKey.GetValue("Content Type") != null) 
+                mimeType = regKey.GetValue("Content Type").ToString(); 
+            System.Diagnostics.Debug.WriteLine(mimeType); 
+            return mimeType; 
+        }
     }
 }

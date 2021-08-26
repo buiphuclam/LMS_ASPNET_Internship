@@ -19,7 +19,9 @@ namespace LMS_G03.Authentication
         public override string ConcurrencyStamp { get; set; }
         [ForeignKey("UserId")]
         public UserInfo UserInfo { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("StudentId")]
         public ICollection<Enroll> Enroll { get; set; }
+        [ForeignKey("StudentId")]
+        public ICollection<AssignmentForLectures> Submits { get; set; }
     }
 }

@@ -137,7 +137,7 @@ namespace LMS_G03.Controllers
         [HttpGet("mycourse")]
         public async Task<IActionResult> MyCourse(string id)
         {
-            var enrolls = await _context.Enroll.Where(a => a.UserId.Equals(id)).ToListAsync();
+            var enrolls = await _context.Enroll.Where(a => a.StudentId.Equals(id)).ToListAsync();
             if(enrolls.Count() == 0)
                 return NotFound(new Response { Status = "404", Message = Message.NotFound, Data = enrolls });
 

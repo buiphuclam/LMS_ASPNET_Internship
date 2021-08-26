@@ -263,7 +263,7 @@ namespace LMS_G03.Controllers
             }
             catch (Exception ex)
             {
-                return Unauthorized();
+                return Unauthorized(ex);
             }
             
         }
