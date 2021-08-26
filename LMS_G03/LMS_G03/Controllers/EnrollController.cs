@@ -31,8 +31,8 @@ namespace LMS_G03.Controllers
             {
                 SectionId = enroll.SectionId,
                 Section = courseSection,
-                UserId = enroll.UserId,
-                User = student,
+                StudentId = enroll.UserId,
+                Student = student,
                 EnrollDate = DateTime.Now.ToString()
             };
 

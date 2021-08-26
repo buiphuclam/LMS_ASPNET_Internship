@@ -13,10 +13,11 @@ namespace LMS_G03.Controllers
     public class GoogleDriveController : ControllerBase
     {
         [HttpPost]
-        public ActionResult CreateFolder(String FolderName)
+        public ActionResult CreateFolder(String FolderName, String FileName)
         {
-            GoogleDriveFilesRepository.CreateFolder(FolderName, "testmail.trustme@gmail.com", "root", "writer");
-            return Ok(FolderName);
+            string folderId = GoogleDriveFilesRepository.CreateFolder(FolderName, "testmail.trustme@gmail.com", "root", "writer");
+            string fileId = GoogleDriveFilesRepository.UploadFileInFolder(folderId, FileName);
+            return Ok(folderId + "|" + fileId);
         }
     }
 }
