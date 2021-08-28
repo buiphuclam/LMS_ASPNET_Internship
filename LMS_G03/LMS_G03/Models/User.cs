@@ -17,8 +17,7 @@ namespace LMS_G03.Authentication
         public override string SecurityStamp { get; set; }
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }
-        [ForeignKey("UserId")]
-        public UserInfo UserInfo { get; set; }
+        public virtual UserInfo UserInfo { get; set; }
         [ForeignKey("StudentId")]
         public ICollection<Enroll> Enroll { get; set; }
         [ForeignKey("StudentId")]

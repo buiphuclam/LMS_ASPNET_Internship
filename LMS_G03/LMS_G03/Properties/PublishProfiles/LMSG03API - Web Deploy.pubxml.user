@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAeWepDjG3zESegI3xS1lyyQAAAAACAAAAAAAQZgAAAAEAACAAAAB7HsOFOzxFnCvux22oC37vzcZaa7Bgxk20nWAmNctm7QAAAAAOgAAAAAIAACAAAAAvZVFY6DElFsBivvIsNUjajnsf7fXW0x1Veq2cpewNcIAAAADKTMR8Ni26sOGdPqb96kXqLnVAd+8XDlzpoolgTW7C6RpHFyy0cqoKBtDYCo+6wMRN72Mos/8iFBdIUsEvjZkCqqZDOq+VLVqp1husggRs7vMA8o2dolkHFJBqWkfl1FtImKo/IdjPow3EPEuJES/8EOuvKmBwhBmf2gUsWZUSl0AAAABK7fMCw6p07Hk6/5LXKfwj4NT+D3PugPNZwmYiErRMGBifmTNOq+4iQs0DOJvAKIVqWT7CjPuzIpCo6foQh6Pe</EncryptedPassword>
+    <History>True|2021-08-28T20:27:50.6631789Z;False|2021-08-29T03:18:37.3045574+07:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <EFMigrations Include="LMS_G03.Authentication.ApplicationDbContext">
+      <Value>Data Source=tcp:lms-g03dbserver.database.windows.net,1433%3bInitial Catalog=LMS_G03_db%3bUser Id=builam66%40lms-g03dbserver%3bPassword=Talatama66</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

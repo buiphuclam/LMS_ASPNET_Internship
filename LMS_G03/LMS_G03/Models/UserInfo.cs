@@ -10,14 +10,15 @@ namespace LMS_G03.Models
 {
     public class UserInfo
     {
+        [Key]
+        [ForeignKey("Id")]
+        public string UserId { get; set; }
+        public virtual User User { get; set; }
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
         public string BirthDay { get; set; }
         public string Nationality { get; set; }
         public string LivingCity { get; set; }
         public string BirthCity { get; set; }
-        [Key]
-        public string UserId { get; set; }
     }
 }

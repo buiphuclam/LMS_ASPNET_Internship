@@ -67,9 +67,6 @@ namespace LMS_G03.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -83,8 +80,6 @@ namespace LMS_G03.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("User");
                 });
@@ -420,13 +415,6 @@ namespace LMS_G03.Migrations
                     b.ToTable("UserToken");
                 });
 
-            modelBuilder.Entity("LMS_G03.Authentication.User", b =>
-                {
-                    b.HasOne("LMS_G03.Models.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("LMS_G03.Models.AssignmentForLectures", b =>
                 {
                     b.HasOne("LMS_G03.Models.Lectures", "Lecture")
@@ -483,6 +471,15 @@ namespace LMS_G03.Migrations
                         .WithMany("Lectures")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("LMS_G03.Models.UserInfo", b =>
+                {
+                    b.HasOne("LMS_G03.Authentication.User", "User")
+                        .WithOne("UserInfo")
+                        .HasForeignKey("LMS_G03.Models.UserInfo", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/lms-g03dbserver/databases/LMS_G03_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:ConnStr",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
