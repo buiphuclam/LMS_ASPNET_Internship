@@ -27,6 +27,11 @@ namespace LMS_G03.Authentication
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<User>()
+            .HasOne(a => a.UserInfo)
+            .WithOne(a => a.User)
+            .HasForeignKey<User>(c => c.Id);
+
             builder.Entity<Enroll>()
                 .HasKey(e => new { e.StudentId, e.SectionId });
             builder.Entity<Enroll>()

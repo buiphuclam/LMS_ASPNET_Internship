@@ -106,10 +106,12 @@ namespace LMS_G03
 
             IdentityModelEventSource.ShowPII = true;
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_G03", Version = "v1" });
-            });
+            services.AddSwaggerGen();
+
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_G03", Version = "v1" });
+            //});
 
         }
 
@@ -123,7 +125,7 @@ namespace LMS_G03
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LMS_G03 v1"));
 
             }
-
+            
 
 
             app.UseCors(builder => builder

@@ -11,8 +11,8 @@ namespace LMS_G03.Models
     public class UserInfo
     {
         [Key]
-        [ForeignKey("Id")]
-        public string UserId { get; set; }
+        //[ForeignKey("Id")]
+        public string Id { get; set; }
         public virtual User User { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
