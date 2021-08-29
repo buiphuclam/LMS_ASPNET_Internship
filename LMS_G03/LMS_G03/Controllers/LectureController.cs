@@ -24,7 +24,7 @@ namespace LMS_G03.Controllers
         [HttpPost("addlecture")]
         public async Task<IActionResult> AddLecture([FromBody] LectureModel lecture)
         {
-            var section = await _context.CourseOffering.FindAsync(lecture.SectionId);
+            var section = await _context.Section.FindAsync(lecture.SectionId);
             if (section == null)
                 return NotFound(new Response { Status = "404", Message = Message.NotFound });
 
