@@ -11,7 +11,7 @@ namespace LMS_G03.Models
         public string StudentId { get; set; }
         public User Student { get; set; }
         public string SectionId { get; set; }
-        public CourseOffering Section { get; set; }
+        public Section Section { get; set; }
         public string EnrollDate { get; set; }
     }
 }

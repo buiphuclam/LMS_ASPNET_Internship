@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LMS_G03.Models
 {
-    public class CourseOffering
+    public class Section
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

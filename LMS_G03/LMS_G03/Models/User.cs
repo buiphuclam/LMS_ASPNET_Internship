@@ -17,10 +17,16 @@ namespace LMS_G03.Authentication
         public override string SecurityStamp { get; set; }
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }
-        public virtual UserInfo UserInfo { get; set; }
+
         [ForeignKey("StudentId")]
         public ICollection<Enroll> Enroll { get; set; }
         [ForeignKey("StudentId")]
         public ICollection<AssignmentForLectures> Submits { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string BirthDay { get; set; }
+        public string Nationality { get; set; }
+        public string LivingCity { get; set; }
+        public string BirthCity { get; set; }
     }
 }

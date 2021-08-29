@@ -11,11 +11,10 @@ namespace LMS_G03.Authentication
 {
     public class ApplicationDbContext: IdentityDbContext<User>
     {
-        public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Enroll> Enroll { get; set; }
-        public DbSet<CourseOffering> CourseOffering { get; set; }
+        public DbSet<Section> Section { get; set; }
         public DbSet<Lectures> Lecture { get; set; }
         public DbSet<AssignmentForLectures> Assignment { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
@@ -26,11 +25,6 @@ namespace LMS_G03.Authentication
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<User>()
-            .HasOne(a => a.UserInfo)
-            .WithOne(a => a.User)
-            .HasForeignKey<User>(c => c.Id);
 
             builder.Entity<Enroll>()
                 .HasKey(e => new { e.StudentId, e.SectionId });
@@ -55,11 +49,11 @@ namespace LMS_G03.Authentication
                 .HasForeignKey(uid => uid.LectureId);
 
             builder.Entity<Course>()
-            .HasMany(c => c.CourseOfferings)
+            .HasMany(c => c.Sections)
             .WithOne(e => e.Course)
             .OnDelete(DeleteBehavior.SetNull);
 
-            builder.Entity<CourseOffering>()
+            builder.Entity<Section>()
             .HasMany(c => c.Lectures)
             .WithOne(e => e.Section)
             .OnDelete(DeleteBehavior.SetNull);

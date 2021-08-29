@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LMS_G03.ViewModel
 {
-    public class CourseOfferingModel
+    public class SectionModel
     {
         [Required(ErrorMessage = "Course ID is required")]
         public string CourseId { get; set; }
@@ -20,5 +20,6 @@ namespace LMS_G03.ViewModel
         public string StartDate { get; set; }
         [Required(ErrorMessage = "End date is required")]
         public string EndDate { get; set; }
+        public string Document { get; set; }
     }
 }

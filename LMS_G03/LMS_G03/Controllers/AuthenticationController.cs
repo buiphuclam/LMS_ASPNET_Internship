@@ -16,6 +16,7 @@ using LMS_G03.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using LMS_G03.Models;
+using LMS_G03.ViewModel;
 
 namespace LMS_G03.Controllers
 {
@@ -57,7 +58,7 @@ namespace LMS_G03.Controllers
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = registerModel.Username,
-                UserInfo = new UserInfo()
+                //UserInfo = new UserInfo()
             };
 
             var result = await userManager.CreateAsync(user, registerModel.Password);
@@ -87,7 +88,6 @@ namespace LMS_G03.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -259,13 +259,41 @@ namespace LMS_G03.Controllers
                 if (user == null)
                     return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
 
-                return Ok(user);
+                return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
             }
             catch (Exception ex)
             {
                 return Unauthorized(ex);
             }
-            
+        }
+
+        [HttpPost]
+        [Route("user/updateprofile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileModel profile)
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+                var user = await userManager.FindByIdAsync(token.Issuer);
+                if (user == null)
+                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
+
+                user.FirstName = profile.FirstName;
+                user.LastName = profile.LastName;
+                user.BirthDay = profile.BirthDay;
+                user.Nationality = profile.NationalCity;
+                user.LivingCity = profile.LivingCity;
+                user.BirthCity = profile.BirthCity;
+
+                await userManager.UpdateAsync(user);
+
+                return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(ex);
+            }
         }
     }
 }

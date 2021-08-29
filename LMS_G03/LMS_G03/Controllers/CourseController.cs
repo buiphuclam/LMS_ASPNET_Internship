@@ -20,12 +20,12 @@ namespace LMS_G03.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IUriService _uriService;
-
         public CourseController(ApplicationDbContext context, IUriService uriService)
         {
             _context = context;
             _uriService = uriService;
         }
+
         [HttpGet("getcourse")]
         public Task<IActionResult> GetCourse([FromQuery] PaginationFilter filter, string id) =>
             (id == null) ? GetAllCourse(filter) : GetCourseById(id);
@@ -93,35 +93,71 @@ namespace LMS_G03.Controllers
             {
                 return BadRequest(new Response { Status = "500", Message = ex.Message });
             }
-
             return Ok(new Response { Status = "200", Message = Message.Success, Data = newcourse });
         }
-
-        [HttpPost("addcourseoffering")]
-        public async Task<IActionResult> AddCourseOffering([FromBody] CourseOfferingModel courseOffering)
+        [HttpPost("editcourse")]
+        public async Task<IActionResult> EditCourse([FromBody] CourseModel course, string courseId)
         {
-            var course = await _context.Course.FindAsync(courseOffering.CourseId);
-            var teacher = await _context.Users.FindAsync(courseOffering.TeacherId);
+            var coursee = await _context.Course.FindAsync(courseId);
+
+            coursee.CoourseImg = course.CoourseImg;
+            coursee.CourseDocument = course.CourseDocument;
+            coursee.CourseShortDetail = course.CourseShortDetail;
+            coursee.UpdatedDate = DateTime.Now.ToString();
+
+            _context.Course.Update(coursee);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+            return Ok(new Response { Status = "200", Message = Message.Success, Data = coursee });
+        }
+        [HttpPost("deletecourse")]
+        public async Task<IActionResult> DeleteCourse([FromBody] string courseId)
+        {
+            var coursee = await _context.Course.FindAsync(courseId);
+
+            _context.Course.Remove(coursee);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+            return Ok(new Response { Status = "200", Message = Message.Success });
+        }
+
+        [HttpPost("addsection")]
+        public async Task<IActionResult> AddSection([FromBody] SectionModel section)
+        {
+            var course = await _context.Course.FindAsync(section.CourseId);
+            var teacher = await _context.Users.FindAsync(section.TeacherId);
             if (course == null || teacher == null)
                 return NotFound(new Response { Status = "404", Message = Message.NotFound });
 
-            var noOfClass = _context.CourseOffering.Where(a => a.Course.CourseId.Equals(courseOffering.CourseId)).Count() + 1;
-            string sectionCode = course.CourseCode + "_" + courseOffering.Year + "_" + courseOffering.Term + "_" + noOfClass.ToString();
+            var noOfClass = _context.Section.Where(a => a.Course.CourseId.Equals(section.CourseId)).Count() + 1;
+            string sectionCode = course.CourseCode + "_" + section.Year + "_" + section.Term + "_" + noOfClass.ToString();
 
-            CourseOffering newclass = new CourseOffering()
+            Section newclass = new Section()
             {
                 SectionCode = sectionCode,
-                Year = courseOffering.Year,
-                Term = courseOffering.Term,
-                StartDate = courseOffering.StartDate,
-                EndDate = courseOffering.EndDate,
+                Year = section.Year,
+                Term = section.Term,
+                StartDate = section.StartDate,
+                EndDate = section.EndDate,
                 Course = course,
                 Teacher = teacher,
                 isEnroll = null,
                 SectionFolderId = GoogleDriveFilesRepository.CreateFolder(sectionCode, teacher.Email, course.CourseFolderId, "writer")
             };
 
-            _context.CourseOffering.Add(newclass);
+            _context.Section.Add(newclass);
             try
             {
                 var result = await _context.SaveChangesAsync();
@@ -133,6 +169,41 @@ namespace LMS_G03.Controllers
             
             return Ok(new Response { Status = "200", Message = Message.Success, Data = newclass });
         }
+        [HttpPost("editsection")]
+        public async Task<IActionResult> EditSection([FromBody] SectionModel section, string sectionId)
+        {
+            var sectionn = await _context.Section.FindAsync(sectionId);
+
+            sectionn.Document = section.Document;
+            _context.Section.Update(sectionn);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success, Data = sectionn });
+        }
+        [HttpPost("deletesection")]
+        public async Task<IActionResult> DeleteSection([FromBody] string sectionId)
+        {
+            var sectionn = await _context.Section.FindAsync(sectionId);
+
+            _context.Section.Remove(sectionn);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success });
+        }
 
         [HttpGet("mycourse")]
         public async Task<IActionResult> MyCourse(string id)
@@ -141,10 +212,10 @@ namespace LMS_G03.Controllers
             if(enrolls.Count() == 0)
                 return NotFound(new Response { Status = "404", Message = Message.NotFound, Data = enrolls });
 
-            List<CourseOffering> mycourses = new List<CourseOffering>();
+            List<Section> mycourses = new List<Section>();
             foreach (var enroll in enrolls)
             {
-                var courseOffering = _context.CourseOffering.Where(a => a.SectionId.Equals(enroll.SectionId)).FirstOrDefault();
+                var courseOffering = _context.Section.Where(a => a.SectionId.Equals(enroll.SectionId)).FirstOrDefault();
                 mycourses.Add(courseOffering);
             }
 
