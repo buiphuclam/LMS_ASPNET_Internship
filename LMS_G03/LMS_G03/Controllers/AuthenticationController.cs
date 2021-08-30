@@ -88,6 +88,7 @@ namespace LMS_G03.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -120,7 +121,9 @@ namespace LMS_G03.Controllers
 
                 Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
                 {
-                    HttpOnly = true
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None
                 });
 
                 return Ok(new Response { Status = "200", Message = Message.Success });
@@ -145,11 +148,17 @@ namespace LMS_G03.Controllers
                 Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
                 {
                     HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
                     Expires = DateTime.Now.AddDays(-1)
                 });
             }
 
-            Response.Cookies.Delete("jwt");
+            Response.Cookies.Delete("jwt", new CookieOptions {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
             
             return Ok(new Response { Status = "200", Message = Message.Success });
         }
@@ -255,7 +264,7 @@ namespace LMS_G03.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
                 var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
-                var user = await userManager.FindByIdAsync(token.Issuer);
+                User user = await userManager.FindByIdAsync(token.Issuer);
                 if (user == null)
                     return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
 

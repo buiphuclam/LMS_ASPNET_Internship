@@ -12,7 +12,7 @@ const Register = () => {
         e.preventDefault();
 
         // const response = 
-        await fetch('http://localhost:39894/api/authenticate/register',{
+        await fetch('https://lmsg03.azurewebsites.net/api/authenticate/register',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

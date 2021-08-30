@@ -233,6 +233,36 @@
         }
       }
     },
+    "/api/Authenticate/user/updateprofile": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ProfileModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Category/addcategory": {
       "post": {
         "tags": [
@@ -253,6 +283,36 @@
             "name": "body",
             "schema": {
               "$ref": "#/definitions/CategoryModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Category/deletecategory": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -324,7 +384,42 @@
         }
       }
     },
-    "/api/Course/addcourseoffering": {
+    "/api/Course/editcourse": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "courseId",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CourseModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/deletecourse": {
       "post": {
         "tags": [
           "Course"
@@ -343,7 +438,102 @@
             "in": "body",
             "name": "body",
             "schema": {
-              "$ref": "#/definitions/CourseOfferingModel"
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/addsection": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SectionModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/editsection": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sectionId",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SectionModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/deletesection": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -718,6 +908,29 @@
         }
       }
     },
+    "ProfileModel": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "birthDay": {
+          "type": "string"
+        },
+        "nationalCity": {
+          "type": "string"
+        },
+        "livingCity": {
+          "type": "string"
+        },
+        "birthCity": {
+          "type": "string"
+        }
+      }
+    },
     "CategoryModel": {
       "type": "object",
       "properties": {
@@ -745,15 +958,19 @@
         "courseShortDetail": {
           "type": "string"
         },
-        "updatedDate": {
+        "categoryId": {
           "type": "string"
         },
-        "categoryId": {
+        "courseDocument": {
+          "type": "string"
+        },
+        "coourseImg": {
+          "format": "byte",
           "type": "string"
         }
       }
     },
-    "CourseOfferingModel": {
+    "SectionModel": {
       "required": [
         "courseId",
         "endDate",
@@ -781,6 +998,9 @@
           "type": "string"
         },
         "endDate": {
+          "type": "string"
+        },
+        "document": {
           "type": "string"
         }
       }

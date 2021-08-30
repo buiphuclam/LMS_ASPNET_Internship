@@ -13,7 +13,7 @@ function App() {
     useEffect(() => {
         (
             async () => {
-                const response = await fetch('http://localhost:39894/api/authenticate/user',{
+                const response = await fetch('https://lmsg03.azurewebsites.net/api/authenticate/user',{
                     method: 'GET',
                     headers: {'Content-Type': 'application/json'},
                     credentials: 'include'
