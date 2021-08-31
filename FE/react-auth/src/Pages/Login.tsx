@@ -9,7 +9,7 @@ const Login = (props: {setName: (name:string) => void}) => {
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:39894/api/authenticate/login',{
+        const response = await fetch('https://lmsg03.azurewebsites.net/api/authenticate/login',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -21,7 +21,7 @@ const Login = (props: {setName: (name:string) => void}) => {
 
         const content = await response.json();
 
-        if(content.message === 'success')
+        if(content.message === 'Success!')
         {
             setRedirect(true);
         

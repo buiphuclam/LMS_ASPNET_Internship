@@ -35,7 +35,7 @@ namespace LMS_G03.Controllers
             {
                 return NotFound(new Response { Status = "404", Message = Message.InvalidUser });
             }
-            user.UserInfo = await _context.UserInfo.FindAsync(id);
+            //user.UserInfo = await _context.UserInfo.FindAsync(id);
             return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
         }
     }

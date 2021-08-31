@@ -1,10 +1,11 @@
 ﻿using LMS_G03.Models;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text.Json.Serialization;
+
 using System.Threading.Tasks;
 
 namespace LMS_G03.Authentication
@@ -17,11 +18,28 @@ namespace LMS_G03.Authentication
         public override string SecurityStamp { get; set; }
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }
-        [ForeignKey("UserId")]
-        public UserInfo UserInfo { get; set; }
+        [JsonIgnore]
+        public override bool TwoFactorEnabled { get; set; }
+        [JsonIgnore]
+        public override DateTimeOffset? LockoutEnd { get; set; }
+        [JsonIgnore]
+        public override bool LockoutEnabled { get; set; }
+        [JsonIgnore]
+        public override int AccessFailedCount { get; set; }
+        [JsonIgnore]
+        public override string NormalizedUserName { get; set; }
+        [JsonIgnore]
+        public override string NormalizedEmail { get; set; }
+
         [ForeignKey("StudentId")]
         public ICollection<Enroll> Enroll { get; set; }
         [ForeignKey("StudentId")]
         public ICollection<AssignmentForLectures> Submits { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string BirthDay { get; set; }
+        public string Nationality { get; set; }
+        public string LivingCity { get; set; }
+        public string BirthCity { get; set; }
     }
 }

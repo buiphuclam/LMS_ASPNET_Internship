@@ -12,7 +12,8 @@ namespace LMS_G03.ViewModel
         public string CourseName { get; set; }
         [Required(ErrorMessage = "Course short detail is required")]
         public string CourseShortDetail { get; set; }
-        public string UpdatedDate { get; set; }
         public string CategoryId { get; set; }
+        public string CourseDocument { get; set; }
+        public byte[] CoourseImg { get; set; }
     }
 }

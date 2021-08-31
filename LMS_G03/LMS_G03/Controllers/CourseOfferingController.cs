@@ -9,7 +9,7 @@ namespace LMS_G03.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseOfferingController : ControllerBase
+    public class SectionController : ControllerBase
     {
     }
 }

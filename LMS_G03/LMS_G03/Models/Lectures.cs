@@ -22,7 +22,7 @@ namespace LMS_G03.Models
         // All assignment link (only for GV)
         public string LectureFolderId { get; set; }
         public string SectionId { get; set; }
-        public CourseOffering Section { get; set; }
+        public Section Section { get; set; }
         [ForeignKey("LectureId")]
         public ICollection<AssignmentForLectures> Assignments { get; set; }
     }

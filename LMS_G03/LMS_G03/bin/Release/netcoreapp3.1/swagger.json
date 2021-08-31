@@ -1,0 +1,1104 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LMS_G03",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Authenticate/register": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/login": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LoginModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/logout": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/register-teacher": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/changepassword": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/forgetpassword": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ForgetPasswordModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/resetpassword": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/confirmemail": {
+      "get": {
+        "tags": [
+          "Authenticate"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/user": {
+      "get": {
+        "tags": [
+          "Authenticate"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authenticate/user/updateprofile": {
+      "post": {
+        "tags": [
+          "Authenticate"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ProfileModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Category/addcategory": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CategoryModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Category/deletecategory": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/getcourse": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "PageNumber",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "PageSize",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/addcourse": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CourseModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/editcourse": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "courseId",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CourseModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/deletecourse": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/addsection": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SectionModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/editsection": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sectionId",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SectionModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/deletesection": {
+      "post": {
+        "tags": [
+          "Course"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Course/mycourse": {
+      "get": {
+        "tags": [
+          "Course"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Enroll/enroll": {
+      "post": {
+        "tags": [
+          "Enroll"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/EnrollModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/GoogleDrive": {
+      "post": {
+        "tags": [
+          "GoogleDrive"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "FolderName",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "FileName",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Lecture/addlecture": {
+      "post": {
+        "tags": [
+          "Lecture"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LectureModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Lecture/submitassignment": {
+      "post": {
+        "tags": [
+          "Lecture"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SubmitAssignmentModel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RoleManager/allroles": {
+      "post": {
+        "tags": [
+          "RoleManager"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RoleManager/addnewrole": {
+      "post": {
+        "tags": [
+          "RoleManager"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "roleName",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RoleManager/viewrole/{id}": {
+      "post": {
+        "tags": [
+          "RoleManager"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RoleManager/changerole": {
+      "post": {
+        "tags": [
+          "RoleManager"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ManageUserRolesViewModel"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/getuser/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/WeatherForecast"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RegisterModel": {
+      "required": [
+        "confirmPassword",
+        "email",
+        "password",
+        "username"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "format": "email",
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "confirmPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginModel": {
+      "required": [
+        "password",
+        "username"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ChangePasswordModel": {
+      "required": [
+        "confirmNewPassword",
+        "currentPassword",
+        "newPassword",
+        "username"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "currentPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        },
+        "confirmNewPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "ForgetPasswordModel": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "format": "email",
+          "type": "string"
+        }
+      }
+    },
+    "ResetPasswordModel": {
+      "required": [
+        "confirmNewPassword",
+        "newPassword"
+      ],
+      "type": "object",
+      "properties": {
+        "newPassword": {
+          "type": "string"
+        },
+        "confirmNewPassword": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "ProfileModel": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "birthDay": {
+          "type": "string"
+        },
+        "nationalCity": {
+          "type": "string"
+        },
+        "livingCity": {
+          "type": "string"
+        },
+        "birthCity": {
+          "type": "string"
+        }
+      }
+    },
+    "CategoryModel": {
+      "type": "object",
+      "properties": {
+        "categoryName": {
+          "type": "string"
+        },
+        "categoryCode": {
+          "type": "string"
+        },
+        "categoryShortDetail": {
+          "type": "string"
+        }
+      }
+    },
+    "CourseModel": {
+      "required": [
+        "courseName",
+        "courseShortDetail"
+      ],
+      "type": "object",
+      "properties": {
+        "courseName": {
+          "type": "string"
+        },
+        "courseShortDetail": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "courseDocument": {
+          "type": "string"
+        },
+        "coourseImg": {
+          "format": "byte",
+          "type": "string"
+        }
+      }
+    },
+    "SectionModel": {
+      "required": [
+        "courseId",
+        "endDate",
+        "startDate",
+        "teacherId",
+        "term",
+        "year"
+      ],
+      "type": "object",
+      "properties": {
+        "courseId": {
+          "type": "string"
+        },
+        "teacherId": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "term": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "document": {
+          "type": "string"
+        }
+      }
+    },
+    "EnrollModel": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "sectionId": {
+          "type": "string"
+        },
+        "enrollDate": {
+          "type": "string"
+        }
+      }
+    },
+    "LectureModel": {
+      "required": [
+        "lectureDate",
+        "lectureName"
+      ],
+      "type": "object",
+      "properties": {
+        "lectureName": {
+          "type": "string"
+        },
+        "lectureDetail": {
+          "type": "string"
+        },
+        "lectureDate": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "document": {
+          "type": "string"
+        },
+        "sectionId": {
+          "type": "string"
+        }
+      }
+    },
+    "SubmitAssignmentModel": {
+      "required": [
+        "filePath",
+        "lectureId",
+        "userId"
+      ],
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "lectureId": {
+          "type": "string"
+        },
+        "filePath": {
+          "type": "string"
+        }
+      }
+    },
+    "ManageUserRolesViewModel": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "string"
+        },
+        "roleName": {
+          "type": "string"
+        },
+        "selected": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WeatherForecast": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "temperatureC": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "temperatureF": {
+          "format": "int32",
+          "type": "integer",
+          "readOnly": true
+        },
+        "summary": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

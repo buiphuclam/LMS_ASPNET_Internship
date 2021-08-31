@@ -48,5 +48,23 @@ namespace LMS_G03.Controllers
 
             return Ok(new Response { Status = "200", Message = Message.Success, Data = newcategory });
         }
+
+        [HttpPost("deletecategory")]
+        public async Task<IActionResult> DeleteCategory([FromBody] string categoryId)
+        {
+            var checkcategory = await _context.Category.FindAsync(categoryId);
+
+            _context.Category.Remove(checkcategory);
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = "500", Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = "200", Message = Message.Success });
+        }
     }
 }

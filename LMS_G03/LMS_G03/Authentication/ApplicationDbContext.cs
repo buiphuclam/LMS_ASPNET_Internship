@@ -11,13 +11,13 @@ namespace LMS_G03.Authentication
 {
     public class ApplicationDbContext: IdentityDbContext<User>
     {
-        public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Enroll> Enroll { get; set; }
-        public DbSet<CourseOffering> CourseOffering { get; set; }
+        public DbSet<Section> Section { get; set; }
         public DbSet<Lectures> Lecture { get; set; }
         public DbSet<AssignmentForLectures> Assignment { get; set; }
+        public DbSet<User> User { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
            
@@ -26,6 +26,29 @@ namespace LMS_G03.Authentication
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Ignore<IdentityUserLogin<string>>();
+            builder.Ignore<IdentityUserClaim<string>>();
+            builder.Ignore<IdentityRoleClaim<string>>();
+            builder.Ignore<IdentityUserToken<string>>();
+
+            builder.Entity<User>()
+                .Ignore(c => c.AccessFailedCount)
+                .Ignore(c => c.LockoutEnabled)
+                .Ignore(c => c.TwoFactorEnabled)
+                .Ignore(c => c.ConcurrencyStamp)
+                .Ignore(c => c.LockoutEnd)
+                .ToTable("User");
+
+            builder.Entity<IdentityRole>(b =>
+            {
+                b.ToTable("Role");
+            });
+
+            builder.Entity<IdentityUserRole<string>>(b =>
+            {
+                b.ToTable("UserRole");
+            });
 
             builder.Entity<Enroll>()
                 .HasKey(e => new { e.StudentId, e.SectionId });
@@ -50,55 +73,36 @@ namespace LMS_G03.Authentication
                 .HasForeignKey(uid => uid.LectureId);
 
             builder.Entity<Course>()
-            .HasMany(c => c.CourseOfferings)
-            .WithOne(e => e.Course)
-            .OnDelete(DeleteBehavior.SetNull);
+                .HasMany(c => c.Sections)
+                .WithOne(e => e.Course)
+                .OnDelete(DeleteBehavior.SetNull);
 
-            builder.Entity<CourseOffering>()
-            .HasMany(c => c.Lectures)
-            .WithOne(e => e.Section)
-            .OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<Section>()
+                .HasMany(c => c.Lectures)
+                .WithOne(e => e.Section)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Category>()
             .HasMany(c => c.Courses)
             .WithOne(e => e.Category)
             .OnDelete(DeleteBehavior.SetNull);
 
-            builder.Entity<User>(b =>
-            {
-                b.ToTable("User");
-            });
-
-            builder.Entity<IdentityUserClaim<string>>(b =>
-            {
-                b.ToTable("UserClaim");
-            });
-
-            builder.Entity<IdentityUserLogin<string>>(b =>
-            {
-                b.ToTable("UserLogin");
-            });
-
-            builder.Entity<IdentityUserToken<string>>(b =>
-            {
-                b.ToTable("UserToken");
-            });
-
-            builder.Entity<IdentityRole>(b =>
-            {
-                b.ToTable("Role");
-            });
-
-            builder.Entity<IdentityRoleClaim<string>>(b =>
-            {
-                b.ToTable("RoleClaim");
-            });
-
-            builder.Entity<IdentityUserRole<string>>(b =>
-            {
-                b.ToTable("UserRole");
-            });
-
+            //builder.Entity<IdentityRoleClaim<string>>(b =>
+            //{
+            //    b.ToTable("RoleClaim");
+            //});
+            //builder.Entity<IdentityUserToken<string>>(b =>
+            //{
+            //    b.ToTable("UserToken");
+            //});
+            //builder.Entity<IdentityUserLogin<string>>(b =>
+            //{
+            //    b.ToTable("UserLogin");
+            //});
+            //builder.Entity<IdentityUserClaim<string>>(b =>
+            //{
+            //    b.ToTable("UserClaim");
+            //});
         }
     }
 }

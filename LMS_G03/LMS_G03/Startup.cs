@@ -22,6 +22,7 @@ using LMS_G03.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LMS_G03
 {
@@ -40,6 +41,38 @@ namespace LMS_G03
             Global.ConnectionString = Configuration.GetConnectionString("ConnStr");
             Global.DomainName = Configuration["DomainName"];
 
+            services.AddCors();
+
+            services.ConfigureApplicationCookie(options => {
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
+
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.OnAppendCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+                options.OnDeleteCookie = cookieContext =>
+                    CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddSession(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddHttpContextAccessor();
             services.AddSingleton<IUriService>(o =>
             {
@@ -48,8 +81,6 @@ namespace LMS_G03
                 var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
                 return new UriService(uri);
             });
-
-            services.AddCors();
 
             services.AddControllers();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
@@ -73,9 +104,7 @@ namespace LMS_G03
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-
-            // Adding Jwt Bearer  
-            .AddJwtBearer(options =>
+            .AddJwtBearer(options => // Adding Jwt Bearer  
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
@@ -106,11 +135,27 @@ namespace LMS_G03
 
             IdentityModelEventSource.ShowPII = true;
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_G03", Version = "v1" });
-            });
+            services.AddSwaggerGen();
 
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_G03", Version = "v1" });
+            //});
+
+        }
+
+        private void CheckSameSite(HttpContext httpContext, CookieOptions options)
+        {
+            if (options.SameSite == SameSiteMode.None)
+            {
+                //var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
+                //if (SameSite.BrowserDetection.DisallowsSameSiteNone(userAgent))
+                //{
+                //    options.SameSite = SameSiteMode.Unspecified;
+                //}
+                options.SameSite = SameSiteMode.None;
+            }
+            options.SameSite = SameSiteMode.None;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,8 +169,6 @@ namespace LMS_G03
 
             }
 
-
-
             app.UseCors(builder => builder
                 //.AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -134,6 +177,12 @@ namespace LMS_G03
                 .SetIsOriginAllowed(hostName => true));
 
             app.UseRouting();
+
+            app.UseSession();
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.None
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
