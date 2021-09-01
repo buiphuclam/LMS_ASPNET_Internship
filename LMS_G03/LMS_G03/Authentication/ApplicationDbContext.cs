@@ -75,17 +75,36 @@ namespace LMS_G03.Authentication
             builder.Entity<Course>()
                 .HasMany(c => c.Sections)
                 .WithOne(e => e.Course)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Course>()
+                .HasMany(c => c.Questions)
+                .WithOne(e => e.Course)
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Section>()
                 .HasMany(c => c.Lectures)
                 .WithOne(e => e.Section)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Category>()
-            .HasMany(c => c.Courses)
-            .WithOne(e => e.Category)
-            .OnDelete(DeleteBehavior.SetNull);
+                .HasMany(c => c.Courses)
+                .WithOne(e => e.Category)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<QuizForSection>()
+                .HasKey(e => new { e.StudentId, e.SectionId, e.QuizId });
+            builder.Entity<QuizForSection>()
+                .HasOne(c => c.Section)
+                .WithMany(i => i.QuizForSection)
+                .HasForeignKey(id => id.SectionId);
+            builder.Entity<QuizForSection>()
+                .HasOne(u => u.Student)
+                .WithMany(e => e.QuizAttemp)
+                .HasForeignKey(uid => uid.StudentId);
+            builder.Entity<QuizForSection>()
+                .HasOne(q => q.Quiz)
+                .WithMany(q => q.QuizForSection)
+                .HasForeignKey(id => id.QuizId);
 
             //builder.Entity<IdentityRoleClaim<string>>(b =>
             //{

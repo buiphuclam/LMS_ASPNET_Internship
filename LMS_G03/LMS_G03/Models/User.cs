@@ -35,6 +35,8 @@ namespace LMS_G03.Authentication
         public ICollection<Enroll> Enroll { get; set; }
         [ForeignKey("StudentId")]
         public ICollection<AssignmentForLectures> Submits { get; set; }
+        [ForeignKey("StudentId")]
+        public ICollection<QuizForSection> QuizAttemp { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string BirthDay { get; set; }

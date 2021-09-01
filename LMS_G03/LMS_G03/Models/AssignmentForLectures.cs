@@ -14,5 +14,6 @@ namespace LMS_G03.Models
         public string AssignmentFileId { get; set; }
         public string StudentId { get; set; }
         public User Student { get; set; }
+        public double AssignmentScore { get; set; }
     }
 }
