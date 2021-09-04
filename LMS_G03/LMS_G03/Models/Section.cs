@@ -30,5 +30,7 @@ namespace LMS_G03.Models
         public ICollection<Enroll> isEnroll { get; set; }
         [ForeignKey("SectionId")]
         public ICollection<Lectures> Lectures { get; set; }
+        [ForeignKey("SectionId")]
+        public ICollection<QuizForSection> QuizForSection { get; set; }
     }
 }

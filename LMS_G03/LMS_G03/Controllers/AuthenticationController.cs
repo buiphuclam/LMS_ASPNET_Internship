@@ -217,9 +217,9 @@ namespace LMS_G03.Controllers
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
-            var resetPasswordLink = Url.Action(nameof(ResetPassword), "Authenticate", new { token, email = user.Email }, Request.Scheme);
-            //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
-            bool emailResponse = _mailHelperService.SendEmail(forgetPasswordModel.Email, resetPasswordLink, "Reset password confirmation");
+            //var resetPasswordLink = Url.Action(/*nameof(ResetPassword)*/"http://localhost:3000/api/authenticate/resetpassword", "Authenticate", new { token, email = user.Email }, Request.Scheme);
+            var message = "http://localhost:3000/resetpassword?email=" + user.Email + "&token=" + token;
+            bool emailResponse = _mailHelperService.SendEmail(forgetPasswordModel.Email, message, "Reset password confirmation");
 
             if (emailResponse)
                 return Ok(new Response { Status = "200", Message = Message.MailSent });

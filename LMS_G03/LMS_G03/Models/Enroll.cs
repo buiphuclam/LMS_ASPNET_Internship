@@ -13,5 +13,6 @@ namespace LMS_G03.Models
         public string SectionId { get; set; }
         public Section Section { get; set; }
         public string EnrollDate { get; set; }
+        public double TotalScore { get; set; }
     }
 }
