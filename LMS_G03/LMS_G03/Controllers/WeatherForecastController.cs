@@ -1,5 +1,7 @@
 ﻿using LMS_G03.Authentication;
 using LMS_G03.Common;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,8 +13,10 @@ using System.Threading.Tasks;
 namespace LMS_G03.Controllers
 {
     //Only Admin can access
-    [Authorize(Roles = "SystemAdmin")]
-    //[Authorize]
+    //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "SystemAdmin")]
+    [Authorize("SystemAdmin")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

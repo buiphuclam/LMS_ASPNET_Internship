@@ -65,7 +65,7 @@ namespace LMS_G03.Controllers
         }
 
         [HttpGet]
-        [Route("getuser/{rolename}")]
+        [Route("getuser/{role}")]
         public async Task<IActionResult> ViewUsersOfRole(string roleName)
         {
             var users = await _userManager.GetUsersInRoleAsync(roleName);

@@ -27,10 +27,10 @@ namespace LMS_G03.Authentication
         {
             base.OnModelCreating(builder);
 
-            builder.Ignore<IdentityUserLogin<string>>();
-            builder.Ignore<IdentityUserClaim<string>>();
-            builder.Ignore<IdentityRoleClaim<string>>();
-            builder.Ignore<IdentityUserToken<string>>();
+            //builder.Ignore<IdentityUserLogin<string>>();
+            //builder.Ignore<IdentityUserClaim<string>>();
+            //builder.Ignore<IdentityRoleClaim<string>>();
+            //builder.Ignore<IdentityUserToken<string>>();
 
             builder.Entity<User>()
                 .Ignore(c => c.AccessFailedCount)
@@ -106,22 +106,22 @@ namespace LMS_G03.Authentication
                 .WithMany(q => q.QuizForSection)
                 .HasForeignKey(id => id.QuizId);
 
-            //builder.Entity<IdentityRoleClaim<string>>(b =>
-            //{
-            //    b.ToTable("RoleClaim");
-            //});
-            //builder.Entity<IdentityUserToken<string>>(b =>
-            //{
-            //    b.ToTable("UserToken");
-            //});
-            //builder.Entity<IdentityUserLogin<string>>(b =>
-            //{
-            //    b.ToTable("UserLogin");
-            //});
-            //builder.Entity<IdentityUserClaim<string>>(b =>
-            //{
-            //    b.ToTable("UserClaim");
-            //});
+            builder.Entity<IdentityRoleClaim<string>>(b =>
+            {
+                b.ToTable("RoleClaim");
+            });
+            builder.Entity<IdentityUserToken<string>>(b =>
+            {
+                b.ToTable("UserToken");
+            });
+            builder.Entity<IdentityUserLogin<string>>(b =>
+            {
+                b.ToTable("UserLogin");
+            });
+            builder.Entity<IdentityUserClaim<string>>(b =>
+            {
+                b.ToTable("UserClaim");
+            });
         }
     }
 }

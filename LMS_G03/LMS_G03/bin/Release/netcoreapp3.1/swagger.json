@@ -36,15 +36,20 @@
         }
       }
     },
-    "/api/Admin/getuser/{rolename}": {
+    "/api/Admin/getuser/{role}": {
       "get": {
         "tags": [
           "Admin"
         ],
         "parameters": [
           {
-            "in": "path",
+            "in": "query",
             "name": "roleName",
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "role",
             "required": true,
             "type": "string"
           }
@@ -406,36 +411,6 @@
         }
       }
     },
-    "/api/Authenticate/user/updateprofile": {
-      "post": {
-        "tags": [
-          "Authenticate"
-        ],
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json",
-          "application/xml",
-          "text/xml",
-          "application/*+xml"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "$ref": "#/definitions/ProfileModel"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Category/addcategory": {
       "post": {
         "tags": [
@@ -766,7 +741,34 @@
         }
       }
     },
-    "/api/GoogleDrive": {
+    "/api/GoogleDrive/createfile": {
+      "post": {
+        "tags": [
+          "GoogleDrive"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uploadFile",
+            "type": "file"
+          },
+          {
+            "in": "formData",
+            "name": "folderName",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/GoogleDrive/replacefile": {
       "post": {
         "tags": [
           "GoogleDrive"
@@ -774,7 +776,12 @@
         "parameters": [
           {
             "in": "query",
-            "name": "FolderName",
+            "name": "oldFileId",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "parentsId",
             "type": "string"
           },
           {
@@ -829,10 +836,7 @@
           "application/json-patch+json",
           "application/json",
           "text/json",
-          "application/*+json",
-          "application/xml",
-          "text/xml",
-          "application/*+xml"
+          "application/*+json"
         ],
         "parameters": [
           {
@@ -861,6 +865,36 @@
             "name": "id",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/user/updateprofile": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json",
+          "application/xml",
+          "text/xml",
+          "application/*+xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ProfileModel"
+            }
           }
         ],
         "responses": {
@@ -1006,29 +1040,6 @@
         }
       }
     },
-    "ProfileModel": {
-      "type": "object",
-      "properties": {
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "birthDay": {
-          "type": "string"
-        },
-        "nationalCity": {
-          "type": "string"
-        },
-        "livingCity": {
-          "type": "string"
-        },
-        "birthCity": {
-          "type": "string"
-        }
-      }
-    },
     "CategoryModel": {
       "type": "object",
       "properties": {
@@ -1146,8 +1157,8 @@
     },
     "SubmitAssignmentModel": {
       "required": [
-        "filePath",
         "lectureId",
+        "uploadFile",
         "userId"
       ],
       "type": "object",
@@ -1158,7 +1169,34 @@
         "lectureId": {
           "type": "string"
         },
-        "filePath": {
+        "uploadFile": {
+          "format": "binary",
+          "type": "string"
+        }
+      }
+    },
+    "ProfileModel": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "birthDay": {
+          "type": "string"
+        },
+        "nationalCity": {
+          "type": "string"
+        },
+        "livingCity": {
+          "type": "string"
+        },
+        "birthCity": {
+          "type": "string"
+        },
+        "phoneNumber": {
           "type": "string"
         }
       }

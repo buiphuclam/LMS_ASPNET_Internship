@@ -79,3 +79,7 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.pdb
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.genruntimeconfig.cache
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Authentication\client_secret.json
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Authentication\oauth2sacredentials.json
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Google.Apis.Auth.AspNetCore3.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
