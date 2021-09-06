@@ -1,0 +1,25 @@
+.course-content{
+    padding: 12px 16px;
+    width: 1500px;
+    height: auto;
+}
+.chapter-content{
+    width: 100%;
+    height: auto;
+}
+.content{
+    padding: 6px 12px;
+}
+.section{
+    margin: 1rem;
+    /* line-height:180%; */
+}
+.fontChapter{
+    font-family: 'Roboto', sans-serif;
+    color: #939eae;
+}
+.line{
+    width: 100%;
+    /* height: auto; */
+    border: 0.1px solid #939eae;
+}

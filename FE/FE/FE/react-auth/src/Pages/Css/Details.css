@@ -1,0 +1,30 @@
+body{
+    background-color:  #f7f7f7;
+}
+.frame1 {
+    background: #fff;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.site-name {
+    
+    color: #353e4e;
+    font-weight: 700;
+    font-size: 24px;
+    font-family: Roboto;
+    position: relative;
+    /* top: 5px; */
+}
+.mid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px soild black;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

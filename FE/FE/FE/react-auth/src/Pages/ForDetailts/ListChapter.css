@@ -1,0 +1,12 @@
+.body{
+    background-color: aqua;
+}
+.mid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px soild black;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

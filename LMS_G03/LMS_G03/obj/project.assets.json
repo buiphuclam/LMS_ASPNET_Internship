@@ -6479,27 +6479,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\Chanh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
+      "projectUniqueName": "D:\\Gitlab\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
       "projectName": "LMS_G03",
-      "projectPath": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\obj\\",
+      "projectPath": "D:\\Gitlab\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
+      "packagesPath": "C:\\Users\\Chanh\\.nuget\\packages\\",
+      "outputPath": "D:\\Gitlab\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
+        "C:\\Users\\Chanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\DevExpress 19.1\\Components\\System\\Components\\Packages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },

@@ -1,0 +1,47 @@
+.banner{
+    position: relative;
+    background-color: #ffffff;
+    /* border: 1px solid black; */
+    display: flex;
+    align-items:flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 1500px;
+    height: 450px;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.banner:hover{
+    color: rgb(60, 59, 55);
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0.15, 0.15, 0, 0.15);
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
+.nen1{
+    width: 100%;
+    height: 450px;
+    background-image: linear-gradient(to bottom right, rgba(74, 72, 147, 0.71), #fff);
+}
+.mid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px soild black;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.title{
+    position: absolute;
+    display: flex;
+    align-items:flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 30px 30px;
+    margin: 6px 12px;
+}
+.logo1{
+    width: 100%;
+    height: 100%;
+}
