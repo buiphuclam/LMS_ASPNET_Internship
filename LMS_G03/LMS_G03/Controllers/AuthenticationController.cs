@@ -160,7 +160,7 @@ namespace LMS_G03.Controllers
             if (Request.Cookies["jwt"] != null)
             {
                 var jwt = Request.Cookies["jwt"];
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                // HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
                 Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
                 {
