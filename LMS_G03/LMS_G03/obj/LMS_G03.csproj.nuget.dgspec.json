@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj": {}
+    "C:\\Users\\Admin\\Desktop\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj": {}
   },
   "projects": {
-    "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj": {
+    "C:\\Users\\Admin\\Desktop\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
         "projectName": "LMS_G03",
-        "projectPath": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
+        "projectPath": "C:\\Users\\Admin\\Desktop\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\LMS_G03.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HK2_Nam3\\ThucTap\\Project\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Desktop\\hcm21_cpl_net_04_group_03\\LMS_G03\\LMS_G03\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 19.1\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -103,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

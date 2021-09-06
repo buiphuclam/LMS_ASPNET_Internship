@@ -1,0 +1,122 @@
+body{
+    background-color:  rgba(74, 72, 147, 0.71);
+}
+.nav {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 1px;
+    color: rgb(60, 59, 55);
+    -webkit-box-shadow: 10px 10px 10px 10px rgba(0.15, 0.15, 0, 0.15);
+    -moz-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+
+.nav-position {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 999;
+}
+
+nav {
+    background-color: rgba(74, 72, 147, 0.71);
+    margin: auto;
+    padding: auto;
+}
+.nav-btn{
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.nav-font{
+    text-align: center;
+    color:white;
+    font-weight: bold;
+    font-size: 120%;
+}
+.nav-font:hover{
+    color: black;
+}
+
+
+.tieude-font{
+    font-size: 120%;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+container-fuild{
+    position: relative;
+    max-width: 500px;
+    max-height: 500px;
+    background-color: rgba(74, 72, 147, 0.71);
+}
+.login-card{
+    position: absolute;
+    margin: auto;
+    top:40%;
+    left: 40%;
+    padding: 20px 60px;
+    font-weight: bold;
+    border-radius: 50px;
+    border: 2px solid black;
+    transform: translate(-50%, -50%);
+    background-color: rgba(74, 72, 147, 0.71);
+}
+.card-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.card-input{
+    padding: 6px 12px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+}
+
+.card-a{
+    padding: 6px 12px;
+    border-radius: 10px;
+    outline: none;
+    border:  1px solid black;
+    width: 400px;
+}
+.card-lable{
+    padding: 6px 12px;
+    background-color: white;
+    border-radius: 25px;
+}
+.card-button{
+    padding: 12px 24px;
+    border-radius: 15px;
+    border: 1px solid black;
+    color: white;
+    background-color: rgba(74, 72, 147, 0.71);
+}
+.card-button:hover{
+    background-color: rgba(97, 93, 190, 0.71);
+}
+.card-button-huy{
+    padding: 12px 24px;
+    border-radius: 15px;
+    border: 1px solid black;
+    background-color: #934848;
+    color: white;
+}
+.card-button-huy:hover{
+    background-color: #c05959;
+}
+.card-item-alert{
+    display: block;
+    color:red;
+    text-align: right;
+}
+
