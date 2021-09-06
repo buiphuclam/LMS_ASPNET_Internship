@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using LMS_G03.Models;
 using LMS_G03.ViewModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LMS_G03.Controllers
 {
@@ -24,20 +27,23 @@ namespace LMS_G03.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private IMailHelperService _mailHelperService;
         private IVerifyJwtService _verifyJwtService;
+        private readonly SignInManager<User> _signInManager;
+
 
         public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration
-            , IMailHelperService mailHelperService, IVerifyJwtService verifyJwtService)
+            , IMailHelperService mailHelperService, IVerifyJwtService verifyJwtService, SignInManager<User> signInManager)
         {
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
             _mailHelperService = mailHelperService;
             _verifyJwtService = verifyJwtService;
+            _signInManager = signInManager;
         }
 
         [HttpPost]
@@ -45,11 +51,11 @@ namespace LMS_G03.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
-            var userExists = await userManager.FindByNameAsync(registerModel.Username);
+            var userExists = await _userManager.FindByNameAsync(registerModel.Username);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.UserAlreadyCreated });
 
-            var mailExists = await userManager.FindByEmailAsync(registerModel.Email);
+            var mailExists = await _userManager.FindByEmailAsync(registerModel.Email);
             if (mailExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.VerifyMail });
 
@@ -61,20 +67,20 @@ namespace LMS_G03.Controllers
                 //UserInfo = new UserInfo()
             };
 
-            var result = await userManager.CreateAsync(user, registerModel.Password);
+            var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = Message.SomethingWrong });
             else
             {
-                if (!await roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Student.ToString()));
+                if (!await _roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
+                    await _roleManager.CreateAsync(new IdentityRole(UserRoles.Student.ToString()));
 
-                if (await roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
+                if (await _roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
                 {
-                    await userManager.AddToRoleAsync(user, UserRoles.Student.ToString());
+                    await _userManager.AddToRoleAsync(user, UserRoles.Student.ToString());
                 }
 
-                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authenticate", new { token, email = registerModel.Email }, Request.Scheme);
                 bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
 
@@ -89,17 +95,28 @@ namespace LMS_G03.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await userManager.FindByNameAsync(model.Username);
-            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var userRoles = await userManager.GetRolesAsync(user);
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                //var signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+                //if (signInResult.Succeeded)
+                //{
+                //    await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "SystemAdmin"));
+                //}
+
+                //var tokenHandler = new JwtSecurityTokenHandler();
 
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -107,32 +124,31 @@ namespace LMS_G03.Controllers
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
-
+                
+                var claimsIdentity = new ClaimsIdentity(authClaims, JwtBearerDefaults.AuthenticationScheme);
+                var userPrincipal = new ClaimsPrincipal(new[] { claimsIdentity });
+                
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
+                var credentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
                 var token = new JwtSecurityToken(
-                    //issuer: _configuration["JWT:ValidIssuer"],
                     issuer: user.Id,
-                    audience: _configuration["JWT:ValidAudience"],
                     expires: DateTime.Now.AddHours(24),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                    claims: authClaims.ToArray(),
+                    signingCredentials: credentials
                     );
 
-                Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+                //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),authProperties);
+                // await HttpContext.SignInAsync(userPrincipal);
+                var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+                Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.None
                 });
 
-                return Ok(new Response { Status = "200", Message = Message.Success });
-
-                //return Ok(new
-                //{
-                //    token = new JwtSecurityTokenHandler().WriteToken(token),
-                //    expiration = token.ValidTo
-                //});
+                return Ok(new Response { Status = "200", Message = Message.Success, Data = jwt });
             }
             return Unauthorized();
         }
@@ -144,6 +160,7 @@ namespace LMS_G03.Controllers
             if (Request.Cookies["jwt"] != null)
             {
                 var jwt = Request.Cookies["jwt"];
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
                 Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
                 {
@@ -159,15 +176,15 @@ namespace LMS_G03.Controllers
                 Secure = true,
                 SameSite = SameSiteMode.None
             });
-            
-            return Ok(new Response { Status = "200", Message = Message.Success });
+
+            return Unauthorized();
         }
 
         [HttpPost]
         [Route("register-teacher")]
         public async Task<IActionResult> RegisterTeacher([FromBody] RegisterModel model)
         {
-            var userExists = await userManager.FindByNameAsync(model.Username);
+            var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User already exists!" });
 
@@ -177,18 +194,18 @@ namespace LMS_G03.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username
             };
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = Message.ErrorFound, Message = "User creation failed! Please check user details and try again." });
 
-            if (!await roleManager.RoleExistsAsync(UserRoles.Teacher.ToString()))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher.ToString()));
-            if (!await roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Student.ToString()));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Teacher.ToString()))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher.ToString()));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Student.ToString()))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Student.ToString()));
 
-            if (await roleManager.RoleExistsAsync(UserRoles.Teacher.ToString()))
+            if (await _roleManager.RoleExistsAsync(UserRoles.Teacher.ToString()))
             {
-                await userManager.AddToRoleAsync(user, UserRoles.Teacher.ToString());
+                await _userManager.AddToRoleAsync(user, UserRoles.Teacher.ToString());
             }
 
             return Ok(new Response { Status = Message.Success, Message = "User created successfully!" });
@@ -198,12 +215,12 @@ namespace LMS_G03.Controllers
         [Route("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel changePasswordModel)
         {
-            var userExists = await userManager.FindByNameAsync(changePasswordModel.Username);
+            var userExists = await _userManager.FindByNameAsync(changePasswordModel.Username);
             if (userExists == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
 
             userExists.SecurityStamp = Guid.NewGuid().ToString();
-            var result = await userManager.ChangePasswordAsync(userExists, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
+            var result = await _userManager.ChangePasswordAsync(userExists, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "500", Message = Message.SomethingWrong });
             return Ok(new Response { Status = "200", Message = Message.ChangePasswordSuccess });
@@ -213,10 +230,10 @@ namespace LMS_G03.Controllers
         [Route("forgetpassword")]
         public async Task<IActionResult> ForgotPassword(ForgetPasswordModel forgetPasswordModel)
         {
-            var user = await userManager.FindByEmailAsync(forgetPasswordModel.Email);
+            var user = await _userManager.FindByEmailAsync(forgetPasswordModel.Email);
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
-            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             //var resetPasswordLink = Url.Action(/*nameof(ResetPassword)*/"http://localhost:3000/api/authenticate/resetpassword", "Authenticate", new { token, email = user.Email }, Request.Scheme);
             var message = "http://localhost:3000/resetpassword?email=" + user.Email + "&token=" + token;
             bool emailResponse = _mailHelperService.SendEmail(forgetPasswordModel.Email, message, "Reset password confirmation");
@@ -233,10 +250,10 @@ namespace LMS_G03.Controllers
         [Route("resetpassword")]
         public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
-            var user = await userManager.FindByEmailAsync(resetPasswordModel.Email);
+            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
-            var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.NewPassword);
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.NewPassword);
             if (!resetPassResult.Succeeded)
             {
                 return BadRequest(new Response { Status = "500", Message = Message.ErrorFound });
@@ -249,10 +266,10 @@ namespace LMS_G03.Controllers
         [Route("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            var userExists = await userManager.FindByEmailAsync(email);
+            var userExists = await _userManager.FindByEmailAsync(email);
             if (userExists == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
-            var result = await userManager.ConfirmEmailAsync(userExists, token);
+            var result = await _userManager.ConfirmEmailAsync(userExists, token);
             return Ok(new Response { Status = "200", Message = Message.ConfirmEmailSuccess });
         }
 
@@ -264,7 +281,7 @@ namespace LMS_G03.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
                 var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
-                User user = await userManager.FindByIdAsync(token.Issuer);
+                User user = await _userManager.FindByIdAsync(token.Issuer);
                 if (user == null)
                     return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
 
@@ -276,33 +293,6 @@ namespace LMS_G03.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("user/updateprofile")]
-        public async Task<IActionResult> UpdateProfile([FromBody] ProfileModel profile)
-        {
-            try
-            {
-                var jwt = Request.Cookies["jwt"];
-                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
-                var user = await userManager.FindByIdAsync(token.Issuer);
-                if (user == null)
-                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
-
-                user.FirstName = profile.FirstName;
-                user.LastName = profile.LastName;
-                user.BirthDay = profile.BirthDay;
-                user.Nationality = profile.NationalCity;
-                user.LivingCity = profile.LivingCity;
-                user.BirthCity = profile.BirthCity;
-
-                await userManager.UpdateAsync(user);
-
-                return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
-            }
-            catch (Exception ex)
-            {
-                return Unauthorized(ex);
-            }
-        }
+        
     }
 }

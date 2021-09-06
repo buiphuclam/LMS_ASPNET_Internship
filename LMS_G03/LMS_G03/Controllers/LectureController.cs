@@ -70,7 +70,7 @@ namespace LMS_G03.Controllers
                 Student = user,
                 LectureId = lecture.LectureId,
                 Lecture = lecture,
-                AssignmentFileId = GoogleDriveFilesRepository.UploadFileInFolder(lecture.LectureFolderId, submit.FilePath)
+                AssignmentFileId = GoogleDriveFilesRepository.UploadFileInFolder(lecture.LectureFolderId, submit.uploadFile)
             };
 
             _context.Assignment.Add(assignment);

@@ -1,9 +1,12 @@
 ﻿using LMS_G03.Authentication;
 using LMS_G03.Common;
+using LMS_G03.IServices;
+using LMS_G03.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,20 +19,25 @@ namespace LMS_G03.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private IVerifyJwtService _verifyJwtService;
+        private readonly IConfiguration _configuration;
 
-        public UserController(ApplicationDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UserController(ApplicationDbContext context, UserManager<User> userManager, 
+            RoleManager<IdentityRole> roleManager, IVerifyJwtService verifyJwtService, IConfiguration configuration)
         {
             _context = context;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _verifyJwtService = verifyJwtService;
+            _configuration = configuration;
         }
 
         [HttpGet("getuser/{id}")]
         public async Task<IActionResult> GetUserById(string id)
         {
-            var user = await userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
            
             if (user == null)
             {
@@ -37,6 +45,36 @@ namespace LMS_G03.Controllers
             }
             //user.UserInfo = await _context.UserInfo.FindAsync(id);
             return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
+        }
+
+        [HttpPost]
+        [Route("user/updateprofile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileModel profile)
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+                var user = await _userManager.FindByIdAsync(token.Issuer);
+                if (user == null)
+                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
+
+                user.FirstName = profile.FirstName;
+                user.LastName = profile.LastName;
+                user.BirthDay = profile.BirthDay;
+                user.Nationality = profile.NationalCity;
+                user.LivingCity = profile.LivingCity;
+                user.BirthCity = profile.BirthCity;
+                user.PhoneNumber = profile.PhoneNumber;
+
+                await _userManager.UpdateAsync(user);
+
+                return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(ex);
+            }
         }
     }
 }

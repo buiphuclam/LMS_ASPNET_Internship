@@ -23,6 +23,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace LMS_G03
 {
@@ -46,8 +48,6 @@ namespace LMS_G03
             services.ConfigureApplicationCookie(options => {
                 options.Cookie.SameSite = SameSiteMode.None;
             });
-
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -57,15 +57,6 @@ namespace LMS_G03
                 options.OnDeleteCookie = cookieContext =>
                     CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
             });
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.IsEssential = true;
-            });
-
             services.AddSession(options =>
             {
                 options.Cookie.SameSite = SameSiteMode.None;
@@ -74,6 +65,8 @@ namespace LMS_G03
             });
 
             services.AddHttpContextAccessor();
+
+            //UriService
             services.AddSingleton<IUriService>(o =>
             {
                 var accessor = o.GetRequiredService<IHttpContextAccessor>();
@@ -94,6 +87,8 @@ namespace LMS_G03
 
             // For Identity  
             services.AddIdentity<User, IdentityRole>()
+                .AddRoles<IdentityRole>()
+                .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -110,12 +105,36 @@ namespace LMS_G03
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = Configuration["JWT:ValidAudience"],
-                    ValidIssuer = Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    //ValidAudience = Configuration["JWT:ValidAudience"],
+                    //ValidIssuer = Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"])),
+                    RoleClaimType = ClaimTypes.Role
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var jwt = (context.SecurityToken as JwtSecurityToken)?.ToString();
+                        // get your JWT token here if you need to decode it e.g on https://jwt.io
+                        // And you can re-add role claim if it has different name in token compared to what you want to use in your ClaimIdentity:  
+                        AddRoleClaims(context.Principal);
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+            //.AddCookie()
+            //.AddGoogleOpenIdConnect(options =>
+            //{
+            //    options.ClientId = "876672077508-1tlkrgltj3ss8j9cikd9edmnvcm0ahht.apps.googleusercontent.com";
+            //    options.ClientSecret = "oqdNPPfviOUTUc7I2wKhWqj0";
+            //});
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SystemAdmin",
+                    options => options.RequireClaim(ClaimTypes.Role, UserRoles.SystemAdmin));
             });
 
             services.Configure<IdentityOptions>(opts =>
@@ -126,36 +145,37 @@ namespace LMS_G03
                 opts.Password.RequiredLength = 8;
 
                 opts.SignIn.RequireConfirmedEmail = true;
-
-                // Default Lockout settings.
-                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                opts.Lockout.MaxFailedAccessAttempts = 5;
-                opts.Lockout.AllowedForNewUsers = true;
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = "jwt";
             });
 
             IdentityModelEventSource.ShowPII = true;
 
             services.AddSwaggerGen();
-
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_G03", Version = "v1" });
-            //});
-
         }
 
         private void CheckSameSite(HttpContext httpContext, CookieOptions options)
         {
-            if (options.SameSite == SameSiteMode.None)
-            {
-                //var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
-                //if (SameSite.BrowserDetection.DisallowsSameSiteNone(userAgent))
-                //{
-                //    options.SameSite = SameSiteMode.Unspecified;
-                //}
-                options.SameSite = SameSiteMode.None;
-            }
             options.SameSite = SameSiteMode.None;
+        }
+
+        private static void AddRoleClaims(ClaimsPrincipal principal)
+        {
+            var claimsIdentity = principal.Identity as ClaimsIdentity;
+            if (claimsIdentity != null)
+            {
+                if (claimsIdentity.HasClaim(ClaimTypes.Role, UserRoles.SystemAdmin.ToString()))
+                {
+                    if (!claimsIdentity.HasClaim(ClaimTypes.Role, UserRoles.SystemAdmin.ToString()))
+                    {
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, UserRoles.SystemAdmin.ToString()));
+                    }
+                }
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -164,9 +184,6 @@ namespace LMS_G03
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LMS_G03 v1"));
-
             }
 
             app.UseCors(builder => builder
@@ -186,6 +203,9 @@ namespace LMS_G03
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LMS_G03 v1"));
 
             app.UseEndpoints(endpoints =>
             {

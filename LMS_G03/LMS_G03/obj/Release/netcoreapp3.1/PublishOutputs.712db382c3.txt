@@ -1,6 +1,8 @@
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\LMS_G03.exe
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\appsettings.Development.json
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\appsettings.json
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Authentication\client_secret.json
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Authentication\oauth2sacredentials.json
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\LMS_G03.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\LMS_G03.runtimeconfig.json
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\LMS_G03.pdb
@@ -8,9 +10,11 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Releas
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.PlatformServices.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.AspNetCore3.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Core.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Drive.v3.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

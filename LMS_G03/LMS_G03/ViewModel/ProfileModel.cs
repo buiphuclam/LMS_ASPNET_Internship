@@ -13,5 +13,6 @@ namespace LMS_G03.ViewModel
         public string NationalCity { get; set; }
         public string LivingCity { get; set; }
         public string BirthCity { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

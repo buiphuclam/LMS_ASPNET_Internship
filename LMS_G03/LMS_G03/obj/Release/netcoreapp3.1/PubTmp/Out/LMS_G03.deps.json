@@ -32,6 +32,7 @@
       "LMS_G03/1.0.0": {
         "dependencies": {
           "Dapper": "2.0.35",
+          "Google.Apis.Auth.AspNetCore3": "1.54.0",
           "Google.Apis.Drive.v3": "1.54.0.2397",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "3.1.15",
           "Microsoft.AspNetCore.Identity": "2.2.0",
@@ -46,7 +47,7 @@
           "Microsoft.AspNetCore.Authentication.Core.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.OAuth": "3.1.0.0",
-          "Microsoft.AspNetCore.Authorization": "3.1.0.0",
+          "Microsoft.AspNetCore.Authorization.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Authorization.Policy": "3.1.0.0",
           "Microsoft.AspNetCore.Components.Authorization": "3.1.0.0",
           "Microsoft.AspNetCore.Components": "3.1.0.0",
@@ -79,7 +80,7 @@
           "Microsoft.AspNetCore.Identity.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Localization": "3.1.0.0",
           "Microsoft.AspNetCore.Localization.Routing": "3.1.0.0",
-          "Microsoft.AspNetCore.Metadata": "3.1.0.0",
+          "Microsoft.AspNetCore.Metadata.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Mvc.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Mvc.ApiExplorer": "3.1.0.0",
           "Microsoft.AspNetCore.Mvc.Core": "3.1.0.0",
@@ -361,6 +362,22 @@
           "lib/netstandard2.0/Google.Apis.Auth.dll": {}
         }
       },
+      "Google.Apis.Auth.AspNetCore3/1.54.0": {
+        "dependencies": {
+          "Google.Apis.Auth": "1.54.0",
+          "Microsoft.AspNetCore.Authentication.OpenIdConnect": "3.0.0",
+          "Microsoft.AspNetCore.Authorization": "3.0.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Google.Apis.Auth.AspNetCore3.dll": {
+            "assemblyVersion": "1.54.0.0",
+            "fileVersion": "1.54.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.0/Google.Apis.Auth.AspNetCore3.dll": {}
+        }
+      },
       "Google.Apis.Core/1.54.0": {
         "dependencies": {
           "Newtonsoft.Json": "12.0.3"
@@ -432,6 +449,27 @@
         },
         "compile": {
           "lib/netcoreapp3.1/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.OpenIdConnect/3.0.0": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "5.5.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.19.46502"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Authorization/3.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Metadata": "3.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.15",
+          "Microsoft.Extensions.Options": "3.1.15"
         }
       },
       "Microsoft.AspNetCore.Cryptography.Internal/3.1.15": {
@@ -552,6 +590,7 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Metadata/3.0.0": {},
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson/3.1.18": {
         "dependencies": {
           "Microsoft.AspNetCore.JsonPatch": "3.1.18",
@@ -1752,7 +1791,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Authorization/3.1.0.0": {
+      "Microsoft.AspNetCore.Authorization.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Authorization.dll": {}
         },
@@ -1950,7 +1989,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Metadata/3.1.0.0": {
+      "Microsoft.AspNetCore.Metadata.Reference/3.1.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Metadata.dll": {}
         },
@@ -3335,6 +3374,13 @@
       "path": "google.apis.auth/1.54.0",
       "hashPath": "google.apis.auth.1.54.0.nupkg.sha512"
     },
+    "Google.Apis.Auth.AspNetCore3/1.54.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YaJWwxqOEDUIlqEgmb0fFtlB4wrMP8/hJUajE24SIQb6i/bmNt7ceIjk3BYjrytZ6iXpDXfMlCV8Dedz/HmSyw==",
+      "path": "google.apis.auth.aspnetcore3/1.54.0",
+      "hashPath": "google.apis.auth.aspnetcore3.1.54.0.nupkg.sha512"
+    },
     "Google.Apis.Core/1.54.0": {
       "type": "package",
       "serviceable": true,
@@ -3383,6 +3429,20 @@
       "sha512": "sha512-/xWvG7feK5lyuaKT+DTXad9X5prGIgAhmfXYtGIr9eElb42N8c63wblGUJXGk4n38opLjE8gMLf5jnfHOWbsIQ==",
       "path": "microsoft.aspnetcore.authentication.jwtbearer/3.1.15",
       "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.3.1.15.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.OpenIdConnect/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-z/VvjURz5vS9SLVIHSKzPRe6PH5DPQxuzu+5Cv+2zojg7sVmXmj+sldBoGlGLvf7AA/F53+pc4oE7S8Fa9kfOQ==",
+      "path": "microsoft.aspnetcore.authentication.openidconnect/3.0.0",
+      "hashPath": "microsoft.aspnetcore.authentication.openidconnect.3.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authorization/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pylAplpaC5r3YIh2OR4RcYCSYoMc/sZwHyGeyT43IbSMN+TqvO05pAybaFcNxPeZ+HxDP2LcRO/R1XHSCB2GKw==",
+      "path": "microsoft.aspnetcore.authorization/3.0.0",
+      "hashPath": "microsoft.aspnetcore.authorization.3.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/3.1.15": {
       "type": "package",
@@ -3474,6 +3534,13 @@
       "sha512": "sha512-2Fuv4qa8u2f5rWRDhnMMaxFLxyN/BCezDEa1NciMSePB1aojRnX4NYZeOjISHOY/71abulriz8dBpgc/k7GADw==",
       "path": "microsoft.aspnetcore.jsonpatch/3.1.18",
       "hashPath": "microsoft.aspnetcore.jsonpatch.3.1.18.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Metadata/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gXT2t+bocyv4aCwwfrATy8QMHHZTRqZ/grmUzC+76MA1M+S0TIXp+BK3dEkvADVkhsAdERb5DnjqQKX3G/uMYQ==",
+      "path": "microsoft.aspnetcore.metadata/3.0.0",
+      "hashPath": "microsoft.aspnetcore.metadata.3.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Mvc.NewtonsoftJson/3.1.18": {
       "type": "package",
@@ -4317,7 +4384,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Authorization/3.1.0.0": {
+    "Microsoft.AspNetCore.Authorization.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -4482,7 +4549,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Metadata/3.1.0.0": {
+    "Microsoft.AspNetCore.Metadata.Reference/3.1.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
