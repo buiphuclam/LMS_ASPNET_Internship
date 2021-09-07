@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { AppBar, Toolbar, Grid, Card, CardContent } from '@material-ui/core';
 import './App.css';
-import './Pages/Login-Signin.css';
 import Nav from './components/Nav';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
@@ -45,35 +44,26 @@ function App() {
       <BrowserRouter>
       <Nav name={name} setName={setName}/>
 
-      <main className="form-home">
+      <main >
         <Route path="/" exact component={() => <Home name={name}/>}/>
         <Route path="/addcourse" component={AddCourse}/>
-        <Route path="/details" component={Details}/>
-      </main>
-      <main className="form-profile" >
+
         <Route path="/profile" component={() => <Profile/>}/>
         <Route path="/profile_edit" component={() => <Profile_Edit setName={setName}/>}/>
-        
-      </main>
-      <main className="form-change_pass">
+
         <Route path="/change_password" component={() => <Change_Password setName={setName}/>}/>
-      </main>
 
-      <main className="form-admin">
-      <Route path="/admin" component={() => <Drawer_Admin/>}/>
-      </main>
+        <Route path="/admin" component={() => <Drawer_Admin/>}/>
 
-      <main className="form-lognin">
-          <Route path="/login" component={() => <Login setName={setName}/>}/>
-      </main>
-      <main className="form-signin">
-          <Route path="/register" component={Register}/>
-      </main>
-      <main className="form-signin">
-          <Route path="/forgotpass" component={ForgotPass}/>
-      </main>
-      <main className="form-signin">
-          <Route path="/resetpassword" component={ResetPassword}/>
+        <Route path="/login" component={() => <Login setName={setName}/>}/>
+
+        <Route path="/register" component={Register}/>
+        
+        <Route path="/forgotpass" component={ForgotPass}/>
+
+        <Route path="/resetpassword" component={ResetPassword}/>
+
+        <Route path="/details" component={Details}/>
       </main>
       </BrowserRouter>
     </div>

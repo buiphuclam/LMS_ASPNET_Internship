@@ -135,6 +135,7 @@ const Drawer_Admin = (props: any) =>{
 
 const title = "Body";
 return (
+  <div className="form-admin">
   <div className={classes.root}>
     <CssBaseline />
     <AppBar position="fixed" className={classes.appBar}>
@@ -170,20 +171,26 @@ return (
     <main className={classes.content}>
       <Switch>
         <Route exact path="/admin/courseList">
+          
             <Typography paragraph>
-              <Course/>
+            <div style={{margin: '50px 0px'}}>
+                <Course/>
+              </div>
             </Typography>
+            
         </Route>
-        <Route exact path="/admin/profile">
+        <Route exact path="/admin/profile" >
             <Typography>
-              <div max-width="500px">
+              <div max-width="500px" style={{margin: '50px 0px'}}>
                 <Profile/>
               </div>
             </Typography>
         </Route>
         <Route exact path="/admin/student">
             <Typography>
-              <Student_table/>
+              <div style={{margin: '50px 0px'}}>   
+                <Student_table/>
+              </div>
             </Typography>
         </Route>
       </Switch>
@@ -192,6 +199,7 @@ return (
         <Course/>
       </Typography> */}
     </main>
+  </div>
   </div>
 );
 

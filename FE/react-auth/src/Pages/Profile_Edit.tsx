@@ -93,7 +93,7 @@ const styles = {
             // </table>
             // <button className="w-100 btn btn-lg btn-primary" onClick={handleEdit}>Edit</button>
             // </form>   
-
+      <div className="form-profile">
           <div className="card_edit">
 						<div className="card-body">
 							<div className="row mb-3">
@@ -167,6 +167,7 @@ const styles = {
 							</div>
 						</div>
             </div>
+        </div>
     );
 };
 

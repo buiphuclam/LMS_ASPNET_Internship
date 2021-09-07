@@ -14,7 +14,7 @@ export default function Banner1({namecourse, des}:PropsBanner) {
         <div className="mid">
             <div className="banner">
                 <div className="nen1" >
-                  <img className="logo1" src="https://cdn.tgdd.vn/Files/2020/06/08/1261696/moi-tai-bo-hinh-nen-asus-rog-2020-moi-nhat_800x450.jpg" alt="banner"  />  
+                  <img className="logo1" src="./imgs/banner1.jpg" alt="banner"  />  
                 </div>
                 <div className="title">
                     <div className="card" style={cardStyle}>

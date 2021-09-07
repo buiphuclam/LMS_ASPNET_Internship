@@ -114,6 +114,7 @@ const AddCourse = (props: any) => {
         width: '50%',
     };
     return(
+        <div className="form-home">
         <form onSubmit={add} >
             <h1 style={{textAlign:'center'}}>Thêm Khóa Học</h1>
             <div style={{display: 'flex',}}>
@@ -154,6 +155,7 @@ const AddCourse = (props: any) => {
         
         <input className="w-100 btn btn-lg btn-primary" type="submit" value="Thêm"/>
     </form>
+    </div>
     )
 }
 

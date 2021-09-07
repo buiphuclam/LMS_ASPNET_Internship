@@ -2,6 +2,13 @@ import React, {SyntheticEvent, useState} from "react";
 import { Link, Redirect } from "react-router-dom";
 import { stringify } from "uuid";
 
+const styleResetPass = {
+    cardP: {
+        padding: '30px 30px',
+        
+    },
+}
+
 const ResetPassword = (props: {setName: (name:string) => void}) => {
     const [redirect, setRedirect] = useState(false);
     const [confirmNewPassword, setconfirmNewPassword] = useState('');
@@ -50,15 +57,18 @@ const ResetPassword = (props: {setName: (name:string) => void}) => {
         return <Redirect to="/login"/>;
 
     return (
-        
+        <div className="form-signin">
+            <div className="card" style={styleResetPass.cardP}>
                 <form onSubmit={submit}>
                 <h1 className="h3 mb-3 fw-normal">Reset Password</h1>
                 <input type="password" className="form-control" placeholder="Password" required
                 onChange={e => setnewPassword(e.target.value)}/>
-            <input type="password" className="form-control" placeholder="Confirm password" required
+                <input type="password" className="form-control" placeholder="Confirm password" required
                 onChange={e => setconfirmNewPassword(e.target.value)}/>
                 <button className="w-100 btn btn-lg btn-primary" type="submit">Submit</button>                             
-                </form>           
+                </form>
+            </div>
+        </div>
     );
 };
 

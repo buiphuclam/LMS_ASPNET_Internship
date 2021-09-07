@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 const Home = (props: {name:string}) => {
     const classes = useStyles();
     return (
-        
+        <div className="form-home">
                 <div>
                     <Toolbar>
                         <div className={classes.SearchContainer}>
@@ -63,6 +63,8 @@ const Home = (props: {name:string}) => {
                     </Toolbar>
                     <Course/> 
                 </div>
+          </div>
+                
     );
 };
 

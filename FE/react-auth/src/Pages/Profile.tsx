@@ -58,42 +58,43 @@ const Profile = () => {
     });
 
     return (
-            <div className="card mb-6">
+      <div className="form-profile" >
+            <div className="card1 mb-6">
               <h3 className="tieude-font">Your Profile</h3>
               <div className="card-body">
-                <div className="row">
-                  <div className="col-sm-9">
+                <div className="card-item1 row">
+                  <div className="col-sm-4">
                     <h6 className="mb-6">UserName</h6>
                   </div>
-                  <div className="col-sm-9 text-secondary">
+                  <div className="col-sm-8 text-secondary">
                     {name}
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-sm-9">
+                <div className="card-item1 row">
+                  <div className="col-sm-4">
                     <h6 className="mb-6">Email</h6>
                   </div>
-                  <div className="col-sm-9 text-secondary">
+                  <div className="col-sm-8 text-secondary">
                     {email}
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-sm-9">
+                <div className="card-item1 row">
+                  <div className="col-sm-4">
                     <h6 className="mb-6">Phone</h6>
                   </div>
-                  <div className="col-sm-9 text-secondary">
+                  <div className="col-sm-8 text-secondary">
                     (239) 816-9029
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-sm-9">
+                <div className="card-item1 row">
+                  <div className="col-sm-4">
                     <h6 className="mb-6">Address</h6>
                   </div>
-                  <div className="text-secondary">
+                  <div className="col-sm-8 text-secondary">
                     Bay Area, San Francisco, CA
                   </div>
                 </div>
-                <div className="row">
+                <div>
                   <div className="card-div" >
                     <button className="btn btn-info" ><a className="btn btn-info " target="__blank" href="/">Home</a></button>
                       <button className="btn btn-info" ><a className="btn btn-info " target="__blank" href="/Profile_Edit">Edit</a></button>
@@ -102,7 +103,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-          // <div className="container-fuild">
+          {/* // <div className="container-fuild">
           //   <div className="card login-card">
           //               <div className="tieude-font">Your Profile</div>
 
@@ -170,7 +171,8 @@ const Profile = () => {
           //               </div>
           //               </form>
           //           </div>
-          //         </div>
+          //         </div> */}
+          </div>
     );
 };
 

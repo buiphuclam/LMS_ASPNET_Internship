@@ -10,13 +10,13 @@ import ListChapter from '../ForDetailts/ListChapter';
 export default function Details() {
     return (
         <>
-        <div className="container-fluid">
+        {/* <div className="container-fluid">
             <div className="frame1">
                 <Link to="/" className="site-name">
                   <img className="logo" src="logo192.png" alt="" style={{width: '80px'}} />
                 </Link>
             </div>
-        </div>
+        </div> */}
         <Banner1 namecourse='NameCourse' des='Mô tả sơ lược' />
         <ListChapter />
         <Footer />
