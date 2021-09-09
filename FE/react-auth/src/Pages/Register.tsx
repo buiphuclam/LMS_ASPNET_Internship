@@ -6,28 +6,38 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmpassword, setConfirmpassword] = useState('');
+    const [confirmPassword, setConfirmpassword] = useState('');
     const [redirect, setRedirect] = useState(false);
 
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault();
 
-        // const response = 
-        await fetch('https://lmsg03.azurewebsites.net/api/Authenticate/register',{
+        const response = await fetch('https://lmsg03.azurewebsites.net/api/Authenticate/register',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 username,
                 email,
                 password,
-                confirmpassword
+                confirmPassword
             })
         });
-        setRedirect(true);
-        if(username || password || email || confirmpassword ==='')
+        const content = await response.json();
+        if(username ==='' || password ==='' || email ==='' || confirmPassword ==='')
         {
             alert("Bạn vui lòng nhập đầy đủ thông tin !")
         }
+        else if(content.message === 'User created! Check mailbox and verify!')
+        {
+            setRedirect(true);
+            alert("Đăng ký thành công !");
+        }
+        else if(content.message === "Something wrong, please check and try again!")
+        {
+            alert("Đăng ký thất bại ! Trường nhập yêu cầu  - (Chữ in hoa, kí hiệu đặc biệt @, chữ số, và chiều dài trên 6) !");
+        }
+        else alert("Đăng ký thất bại ! Tài khoản or email đã tồn tại !");
+
         // const content = await response.json();
     }
 
@@ -62,11 +72,10 @@ const Register = () => {
                                     <input id="email" type="email" placeholder="Email" className="card-input" width= "250px"
                                         onChange={e => setEmail(e.target.value)}/>
                                 </div>
-                                
                             </span>
                         </div>
                         <div className="card-item">
-                            <span margin-right= "20px"> Họ và tên:</span>
+                            <span margin-right= "20px"> Username:</span>
                             <span>
                                 <div className="card-lable">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

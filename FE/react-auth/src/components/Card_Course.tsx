@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CardMedia } from '@material-ui/core';
+import { Link, Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -24,29 +25,35 @@ const useStyles = makeStyles({
     },
   });
   
-   const SimpleCard = (props: { title: any; description: any; imgSrc: any; status: any; }) => {
+   const SimpleCard = (props: { courseName: any; courseShortDetail: any; coourseImg: any; courseId: any}) => {
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
   
-    const { title, description, imgSrc, status} = props;
+    const { courseName, courseShortDetail, coourseImg, courseId } = props;
 
-
+    
     return (
       <Card className={classes.root}>
         <CardContent>
-          <CardMedia style={{height: "150px"}} image={imgSrc} ></CardMedia>
+          <CardMedia style={{height: "150px"}} image={coourseImg} ></CardMedia>
           <Typography variant="h5" component="h2" >
-            {title}
+            {courseName}
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          {/* <Typography className={classes.pos} color="textSecondary">
             {status}
-          </Typography>
+          </Typography> */}
           <Typography variant="body2" component="p">
-            {description}
+            {courseShortDetail}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button  size="small">Learn More</Button>
+          <button onClick={() => {
+            const link ='/details/?id=' + courseId
+            console.log(link)
+            return <Redirect to={link}/>  
+          }}>Click me</button>
+          <Link to={'/details/?id='+ courseId}>About</Link>
         </CardActions>
       </Card>
     );

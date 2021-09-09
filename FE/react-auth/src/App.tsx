@@ -10,12 +10,12 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
 import Profile_Edit from './Pages/Profile_Edit';
-import Drawer_Admin from './Pages/Drawer_Admin';
 import Change_Password from './Pages/Change_Password';
 import AddCourse from './Pages/Manage/AddCourse';
 import ForgotPass from './ForgotPass/ForgotPass';
 import ResetPassword from './ForgotPass/ResetPassword';
 import Details from './Pages/Details';
+import Drawer_Admin from './Pages/System_Admin/Drawer_Admin';
 
 
 

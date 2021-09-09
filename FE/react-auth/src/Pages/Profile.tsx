@@ -31,6 +31,13 @@ const Profile = () => {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [birthDay, setBirthday] = useState('');
+    const [nationality, setnationalCity] = useState('');
+    const [livingCity, setlivingCity] = useState('');
+    const [birthCity, setbirthCity] = useState('');
+    const [phoneNumber, setphoneNumber] = useState('');
     const handleEdit = () =>{
 
     }
@@ -52,6 +59,13 @@ const Profile = () => {
                 {
                   setName(content.data.userName)
                   setEmail(content.data.email)
+                  setFirstName(content.data.firstName)
+                  setLastName(content.data.lastName)
+                  setBirthday(content.data.birthDay)
+                  setnationalCity(content.data.nationality)
+                  setlivingCity(content.data.livingCity)
+                  setbirthCity(content.data.birthCity)
+                  setphoneNumber(content.data.phoneNumber)
                 }
         }    
         )();
@@ -79,18 +93,58 @@ const Profile = () => {
                 </div>
                 <div className="row">
                   <div className="col-sm-9">
-                    <h6 className="mb-6">Phone</h6>
+                    <h6 className="mb-6">First Name</h6>
                   </div>
                   <div className="col-sm-9 text-secondary">
-                    (239) 816-9029
+                    {firstName}
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-sm-9">
-                    <h6 className="mb-6">Address</h6>
+                    <h6 className="mb-6">Last Name</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    {lastName}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-9">
+                    <h6 className="mb-6">Birthday</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    {birthDay}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-9">
+                    <h6 className="mb-6">National City</h6>
+                  </div>
+                  <div className="col-sm-9 text-secondary">
+                    {nationality}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-9">
+                    <h6 className="mb-6">Living City</h6>
                   </div>
                   <div className="text-secondary">
-                    Bay Area, San Francisco, CA
+                    {livingCity}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-9">
+                    <h6 className="mb-6">Birth City</h6>
+                  </div>
+                  <div className="text-secondary">
+                    {birthCity}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-9">
+                    <h6 className="mb-6">Phone Number</h6>
+                  </div>
+                  <div className="text-secondary">
+                    {phoneNumber}
                   </div>
                 </div>
                 <div className="row">

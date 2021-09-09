@@ -1,15 +1,16 @@
 import React from 'react'
 import './Banner.css';
 interface PropsBanner{
-    namecourse: string;
-    des: string;
+    courseName: any;
+    courseShortDetail: any;
 }
 const cardStyle = {
     margin: '20px 0px',
     padding: '8px 16px'
 }
 
-export default function Banner1({namecourse, des}:PropsBanner) {
+export default function Banner1(props: any) {
+    const todo = props.course
     return (
         <div className="mid">
             <div className="banner">
@@ -18,10 +19,10 @@ export default function Banner1({namecourse, des}:PropsBanner) {
                 </div>
                 <div className="title">
                     <div className="card" style={cardStyle}>
-                        <div className="card-title" >{namecourse}</div>
+                        <div className="card-title" >{todo.courseName}</div>
                     </div>
                     <div className="card" style={cardStyle}>
-                        <div className="card-text " >{des}</div>
+                        <div className="card-text " >{todo.courseShortDetail}</div>
                     </div>
                 </div>
                 
