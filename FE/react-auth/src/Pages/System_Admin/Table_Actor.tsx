@@ -16,6 +16,7 @@ import {
   createStyles} from "@material-ui/core";
 import { makeStyles, withStyles} from "@material-ui/core";
 import { deflate } from "zlib";
+import { Redirect } from "react-router-dom";
 
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -53,11 +54,13 @@ const useStyles = makeStyles((them) =>({
 }));
 
 
-function Student_table() {
+function Table_Actor() {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
+  const [id, setID] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [redirect, setRedirect] = useState(false);
 
   const loadUsers = async () => {
       const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser",{
@@ -84,6 +87,26 @@ function Student_table() {
     setPage(0);
   };
 
+  const handleDelete = async (id: string) => {
+    setID(id);
+    // console.log(id);
+      const link = 'https://lmsg03.azurewebsites.net/api/Admin/deleteuser?Id='+id;
+      const res = await fetch(link,{
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    });
+
+    const content = await res.json();
+    if(content.message ==='Success!')
+      alert("Xóa thành công !");
+      setRedirect(true);
+    
+  };
+
+  if(redirect)
+  return <Redirect to="/admin/student"/>;
+
   return (
     <Container className={classes.root}>
       <TableContainer className={classes.container}>
@@ -94,17 +117,17 @@ function Student_table() {
               <StyledTableCell>Email</StyledTableCell>
               <StyledTableCell>Phone</StyledTableCell>
               {/* <TableCell>Company</TableCell> */}
-              <StyledTableCell>ID</StyledTableCell>
+              <StyledTableCell></StyledTableCell>
             </StyledTableRow>
           </TableHead>
           <TableBody>
             {users.slice(page * rowsPerPage,page * rowsPerPage + rowsPerPage).map((user) => (
-              <StyledTableRow hover role="checkbox" tabIndex={-1} key={user['userName']}>
+              <StyledTableRow hover role="checkbox" tabIndex={-1} key={user['id']}>
                 <TableCell>{user['userName']}</TableCell>
                 <TableCell>{user['email']}</TableCell>
                 <TableCell>{user['phoneNumber']}</TableCell>
                 {/* <TableCell>{user['company']}</TableCell> */}
-                <TableCell>{user['id']}</TableCell>
+                <TableCell><button className="w-100 btn btn-lg btn-primary" onClick={() =>handleDelete(user['id'])}>Xóa</button></TableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -123,4 +146,4 @@ function Student_table() {
   );
 }
 
-export default Student_table;
+export default Table_Actor;

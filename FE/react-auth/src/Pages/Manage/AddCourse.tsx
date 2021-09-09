@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
 import { Edit } from '@material-ui/icons';
 import AddChaper from './AddChaper';
@@ -10,8 +10,13 @@ import { Grid } from '@material-ui/core';
 
 const AddCourse = (props: any) => {  
     const [courseName, setCourseName] = useState('');
-    const [courseText, setCourseText] = useState('');
-    const [courseStatus, setCourseStatus] = useState('1');
+    const [courseShortDetail, setCourseText] = useState('');
+    const [categoryId, setCourseStatus] = useState('');
+    const [courseDocument, setCourseDocument] = useState('');
+    const [coourseImg, setCourseImg] = useState('');
+
+
+
     const [todosState, setTodosState] = useState([{
         id: uuidv4(),
         title: 'Chương 1',
@@ -29,8 +34,7 @@ const AddCourse = (props: any) => {
         content: 'Đây là nội dung chương 2',
         completed : false
     }])
-
-
+    
     const addTodoInputStype={
         flex: '10',
         padding :'5px',
@@ -45,35 +49,47 @@ const AddCourse = (props: any) => {
         setCourseText(event.target.value)        
     }
     const changeStatus = (event: any) => {
-        setCourseStatus(event.target.value)        
+        setCourseStatus(event.target.value)       
     }
     const add = async (name: any) =>{
         name.preventDefault()
         
         if(courseName !== '')
-        {
-            // try {
-            //     const res = await axios.post('https://jsonplaceholder.typicode.com/todos',
-            //     {
-            //         id : uuidv4(),
-            //         course,         
-            //     })                     
-            // }catch(error)
-            // {
-            //     console.log(error.mesage)
-            // }
+        {                       
+            const response = await fetch('https://lmsg03.azurewebsites.net/api/Course/addcourse',{
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                courseName,
+                courseShortDetail,
+                categoryId,
+                courseDocument,
+                coourseImg
+                })
+            });
             console.log({
                 courseName,
-                courseText,
-                courseStatus              
+                courseShortDetail,
+                categoryId,
+                courseDocument,
+                coourseImg              
             })
-            setCourseName('')
-            setCourseText('')
-            setCourseStatus('1')
+            const content = await response.json();
+            console.log(content)
+            if(content.message === 'Success!')
+            {   
+                console.log({
+                    courseName,
+                    courseShortDetail,
+                    categoryId              
+                })
+                setCourseName('')
+                setCourseText('')          
+            }
         }
-        
-
-        
+    
+                  
     }
 
     const deleteTodo = (id:any) =>{
@@ -113,6 +129,27 @@ const AddCourse = (props: any) => {
         // border: '5px solid pink'
         width: '50%',
     };
+    const [category, setCategory] = useState([])
+    useEffect(() =>  {
+        (
+            async () => {               
+                const link = 'https://lmsg03.azurewebsites.net//api/Category/getcategory'
+                const response = await fetch(link,{
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'},
+                    credentials: 'include'
+                });
+                
+                const content = await response.json();
+                setCategory(content.data)
+                if(categoryId == '')
+                {
+                    setCourseStatus(content.data[1].categoryId) 
+                }
+                  
+        }    
+        )();
+        });
     return(
         <form onSubmit={add} >
             <h1 style={{textAlign:'center'}}>Thêm Khóa Học</h1>
@@ -125,14 +162,15 @@ const AddCourse = (props: any) => {
                 <pre></pre>
                 <h5>Mô tả: </h5>
                 <input type='text' name='text' placeholder='Nhập tả hóa học' style={addTodoInputStype}
-                value={courseText}
+                value={courseShortDetail}
                 onChange={changeText}></input>
                 <pre></pre>
                 <label htmlFor="status">Chọn trạng thái: </label>
                 <pre></pre>
-                <select id='status' name="status" style={addTodoInputStype} value={courseStatus} onChange={changeStatus}>
-                    <option value='1'>Public</option>
-                    <option value='2'>Private</option>               
+                <select id='status' name="status" style={addTodoInputStype} value={categoryId} onChange={changeStatus}>
+                    {category.map((todo: any, i)=>{
+                    return <option value={todo.categoryId}>{todo.categoryShortDetail}</option>;
+                    })}                            
                 </select>
             </div>
             <div style={left}>
@@ -143,12 +181,16 @@ const AddCourse = (props: any) => {
             <pre></pre>
             <div>
                 {todosState.map((todo, i)=>{
-                return <Chaper 
-                key= {todo.id} 
-                todoProps={todo} 
-                markCompleteFunc={markComplete}
-                deleteTodoFunc={deleteTodo}
-                />;
+                // return <Chaper 
+                // key= {todo.id} 
+                // todoProps={todo} 
+                // markCompleteFunc={markComplete}
+                // deleteTodoFunc={deleteTodo}
+                // />;
+                return <p>                   
+                    {todo.title}
+                    <button onClick={deleteTodo.bind(this, todo.id)}>Delete</button>                   
+                </p>
                 })}
             </div>
         

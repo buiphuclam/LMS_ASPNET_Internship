@@ -13,7 +13,8 @@ import {
   TablePagination,
   ThemeProvider, 
   Theme,
-  createStyles} from "@material-ui/core";
+  createStyles,
+  Button} from "@material-ui/core";
 import { makeStyles, withStyles} from "@material-ui/core";
 import { deflate } from "zlib";
 
@@ -53,10 +54,11 @@ const useStyles = makeStyles((them) =>({
 }));
 
 
-function Student_table() {
+function Student_Table() {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
+  const [id, setID] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const loadUsers = async () => {
@@ -84,6 +86,10 @@ function Student_table() {
     setPage(0);
   };
 
+  const handleDelete = (id: string) => {
+    setID(id);
+    console.log(id);
+  };
   return (
     <Container className={classes.root}>
       <TableContainer className={classes.container}>
@@ -94,17 +100,17 @@ function Student_table() {
               <StyledTableCell>Email</StyledTableCell>
               <StyledTableCell>Phone</StyledTableCell>
               {/* <TableCell>Company</TableCell> */}
-              <StyledTableCell>ID</StyledTableCell>
+              <StyledTableCell></StyledTableCell>
             </StyledTableRow>
           </TableHead>
           <TableBody>
             {users.slice(page * rowsPerPage,page * rowsPerPage + rowsPerPage).map((user) => (
-              <StyledTableRow hover role="checkbox" tabIndex={-1} key={user['userName']}>
+              <StyledTableRow hover role="checkbox" tabIndex={-1} key={user['id']}>
                 <TableCell>{user['userName']}</TableCell>
                 <TableCell>{user['email']}</TableCell>
                 <TableCell>{user['phoneNumber']}</TableCell>
                 {/* <TableCell>{user['company']}</TableCell> */}
-                <TableCell>{user['id']}</TableCell>
+                <TableCell><button className="w-100 btn btn-lg btn-primary" onClick={() =>handleDelete(user['id'])}>Xóa</button></TableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -123,4 +129,4 @@ function Student_table() {
   );
 }
 
-export default Student_table;
+export default Student_Table;

@@ -21,10 +21,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
-import Course from './Course';
 import { BrowserRouter, Route, Switch,Link, withRouter  } from 'react-router-dom';
-import Profile from './Profile';
-import Student_table from '../components/Table_Actor';
+import Course from '../Course';
+import Profile from '../Profile';
+import Table_Student from '../System_Admin/Table_Actor';
+import Student_Table from './Student_Table';
 //import { Switch, Route, Link } from '@material-ui/core';
 
 const drawerWidth = 240;
@@ -79,7 +80,7 @@ interface Props {
 }
 
 
-const Drawer_Admin = (props: any) =>{
+const Drawer_Teacher = (props: any) =>{
   const { history } = props;
   //console.log(props);
   const classes = useStyles();
@@ -89,23 +90,23 @@ const Drawer_Admin = (props: any) =>{
         text: "Danh sách các khóa học",
         icon: <MenuBookSharp/>,
         index:"1",
-        onClick: () => history.push("/admin/courseList")
+        onClick: () => history.push("/teacher/courseList")
     },
     {
-        text: "Quản lý học sinh",
+        text: "Danh sách học sinh",
         icon: <PeopleOutlineSharp/>,
         index:"2",
-        onClick: () => history.push("/admin/student")
+        onClick: () => history.push("/teacher/student")
     },
     {
-        text: "Quản lý giáo viên",
+        text: "Các lớp học hiện đang dạy",
         icon: <NaturePeopleIcon/>,
         index:"3",
         onClick: () => {
         }
     },
     {
-        text: "Quản lý trợ giảng",
+        text: "Danh sách trợ giảng",
         icon: <EmojiPeopleSharp/>,
         index:"4",
         onClick: () => {
@@ -115,7 +116,7 @@ const Drawer_Admin = (props: any) =>{
         text: "Profile",
         icon: <FaceSharp />,
         index:"5",
-        onClick: () => history.push("/admin/profile")
+        onClick: () => history.push("/teacher/profile")
     },
     {
         text: "Đăng xuất",
@@ -169,21 +170,21 @@ return (
     </Drawer>
     <main className={classes.content}>
       <Switch>
-        <Route exact path="/admin/courseList">
+        <Route exact path="/teacher/courseList">
             <Typography paragraph>
               <Course/>
             </Typography>
         </Route>
-        <Route exact path="/admin/profile">
+        <Route exact path="/teacher/profile">
             <Typography>
               <div max-width="500px">
                 <Profile/>
               </div>
             </Typography>
         </Route>
-        <Route exact path="/admin/student">
+        <Route exact path="/teacher/student">
             <Typography>
-              <Student_table/>
+              <Student_Table/>
             </Typography>
         </Route>
       </Switch>
@@ -197,4 +198,4 @@ return (
 
 }
 
-export default  withRouter (Drawer_Admin);
+export default  withRouter (Drawer_Teacher);
