@@ -47,13 +47,9 @@ const useStyles = makeStyles({
           </Typography>
         </CardContent>
         <CardActions>
-          <Button  size="small">Learn More</Button>
-          <button onClick={() => {
-            const link ='/details/?id=' + courseId
-            console.log(link)
-            return <Redirect to={link}/>  
-          }}>Click me</button>
-          <Link to={'/details/?id='+ courseId}>About</Link>
+          <Button  size="small">Learn More</Button>         
+          <Link to={'/details/?id='+ courseId}>Xem khóa học</Link>
+          <Link to={'/addsection/?courseId='+ courseId}>Thêm lớp</Link>
         </CardActions>
       </Card>
     );
