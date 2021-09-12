@@ -123,5 +123,7 @@ namespace LMS_G03.Authentication
                 b.ToTable("UserClaim");
             });
         }
+
+        public DbSet<LMS_G03.Models.Quiz> Quiz { get; set; }
     }
 }
