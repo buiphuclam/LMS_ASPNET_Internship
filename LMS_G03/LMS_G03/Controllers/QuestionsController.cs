@@ -34,7 +34,7 @@ namespace LMS_G03.Controllers
         // GET: getquestionbyCourseIdAndQuizId/{courseid}/{quizid}
         public async Task<ActionResult<Questions>> GetQuestionsByCourseAndQuiz(string courseid,string quizid)
         {
-            var questions = await _context.Questions.Where(s => s.CourseId == courseid ).ToListAsync();
+            var questions = await _context.Questions.Where(s => s.CourseId == courseid && s.QuizId == quizid).ToListAsync();
 
             if (questions.Count == 0 || questions == null)
             {
