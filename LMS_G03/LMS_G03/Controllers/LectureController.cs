@@ -3,7 +3,9 @@ using LMS_G03.Common;
 using LMS_G03.Models;
 using LMS_G03.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +18,11 @@ namespace LMS_G03.Controllers
     public class LectureController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public LectureController(ApplicationDbContext context)
+        private readonly UserManager<User> _userManager;
+        public LectureController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpPost("addlecture")]
@@ -26,7 +30,11 @@ namespace LMS_G03.Controllers
         {
             var section = await _context.Section.FindAsync(lecture.SectionId);
             if (section == null)
-                return NotFound(new Response { Status = "404", Message = Message.NotFound });
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
+
+            var teacher = await _userManager.FindByIdAsync(section.TeacherId);
+            if (teacher == null)
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
 
             var noOfLecture = _context.Lecture.Where(a => a.Section.SectionId.Equals(lecture.SectionId)).Count() + 1;
             string folderName = "Lecture_" + noOfLecture.ToString() + "_" + lecture.LectureDate.ToString();
@@ -40,7 +48,7 @@ namespace LMS_G03.Controllers
                 Description = lecture.Description,
                 Document = lecture.Document,
                 Section = section,
-                LectureFolderId = GoogleDriveFilesRepository.CreateFolder(folderName, section.Teacher.Email, section.SectionFolderId, "reader")
+                LectureFolderId = GoogleDriveFilesRepository.CreateFolder(folderName, teacher.Email, section.SectionFolderId, "reader")
             };
 
             _context.Lecture.Add(newlecture);
@@ -50,10 +58,27 @@ namespace LMS_G03.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new Response { Status = "500", Message = ex.Message });
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = newlecture });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = newlecture });
+        }
+
+        [HttpPost("getlecture")]
+        public async Task<IActionResult> GetLecture([FromBody] string sectionId)
+        {
+            List<Lectures> lectures;
+
+            try
+            {
+                lectures = await _context.Lecture.Where(a => a.SectionId.Equals(sectionId)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = lectures });
         }
 
         [HttpPost("submitassignment")]
@@ -62,7 +87,7 @@ namespace LMS_G03.Controllers
             var lecture = await _context.Lecture.FindAsync(submit.LectureId);
             var user = await _context.Users.FindAsync(submit.UserId);
             if (lecture == null || user == null)
-                return NotFound(new Response { Status = "404", Message = Message.NotFound });
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
 
             AssignmentForLectures assignment = new AssignmentForLectures()
             {
@@ -80,10 +105,10 @@ namespace LMS_G03.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new Response { Status = "500", Message = ex.Message });
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = assignment });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = assignment });
         }
     }
 }

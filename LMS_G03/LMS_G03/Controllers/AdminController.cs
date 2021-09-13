@@ -38,10 +38,10 @@ namespace LMS_G03.Controllers
 
             if (user == null)
             {
-                return NotFound(new Response { Status = "404", Message = Message.NotFound, Data = user });
+                return NotFound(new Response { Status = 404, Message = Message.NotFound, Data = user });
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = user });
         }
         private async Task<IActionResult> GetAllUser([FromQuery] PaginationFilter filter)
         {
@@ -57,11 +57,29 @@ namespace LMS_G03.Controllers
             var pagedReponse = PageHelper.CreatePagedReponse<User>(pagedData, validFilter, users, _uriService, route);
             if (users == 0)
             {
-                pagedReponse.Status = "404";
+                pagedReponse.Status = 404;
                 pagedReponse.Message = "Not found";
             }
 
             return Ok(pagedReponse);
+        }
+
+        [HttpDelete("deleteuser")]
+        public async Task<IActionResult> DeleteUser(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user == null)
+            {
+                return NotFound(new Response { Status = 404, Message = Message.InvalidUser });
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new Response { Status = 500, Message = Message.SomethingWrong });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success });
         }
 
         [HttpGet]
@@ -71,10 +89,10 @@ namespace LMS_G03.Controllers
             var users = await _userManager.GetUsersInRoleAsync(roleName);
             if (users == null)
             {
-                return NotFound(new Response { Status = "404", Message = Message.InvalidUser });
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = users });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = users });
         }
 
         [HttpGet]
@@ -82,7 +100,7 @@ namespace LMS_G03.Controllers
         public async Task<IActionResult> AllRoles()
         {
             var roles = await _roleManager.Roles.ToListAsync();
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = roles });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = roles });
         }
 
         [HttpPost]
@@ -91,10 +109,10 @@ namespace LMS_G03.Controllers
         {
             if (roleName == null || roleName.Equals("") || roleName.Length <= 0)
             {
-                return BadRequest(new Response { Status = "500", Message = Message.SomethingWrong });
+                return BadRequest(new Response { Status = 500, Message = Message.SomethingWrong });
             }
             var newRole = await _roleManager.CreateAsync(new IdentityRole(roleName.Trim()));
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = newRole });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = newRole });
         }
 
         [HttpGet]
@@ -104,11 +122,11 @@ namespace LMS_G03.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                return NotFound(new Response { Status = "404", Message = Message.InvalidUser });
+                return NotFound(new Response { Status = 404, Message = Message.InvalidUser });
             }
 
             var userRole = await _userManager.GetRolesAsync(user);
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = userRole });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = userRole });
         }
 
         [HttpPost]
@@ -118,21 +136,21 @@ namespace LMS_G03.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound(new Response { Status = "404", Message = Message.InvalidUser });
+                return NotFound(new Response { Status = 404, Message = Message.InvalidUser });
             }
             var roles = await _userManager.GetRolesAsync(user);
             var result = await _userManager.RemoveFromRolesAsync(user, roles);
             if (!result.Succeeded)
             {
-                return BadRequest(new Response { Status = "500", Message = Message.ErrorFound });
+                return BadRequest(new Response { Status = 500, Message = Message.ErrorFound });
             }
             result = await _userManager.AddToRolesAsync(user, model.Where(x => x.Selected).Select(y => y.RoleName));
             if (!result.Succeeded)
             {
-                return BadRequest(new Response { Status = "500", Message = Message.ErrorFound });
+                return BadRequest(new Response { Status = 500, Message = Message.ErrorFound });
             }
             var userrole = await _userManager.GetRolesAsync(user);
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = userrole });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = userrole });
         }
 
         [HttpPost]
@@ -148,7 +166,7 @@ namespace LMS_G03.Controllers
             
             if (roles == null || roles.Count <= 0)
             {
-                return NotFound(new Response { Status = "404", Message = Message.NotFound, Data = roles });
+                return NotFound(new Response { Status = 404, Message = Message.NotFound, Data = roles });
             }
 
             foreach (var role in roles)
@@ -156,7 +174,7 @@ namespace LMS_G03.Controllers
                 await _roleManager.DeleteAsync(role);
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = _roleManager.Roles });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = _roleManager.Roles });
         }
         //[HttpPost]
         //[Route("removerole")]

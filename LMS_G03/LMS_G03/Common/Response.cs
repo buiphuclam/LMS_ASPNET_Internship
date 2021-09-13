@@ -7,7 +7,7 @@ namespace LMS_G03.Authentication
 {
     public class Response
     {
-        public string Status { get; set; }
+        public int Status { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
     }

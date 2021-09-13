@@ -33,7 +33,7 @@ namespace LMS_G03.Controllers
                 Section = courseSection,
                 StudentId = enroll.UserId,
                 Student = student,
-                EnrollDate = DateTime.Now.ToString()
+                EnrollDate = DateTime.Now.ToString("yyyy-MM-dd")
             };
 
             await _context.Enroll.AddAsync(newEnroll);
@@ -42,7 +42,7 @@ namespace LMS_G03.Controllers
             
             await _context.SaveChangesAsync();
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = student });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = student });
         }
     }
 }
