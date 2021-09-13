@@ -125,5 +125,9 @@ namespace LMS_G03.Authentication
         }
 
         public DbSet<LMS_G03.Models.Quiz> Quiz { get; set; }
+
+        public DbSet<LMS_G03.Models.QuizForSection> QuizForSection { get; set; }
+
+        public DbSet<LMS_G03.Models.Questions> Questions { get; set; }
     }
 }

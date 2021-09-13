@@ -40,7 +40,7 @@ namespace LMS_G03.Controllers
 
             var quiz = await _context.Quiz.Where(s => s.QuizId == id).Select(s=> new { s.QuizId,s.QuizName,s.QuizTime} ).ToListAsync();
                                       
-            if (quiz == null)
+            if (quiz == null || quiz.Count == 0)
             {
                 return NotFound(new Response { Status = "404", Message = Message.NotFound } );
             }
