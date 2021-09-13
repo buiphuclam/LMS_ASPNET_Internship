@@ -14,5 +14,6 @@ namespace LMS_G03.ViewModel
         public string Wrong1 { get; set; }
         public string Wrong2 { get; set; }
         public string Wrong3 { get; set; }
+        public string QuizId { get; set; }
     }
 }

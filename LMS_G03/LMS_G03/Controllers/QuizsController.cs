@@ -28,7 +28,7 @@ namespace LMS_G03.Controllers
         public async Task<ActionResult<IEnumerable<QuizModel>>> GetQuiz()
         {
             var quiz = await _context.Quiz.Select(s => new QuizModel { QuizId = s.QuizId, QuizName = s.QuizName,QuizTime = s.QuizTime }).ToListAsync();
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = quiz });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = quiz });
             
         }
 
@@ -42,10 +42,10 @@ namespace LMS_G03.Controllers
                                       
             if (quiz == null || quiz.Count == 0)
             {
-                return NotFound(new Response { Status = "404", Message = Message.NotFound } );
+                return NotFound(new Response { Status = 404, Message = Message.NotFound } );
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = quiz });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = quiz });
         }
 
         // PUT: api/Quizs/5
@@ -57,7 +57,7 @@ namespace LMS_G03.Controllers
             var findquiz = await _context.Quiz.FindAsync(quiz.QuizId);
             if (findquiz == null)
             {
-                return NotFound(new Response { Status = "404", Message = "QuizId Not Exits" });
+                return NotFound(new Response { Status = 404, Message = "QuizId Not Exits" });
             }
             try
             {
@@ -68,9 +68,9 @@ namespace LMS_G03.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return BadRequest(new Response { Status = "400", Message = "Update Failed, please try again!" });
+                return BadRequest(new Response { Status = 400, Message = "Update Failed, please try again!" });
             }
-            return Ok(new Response { Status = "200", Message = "Updated", Data = quiz });
+            return Ok(new Response { Status = 200, Message = "Updated", Data = quiz });
         }
 
         // POST: api/Quizs
@@ -90,10 +90,10 @@ namespace LMS_G03.Controllers
             }
             catch
             {
-                return BadRequest(new Response { Status = "400", Message = "Insert Failed, please try again!"});
+                return BadRequest(new Response { Status = 400, Message = "Insert Failed, please try again!"});
             }
 
-            return Ok(new Response { Status = "200", Message = "Inserted", Data = quiz });
+            return Ok(new Response { Status = 200, Message = "Inserted", Data = quiz });
         }
 
         // DELETE: api/Quizs/5
@@ -103,7 +103,7 @@ namespace LMS_G03.Controllers
             var quiz = await _context.Quiz.FindAsync(id);
             if (quiz == null)
             {
-               return NotFound(new Response { Status = "404", Message = "QuizId Not Exits" });
+               return NotFound(new Response { Status = 400, Message = "QuizId Not Exits" });
             }
 
             _context.Quiz.Remove(quiz);
@@ -113,11 +113,11 @@ namespace LMS_G03.Controllers
             }
             catch
             {
-                return BadRequest(new Response { Status = "400", Message = "Delete Failed, please try again!" });
+                return BadRequest(new Response { Status = 400, Message = "Delete Failed, please try again!" });
             }
             
 
-            return Ok(new Response { Status = "200", Message = "Deleted", Data = quiz });
+            return Ok(new Response { Status = 200, Message = "Deleted", Data = quiz });
         }
 
         private bool QuizExists(string id)

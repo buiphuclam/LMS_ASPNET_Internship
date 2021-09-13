@@ -19,5 +19,7 @@ namespace LMS_G03.Models
         public string Wrong1 { get; set; }
         public string Wrong2 { get; set; }
         public string Wrong3 { get; set; }
+        public string QuizId { get; set; }
+        public Quiz Quiz { get; set; }
     }
 }
