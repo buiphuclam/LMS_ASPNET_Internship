@@ -55,8 +55,8 @@ namespace LMS_G03.Common
         {
             var tokenResponse = new TokenResponse
             {
-                AccessToken = "ya29.a0ARrdaM92sCI0TxpH7cKgR3Fe5oTcfu6CaHpZk3n4Kkkp3erg7ia3UFXJEC1qkhPISdIYF9hMimV5e2MOOG9Fa2Tj7xxYWqSy-Ay-nRgEKwvhxke7BgcU4Vrp2N6cMZbrds3pZzpZHSt_DuDQdk5kcY-Xbtz4",
-                RefreshToken = "1//04BMflC4gb6LnCgYIARAAGAQSNwF-L9IrPCebftU_y0-6UNh8boSlZ_AXDqvwz-AXImiNr0K4sAuxfB6slUcxaPbJU0gGI5YF2qM"
+                AccessToken = "ya29.a0ARrdaM814syvaVHAJqw6Tw1PPaxPBxzNsxSaaXdg6SRr5Q2aBiRRKwrxrEBfM32lY9M1nIZQj4COcq88P8g1KC1bXgjrrWe8E224-57MR6cLU0FBU8VRrvijgSxxyIuTVsmtL_jSYKjiOWiCv-3eaRCeoLXn",
+                RefreshToken = "1//04F_Yaklv1AZCCgYIARAAGAQSNwF-L9IrktUsLfwKM3kjC_A_z3DkQxtcoldvJStq2wleyn38XR_tBx5hyiLVge_qR38ODRItIRc"
             };
 
             var applicationName = "Oauth2SACredentials";
@@ -172,7 +172,7 @@ namespace LMS_G03.Common
 
                     return file.Id;
                 }
-                catch (Exception e)
+                catch 
                 {
                     return null;
                 }

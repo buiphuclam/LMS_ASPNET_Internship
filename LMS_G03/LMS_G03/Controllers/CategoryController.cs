@@ -27,7 +27,7 @@ namespace LMS_G03.Controllers
         {
             var checkcategory = await _context.Category.Where(a => a.CategoryCode.Equals(category.CategoryCode.ToUpper())).FirstOrDefaultAsync();
             if (checkcategory != null)
-                return BadRequest(new Response { Status = "500", Message = Message.DuplicateValue });
+                return BadRequest(new Response { Status = 500, Message = Message.DuplicateValue });
 
             Category newcategory = new Category()
             {
@@ -43,10 +43,27 @@ namespace LMS_G03.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new Response { Status = "500", Message = ex.Message });
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = newcategory });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = newcategory });
+        }
+
+        [HttpGet("getcategory")]
+        public async Task<IActionResult> GetCategory()
+        {
+            List<Category> categories;
+
+            try
+            {
+                categories = await _context.Category.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = categories });
         }
 
         [HttpPost("deletecategory")]
@@ -61,10 +78,10 @@ namespace LMS_G03.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new Response { Status = "500", Message = ex.Message });
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
             }
 
-            return Ok(new Response { Status = "200", Message = Message.Success });
+            return Ok(new Response { Status = 200, Message = Message.Success });
         }
     }
 }
