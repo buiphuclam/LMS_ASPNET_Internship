@@ -22,7 +22,7 @@ namespace LMS_G03.Common
             this.PageSize = pageSize;
             this.Data = data;
             this.Message = "Success";
-            this.Status = "200";
+            this.Status = 200;
         }
     }
 }

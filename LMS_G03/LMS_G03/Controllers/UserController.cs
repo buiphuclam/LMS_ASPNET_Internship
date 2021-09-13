@@ -41,10 +41,23 @@ namespace LMS_G03.Controllers
            
             if (user == null)
             {
-                return NotFound(new Response { Status = "404", Message = Message.InvalidUser });
+                return NotFound(new Response { Status = 404, Message = Message.InvalidUser });
             }
             //user.UserInfo = await _context.UserInfo.FindAsync(id);
-            return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = user });
+        }
+
+        [HttpGet("getteacher")]
+        public async Task<IActionResult> GetTeacher()
+        {
+            var teachers = await _userManager.GetUsersInRoleAsync(UserRoles.Teacher);
+
+            if (teachers == null)
+            {
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
+            }
+            //user.UserInfo = await _context.UserInfo.FindAsync(id);
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = teachers });
         }
 
         [HttpPost]
@@ -57,19 +70,19 @@ namespace LMS_G03.Controllers
                 var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
                 var user = await _userManager.FindByIdAsync(token.Issuer);
                 if (user == null)
-                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "404", Message = Message.InvalidUser });
+                    return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
 
                 user.FirstName = profile.FirstName;
                 user.LastName = profile.LastName;
                 user.BirthDay = profile.BirthDay;
-                user.Nationality = profile.NationalCity;
+                user.Nationality = profile.Nationality;
                 user.LivingCity = profile.LivingCity;
                 user.BirthCity = profile.BirthCity;
                 user.PhoneNumber = profile.PhoneNumber;
 
                 await _userManager.UpdateAsync(user);
 
-                return Ok(new Response { Status = "200", Message = Message.Success, Data = user });
+                return Ok(new Response { Status = 200, Message = Message.Success, Data = user });
             }
             catch (Exception ex)
             {

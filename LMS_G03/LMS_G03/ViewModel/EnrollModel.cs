@@ -9,6 +9,5 @@ namespace LMS_G03.ViewModel
     {
         public string UserId { get; set; }
         public string SectionId { get; set; }
-        public string EnrollDate { get; set; }
     }
 }

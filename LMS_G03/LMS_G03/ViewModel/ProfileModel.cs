@@ -10,7 +10,7 @@ namespace LMS_G03.ViewModel
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string BirthDay { get; set; }
-        public string NationalCity { get; set; }
+        public string Nationality { get; set; }
         public string LivingCity { get; set; }
         public string BirthCity { get; set; }
         public string PhoneNumber { get; set; }
