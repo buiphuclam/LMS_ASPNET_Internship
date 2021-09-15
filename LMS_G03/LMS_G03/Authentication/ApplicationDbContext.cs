@@ -19,7 +19,7 @@ namespace LMS_G03.Authentication
         public DbSet<Lectures> Lecture { get; set; }
         public DbSet<AssignmentForLectures> Assignment { get; set; }
         public DbSet<User> User { get; set; }
-       
+        public DbSet<LMS_G03.Models.QuizForLecture> QuizForLecture { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
            
@@ -131,6 +131,6 @@ namespace LMS_G03.Authentication
         public DbSet<LMS_G03.Models.QuizForSection> QuizForSection { get; set; }
 
         public DbSet<LMS_G03.Models.Questions> Questions { get; set; }
-        public DbSet<LMS_G03.Models.QuizForLecture> QuizForLecture { get; set; }
+        
     }
 }

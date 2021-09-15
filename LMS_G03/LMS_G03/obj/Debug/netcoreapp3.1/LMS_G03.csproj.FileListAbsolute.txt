@@ -306,7 +306,6 @@ C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netco
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.csprojAssemblyReference.cache
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.AssemblyInfoInputs.cache
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.AssemblyInfo.cs
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.csproj.CoreCompileInputs.cache
