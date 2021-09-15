@@ -111,9 +111,13 @@ namespace LMS_G03.Common
             return file.Id;
         }
 
-        public static string UploadFileInFolder(string parentsId, IFormFile uploadFile)
+        public static string UploadFileInFolder(string parentsId, IFormFile uploadFile, string comments)
         {
-            if (!uploadFile.Equals(null))
+            if (uploadFile.Equals(null) || parentsId.Equals(null))
+            {
+                return null;
+            }
+            else
             {
                 DriveService service = GetService_v3();
 
@@ -122,6 +126,7 @@ namespace LMS_G03.Common
                 var driveFile = new Google.Apis.Drive.v3.Data.File();
                 driveFile.Name = uploadFile.FileName;
                 driveFile.MimeType = uploadFileMime;
+                driveFile.Description = comments;
                 driveFile.Parents = new string[] { parentsId };
 
                 using (var ms = new MemoryStream())
@@ -140,46 +145,56 @@ namespace LMS_G03.Common
                     return request.ResponseBody.Id;
                 }
             }
-            else
+        }
+
+        public static string ReplaceFileInFolder(string oldFileId, string parentsId, IFormFile uploadFile, string comments)
+        {
+            if (uploadFile.Equals(null) || parentsId.Equals(null))
             {
                 return null;
             }
-        }
-
-        public static string ReplaceFileInFolder(string oldFileId, string parentsId, string uploadFile)
-        {
-            if (System.IO.File.Exists(uploadFile) && (!oldFileId.Equals(null)) && (!parentsId.Equals(null)))
+            else
             {
-                Google.Apis.Drive.v3.DriveService service = GetService_v3();
-
-                Google.Apis.Drive.v3.Data.File body = new Google.Apis.Drive.v3.Data.File();
-                body.Name = System.IO.Path.GetFileName(uploadFile);
-                //body.Description = 
-                body.MimeType = GetMimeType(uploadFile);
-                body.Parents = new List<string> { parentsId };
-                byte[] byteArray = System.IO.File.ReadAllBytes(uploadFile);
-                System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
                 try
                 {
-                    FilesResource.CreateMediaUpload uploadRequest = service.Files.Create(body, stream, GetMimeType(uploadFile));
-                    uploadRequest.SupportsTeamDrives = true;
-                    uploadRequest.Upload();
-
-                    var file = uploadRequest.ResponseBody;
-
+                    DriveService service = GetService_v3();
                     FilesResource.DeleteRequest deleteRequest = service.Files.Delete(oldFileId);
                     deleteRequest.Execute();
 
-                    return file.Id;
+                    return UploadFileInFolder(parentsId, uploadFile, comments);
                 }
                 catch 
                 {
                     return null;
                 }
-            }
-            else
-            {
-                return null;
+                
+
+                //Google.Apis.Drive.v3.DriveService service = GetService_v3();
+
+                //Google.Apis.Drive.v3.Data.File body = new Google.Apis.Drive.v3.Data.File();
+                //body.Name = System.IO.Path.GetFileName(uploadFile);
+                //body.Description = comments;
+                //body.MimeType = GetMimeType(uploadFile);
+                //body.Parents = new List<string> { parentsId };
+                //byte[] byteArray = System.IO.File.ReadAllBytes(uploadFile);
+                //System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
+                //try
+                //{
+                //    FilesResource.CreateMediaUpload uploadRequest = service.Files.Create(body, stream, GetMimeType(uploadFile));
+                //    uploadRequest.SupportsTeamDrives = true;
+                //    uploadRequest.Upload();
+
+                //    var file = uploadRequest.ResponseBody;
+
+                //    FilesResource.DeleteRequest deleteRequest = service.Files.Delete(oldFileId);
+                //    deleteRequest.Execute();
+
+                //    return file.Id;
+                //}
+                //catch 
+                //{
+                //    return null;
+                //}
             }
         }
 

@@ -21,5 +21,6 @@ namespace LMS_G03.ViewModel
         [Required(ErrorMessage = "End date is required")]
         public string EndDate { get; set; }
         public string Document { get; set; }
+        public string Description { get; set; }
     }
 }

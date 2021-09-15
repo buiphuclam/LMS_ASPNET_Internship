@@ -10,11 +10,9 @@ namespace LMS_G03.ViewModel
 {
     public class SubmitAssignmentModel
     {
-        [Required(ErrorMessage = "UserId is required")]
-        public string UserId { get; set; }
-
         [Required(ErrorMessage = "LectureId is required")]
         public string LectureId { get; set; }
+        public string Comments { get; set; }
         [Required(ErrorMessage = "File is required")]
         [DataType(DataType.Upload)]
         public IFormFile uploadFile { get; set; }

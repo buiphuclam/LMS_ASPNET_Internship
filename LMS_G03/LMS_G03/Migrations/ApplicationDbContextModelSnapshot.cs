@@ -313,6 +313,9 @@ namespace LMS_G03.Migrations
                     b.Property<string>("CourseId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Document")
                         .HasColumnType("nvarchar(max)");
 
@@ -323,6 +326,9 @@ namespace LMS_G03.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SectionFolderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectionName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartDate")
@@ -530,7 +536,7 @@ namespace LMS_G03.Migrations
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("LMS_G03.Models.Quiz", null)
+                    b.HasOne("LMS_G03.Models.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId");
                 });

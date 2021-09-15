@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="token.json\**" />
+    <Content Remove="token.json\**" />
+    <EmbeddedResource Remove="token.json\**" />
+    <None Remove="token.json\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.54.0" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.54.0.2397" />
@@ -20,10 +27,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="token.json\" />
   </ItemGroup>
 
 
