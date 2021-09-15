@@ -100,10 +100,18 @@ namespace LMS_G03.Controllers
         [HttpDelete("deletequiz/{id}")]
         public async Task<ActionResult<Quiz>> DeleteQuiz(string id)
         {
+            var questions = await _context.Questions.Where(s => s.QuizId == id).ToListAsync();
+
+            if (questions.Count != 0 )
+            {
+                _context.Questions.RemoveRange(questions);
+                await _context.SaveChangesAsync();
+            }   
+
             var quiz = await _context.Quiz.FindAsync(id);
             if (quiz == null)
             {
-               return NotFound(new Response { Status = 400, Message = "QuizId Not Exits" });
+               return BadRequest(new Response { Status = 400, Message = "QuizId Not Exits" });
             }
 
             _context.Quiz.Remove(quiz);
