@@ -11,7 +11,7 @@ namespace LMS_G03.Authentication
 {
     public class ApplicationDbContext: IdentityDbContext<User>
     {
-        public DbSet<QuizForLecture> QuizForLectures { get; set; }
+        
         public DbSet<Category> Category { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Enroll> Enroll { get; set; }
@@ -131,5 +131,6 @@ namespace LMS_G03.Authentication
         public DbSet<LMS_G03.Models.QuizForSection> QuizForSection { get; set; }
 
         public DbSet<LMS_G03.Models.Questions> Questions { get; set; }
+        public DbSet<LMS_G03.Models.QuizForLecture> QuizForLecture { get; set; }
     }
 }
