@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210915184241_AddQuizForLecture4")]
+    partial class AddQuizForLecture4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -326,20 +328,6 @@ namespace LMS_G03.Migrations
                     b.HasIndex("SectionId");
 
                     b.ToTable("QuizForSection");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.Result", b =>
-                {
-                    b.Property<string>("ResultId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SectionCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ResultId");
-
-                    b.ToTable("Result");
                 });
 
             modelBuilder.Entity("LMS_G03.Models.Section", b =>

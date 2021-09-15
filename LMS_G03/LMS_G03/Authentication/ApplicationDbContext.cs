@@ -20,6 +20,8 @@ namespace LMS_G03.Authentication
         public DbSet<AssignmentForLectures> Assignment { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<LMS_G03.Models.QuizForLecture> QuizForLecture { get; set; }
+        public DbSet<LMS_G03.Models.Result> Result { get; set; }
+        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
            
@@ -124,6 +126,8 @@ namespace LMS_G03.Authentication
             {
                 b.ToTable("UserClaim");
             });
+            builder.Entity<QuizForLecture>()
+        .HasKey(c => new { c.LectureId, c.StudentId });
         }
 
         public DbSet<LMS_G03.Models.Quiz> Quiz { get; set; }
