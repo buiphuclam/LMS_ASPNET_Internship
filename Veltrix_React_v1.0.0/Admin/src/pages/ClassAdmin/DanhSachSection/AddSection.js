@@ -27,9 +27,9 @@ import "flatpickr/dist/themes/material_blue.css"
 import Flatpickr from "react-flatpickr"
 
 export default function AddSection(props) {
-    const {courseName,courseid}= props;
+    const {courseName,courseid, listTeacher}= props;
     const [modal, setmodal] = useState(false)
-    const [listTeacher, setListTeacher] = useState([])
+
     const ternDataSelec = [{id:1, term: 1},{ id:2, term: 2},{id:3, term: 3}]
 
     const [id, setTeacherId] = useState('');
@@ -85,26 +85,7 @@ export default function AddSection(props) {
             const content = await response.json();
         }                 
     }
-    useEffect(() =>  {
-      (
-          async () => {               
-              const link = 'https://lmsg03.azurewebsites.net/api/User/getteacher'
-              const response = await fetch(link,{
-                  method: 'GET',
-                  headers: {'Content-Type': 'application/json'},
-                  credentials: 'include'
-              });
-              
-              const content = await response.json();
-              console.log(content.data)
-              setListTeacher(content.data)
-              // if(teacherId == '')
-              // {
-              //     setTeacherId(content.data[1].id) 
-              // }                 
-      }    
-      )();
-      },[]);
+    
 
     return (
         <>
@@ -223,7 +204,8 @@ export default function AddSection(props) {
                     <Row>
                       <Col lg={12}>
                         <div className="text-right">
-                          <button type="submit" className="btn btn-primary">
+                          <button type="submit" className="btn btn-primary" onClick={() => {
+                    setmodal(false)}}>
                             Thêm
                           </button>
                         </div>

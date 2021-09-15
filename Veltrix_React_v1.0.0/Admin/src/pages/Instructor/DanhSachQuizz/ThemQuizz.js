@@ -82,7 +82,7 @@ const ThemQuizz = (props) => {
           <title>Form File Upload | Veltrix - Responsive Bootstrap 5 Admin Dashboard</title>
         </MetaTags>
         <Container fluid={true}>
-          <Breadcrumbs maintitle="Veltrix" title="Form" breadcrumbItem="Form File Upload" />
+          <Breadcrumbs maintitle="Veltrix" title="Form" breadcrumbItem="Thêm Quizz" />
 
           <Row>
             <Col className="col-12">
@@ -98,14 +98,6 @@ const ThemQuizz = (props) => {
                     <Form>
                       {Quiz}
                     </Form>
-                  </div>
-                  <div className="text-center mt-4">
-                    <button
-                      type="button"
-                      className="btn btn-primary waves-effect waves-light"
-                    >
-                      Send Files
-                    </button>
                   </div>
                 </CardBody>
               </Card>

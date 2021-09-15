@@ -1,11 +1,11 @@
 import React from 'react'
-import { Collapse} from "reactstrap"
+import { Collapse,Row,Col,Button} from "reactstrap"
 import {useState} from "react"
-
+import AddStudent from "./AddStudent"
 
 export default function ListSectionProp(props) {
 
-    const {document, startDate,endDate,term,year,sectionCode} = props
+    const {document, startDate,endDate,term,year,sectionCode, sectionId,listStudent} = props
     const [col1, setCol1] = useState(false);
 
     const t_col1 = () => {
@@ -16,9 +16,17 @@ export default function ListSectionProp(props) {
         <>
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingOne">
-            <button className="accordion-button fw-medium" type="button" onClick={()=>t_col1()} style={{ cursor: "pointer" }}>
+            <Row>
+              <Col sm={11}>
+              <button className="accordion-button fw-medium" type="button" onClick={()=>t_col1()} style={{ cursor: "pointer" }}>
               {sectionCode}
-                </button>
+            </button>
+              </Col >
+              <Col sm={1}>
+                <AddStudent sectionId={sectionId} listStudent={listStudent} />
+              </Col>
+            </Row>
+            
           </h2>
 
 

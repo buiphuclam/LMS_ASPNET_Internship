@@ -4,8 +4,9 @@ import ListSectionProp from './ListSectionProp'
 
 export default function ListSection(props) {
 
-    const {courseId} = props;
+    const {courseId, listStudent} = props;
     const [sectionlist1, setSectionList] = useState([])
+    
 
     
 
@@ -31,10 +32,11 @@ export default function ListSection(props) {
         )();
         },[]);
 
+
         const sectionlist = sectionlist1;
         const getsectionList =(sectionObject) => {
             return (
-                <ListSectionProp  {...sectionObject}/>
+                <ListSectionProp  {...sectionObject} listStudent={listStudent}/>
             // </Col>
             );
         }

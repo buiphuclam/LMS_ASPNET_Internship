@@ -15,13 +15,13 @@ const useStyle={
     }
 }
 export default function ListCourse(props) {
-    const { courseShortDetail, courseId,courseName} =props;
+    const { courseShortDetail, courseId,courseName, listTeacher} =props;
 
     return (
         <>
             <div style={useStyle.formControl}>
             <CardTitle className="h4">{courseName}</CardTitle>
-            <AddSection courseid={courseId} courseName={courseName} />
+            <AddSection courseid={courseId} courseName={courseName} listTeacher={listTeacher} />
             </div>
             <p className="card-title-desc">
               {courseShortDetail}

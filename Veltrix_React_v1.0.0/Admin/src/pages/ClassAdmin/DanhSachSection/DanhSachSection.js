@@ -26,7 +26,11 @@ import Breadcrumbs from "../../../components/Common/Breadcrumb"
 const DanhSachSection = () => {
 
   const [course1, setCourse] = useState([]);
-  const [section1,setSection] = useState([])
+  const [section1,setSection] = useState([]);
+  const [listStudent, setListStudent] = useState([])
+  const [listTeacher,setListTeacher] = useState([])
+  
+
   
   useEffect(() =>  {
     (
@@ -52,14 +56,55 @@ const DanhSachSection = () => {
     }    
     )();
     },[])
+
+    const loadUsers = async () => {
+      const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser/:role?roleName=STUDENT",{
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+      });
+  
+      const content = await res.json();
+      if(content.message ==='Success!')
+      setListStudent(content.data)
+      console.log(content.data)
+      }
+
+    useEffect(() =>  {
+        loadUsers();                     
+    },[]);
+
+    useEffect(() =>  {
+      (
+          async () => {               
+              const link = 'https://lmsg03.azurewebsites.net/api/User/getteacher'
+              const response = await fetch(link,{
+                  method: 'GET',
+                  headers: {'Content-Type': 'application/json'},
+                  credentials: 'include'
+              });
+              
+              const content = await response.json();
+              console.log(content.data)
+              setListTeacher(content.data)
+              // if(teacherId == '')
+              // {
+              //     setTeacherId(content.data[1].id) 
+              // }                 
+      }    
+      )();
+      },[]);
+
+
+    
     
     const courseList = course1;
     const getcourseList =(courseObject) => {
       return (
         // <Col sm={3}>
         <CardBody>
-          <ListCourse {...courseObject} />
-            <ListSection  {...courseObject}/>
+          <ListCourse {...courseObject} listTeacher={listTeacher} />
+            <ListSection  {...courseObject} listStudent={listStudent}/>
         </CardBody>
           
         // </Col>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 
 import {
-    Button,InputGroup, Label
+    Button,InputGroup, Label,FormGroup,
 } from 'reactstrap';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -40,36 +40,39 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function AddQuizz() {
+export default function AddStudent(props) {
+    const {sectionId, listStudent} = props
     const [open, setOpen] = useState(false);
-    const [quizName, setQuizName] = useState('')
-    const [quizTime, setQuizTime] = useState(0)
+
+    const [id, setUserId] = useState('')
+
 
 
 
     const add = async (name) =>{
         name.preventDefault()
 
-        console.log(quizTime)
         
-        if(quizName !== '')
+        const userId= id;
+        console.log(userId)
+        if(userId !== '')
         {                       
-            const response = await fetch('https://lmsg03.azurewebsites.net/api/Quizs/addquiz',{
+            const response = await fetch('https://lmsg03.azurewebsites.net/api/Enroll/enroll',{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify({
-                quizName,
-                quizTime
+                userId,
+                sectionId
                 })
             });
             const content = await response.json();
             
-            console.log(content.data);
-            if(content.message === 'Success!')
-            {  
+            // console.log(content.data);
+            // if(content.message === 'Success!')
+            // {  
                  
-            }
+            // }
            
         }
       }
@@ -78,20 +81,16 @@ export default function AddQuizz() {
     const handleClickOpen = () => {
         setOpen(true);
       };
-      const handleQuizNameChange = (e) => {
-        setQuizName(e.target.value);
+    const handleClose = () => {
+      setOpen(false);
+    };
+      const handleStudentChange = (e) => {
+        setUserId(e.target.value);
       };
-      const handleClose = () => {
-        setOpen(false);
-      };
-      const handleQuizTimeChange = (e) => {
-        setQuizTime(e.target.value);
-      };
-
+      
     return (
         <React.Fragment>
-        <Button  color='info' onClick={()=>handleClickOpen()}><i className="fas fa-book"></i></Button>
-        
+        <Button  color='info' onClick={()=>handleClickOpen()}><i className="fas fa-user-graduate"></i></Button>
         <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -101,37 +100,33 @@ export default function AddQuizz() {
         aria-describedby="alert-dialog-description"
         >
             <form onSubmit={add} style={useStyles.form} >
-            <DialogTitle id="alert-dialog-title">{"Thêm Quizz"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{"Thêm học sinh vào lớp"}</DialogTitle>
             <DialogContent>
               {/* <DialogContentText id="alert-dialog-description">
                 Let Google help apps determine location. This means sending anonymous location data to
                 Google, even when no apps are running.
               </DialogContentText> */}
               
+              
               <FormControl style={useStyles.formControl}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Tên Quizz"
-                type="text"
-                value={quizName}
-                fullWidth
-                onChange={handleQuizNameChange}
 
-                />
+                    <FormGroup >
+                                         
+                    {/* <Label>Chọn học sinh thêm vào lớp</Label> */}
+                     <Select
+                     value={id}
+                     onChange={handleStudentChange}
+                     margin="dense"
+                     fullWidth
+                                    
+                     >
+                         {listStudent.map((todo, i)=>{
+                         return <MenuItem value={todo.id}>{todo.email}</MenuItem>;
+                         })}
+                    </Select>
+                    </FormGroup>
                 </FormControl>
-              <FormControl style={useStyles.formControl}>
-                <TextField
-                    margin="dense"
-                    label="Time"
-                    type="number"
-                    value={quizTime}
-                    fullWidth
-                    onChange={handleQuizTimeChange}
 
-                      />
-                </FormControl>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
