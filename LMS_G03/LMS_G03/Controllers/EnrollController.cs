@@ -24,6 +24,7 @@ namespace LMS_G03.Controllers
         [HttpPost("enroll")]
         public async Task<IActionResult> Enroll([FromBody] EnrollModel enroll)
         {
+
             var student = await _context.Users.FindAsync(enroll.UserId);
             var courseSection = await _context.Section.FindAsync(enroll.SectionId);
 
