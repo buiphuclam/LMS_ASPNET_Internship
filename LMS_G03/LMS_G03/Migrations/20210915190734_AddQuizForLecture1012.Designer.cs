@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210915190734_AddQuizForLecture1012")]
+    partial class AddQuizForLecture1012
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,14 +215,12 @@ namespace LMS_G03.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuizId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SectionId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LectureId");
-
-                    b.HasIndex("QuizId");
 
                     b.HasIndex("SectionId");
 
@@ -342,16 +342,10 @@ namespace LMS_G03.Migrations
                     b.Property<string>("Correct")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LectureId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("QuestionText")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuizName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Wrong1")
@@ -581,10 +575,6 @@ namespace LMS_G03.Migrations
 
             modelBuilder.Entity("LMS_G03.Models.Lectures", b =>
                 {
-                    b.HasOne("LMS_G03.Models.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizId");
-
                     b.HasOne("LMS_G03.Models.Section", "Section")
                         .WithMany("Lectures")
                         .HasForeignKey("SectionId")

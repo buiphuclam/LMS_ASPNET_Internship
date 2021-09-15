@@ -4,14 +4,16 @@ using LMS_G03.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_G03.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210915190258_AddQuizForLecture10")]
+    partial class AddQuizForLecture10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,15 +214,10 @@ namespace LMS_G03.Migrations
                     b.Property<string>("LectureName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QuizId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SectionId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LectureId");
-
-                    b.HasIndex("QuizId");
 
                     b.HasIndex("SectionId");
 
@@ -328,44 +325,6 @@ namespace LMS_G03.Migrations
                     b.HasIndex("SectionId");
 
                     b.ToTable("QuizForSection");
-                });
-
-            modelBuilder.Entity("LMS_G03.Models.Result", b =>
-                {
-                    b.Property<string>("ResultId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Chose")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Correct")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LectureId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QuestionText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("QuizName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Wrong1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Wrong2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Wrong3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ResultId");
-
-                    b.ToTable("Result");
                 });
 
             modelBuilder.Entity("LMS_G03.Models.Section", b =>
@@ -581,10 +540,6 @@ namespace LMS_G03.Migrations
 
             modelBuilder.Entity("LMS_G03.Models.Lectures", b =>
                 {
-                    b.HasOne("LMS_G03.Models.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizId");
-
                     b.HasOne("LMS_G03.Models.Section", "Section")
                         .WithMany("Lectures")
                         .HasForeignKey("SectionId")
@@ -606,7 +561,7 @@ namespace LMS_G03.Migrations
             modelBuilder.Entity("LMS_G03.Models.QuizForLecture", b =>
                 {
                     b.HasOne("LMS_G03.Models.Lectures", "Lecture")
-                        .WithMany()
+                        .WithMany("QuizForLectures")
                         .HasForeignKey("LectureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
