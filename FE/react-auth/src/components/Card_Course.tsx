@@ -24,25 +24,25 @@ const useStyles = makeStyles({
     },
   });
   
-   const SimpleCard = (props: { title: any; description: any; imgSrc: any; status: any; }) => {
+   const SimpleCard = (props: { courseName: any; courseShortDetail: any; coourseImg: any;  }) => {
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
   
-    const { title, description, imgSrc, status} = props;
+    const { courseName, courseShortDetail, coourseImg} = props;
 
 
     return (
       <Card className={classes.root}>
         <CardContent>
-          <CardMedia style={{height: "150px"}} image={imgSrc} ></CardMedia>
+          <CardMedia style={{height: "150px"}} image={courseName} ></CardMedia>
           <Typography variant="h5" component="h2" >
-            {title}
+            {courseName}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {status}
+            {courseName}
           </Typography>
           <Typography variant="body2" component="p">
-            {description}
+            {courseShortDetail}
           </Typography>
         </CardContent>
         <CardActions>

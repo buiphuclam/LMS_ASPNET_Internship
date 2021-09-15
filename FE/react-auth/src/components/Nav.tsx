@@ -29,6 +29,8 @@ const Nav = (props: {name:string, setName: (name:string) => void}) => {
               <div className="nav-btn btn">
               <a href="/" className="nav-font btn">Trang Chủ</a>
               <a href="/admin" className="nav-font btn">Admin</a>
+              <a href="/teacher" className="nav-font btn">Teacher</a>
+              <a href="/CA" className="nav-font btn">Class Admin</a>
               </div>
             </div>
 
@@ -70,6 +72,8 @@ const Nav = (props: {name:string, setName: (name:string) => void}) => {
               <div className="nav-btn btn">
               <a href="/" className="nav-font btn">Trang Chủ</a>
               <a href="/admin" className="nav-font btn">Admin</a>
+              <a href="/teacher" className="nav-font btn">Teacher</a>
+              <a href="/CA" className="nav-font btn">Class Admin</a>
               </div>
             </div>
             <div className="nav-btn btn">

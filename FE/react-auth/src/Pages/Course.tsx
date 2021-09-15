@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid, { GridSpacing } from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -10,7 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
 import SimpleCard from "../components/Card_Course";
-import courseList from './coursejs';
+// import courseList from './coursejs';
 
 
 
@@ -30,6 +30,23 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Course =() => {
+  const [courseList, setCourseList] = useState([]);
+
+  const loadCourses = async () => {
+      const res = await fetch("https://lmsg03.azurewebsites.net/api/Course/getcourse",{
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    });
+
+    const content = await res.json();
+    if(content.message ==='Success')
+      setCourseList(content.data)
+  }
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
   const [spacing, setSpacing] = React.useState<GridSpacing>(2);
   const classes = useStyles();
 
@@ -37,10 +54,10 @@ const Course =() => {
     setSpacing(Number((event.target as HTMLInputElement).value) as GridSpacing);
   };
 
-  const getcourseList =(courseObject: JSX.IntrinsicAttributes & { title: any; description: any; imgSrc: any; status: any; }) => {
+  const getcourseList =(courseObject: JSX.IntrinsicAttributes & { courseName: any; courseShortDetail: any; coourseImg: any; courseId:any;}) => {
     return (
       <Grid item xs={12} sm={4}>
-      <SimpleCard {...courseObject} />
+        <SimpleCard key={courseObject.courseId} {...courseObject} />
       </Grid>
       );
   }
