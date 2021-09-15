@@ -88,10 +88,10 @@ const Addlecture = (props: any) => {
                     body: JSON.stringify(sectionId)
                 });          
                 const content = await response.json();
-                setlistLecture(content.data)                            
+                setlistLecture(content.data.section.lectures)                            
         }    
         )();
-        });
+        },[]);
     return(
         <form onSubmit={add} >
             <h1 style={{textAlign:'center'}}>Thêm chương trình cho lớp</h1>
