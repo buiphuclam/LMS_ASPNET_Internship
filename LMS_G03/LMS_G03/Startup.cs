@@ -135,6 +135,8 @@ namespace LMS_G03
             {
                 options.AddPolicy("SystemAdmin",
                     options => options.RequireClaim(ClaimTypes.Role, UserRoles.SystemAdmin));
+                options.AddPolicy("Teacher",
+                    options => options.RequireClaim(ClaimTypes.Role, UserRoles.Teacher));
             });
 
             services.Configure<IdentityOptions>(opts =>
@@ -190,8 +192,8 @@ namespace LMS_G03
                 //.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .AllowCredentials()
-                .SetIsOriginAllowed(hostName => true));
+                .SetIsOriginAllowed(hostName => true)
+                .AllowCredentials());
 
             app.UseRouting();
 

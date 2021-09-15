@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/LMSG03api/apis/LMSG03",
+      "type": "apis.azure",
+      "apiEndpoint": "https://lmsg03api.azure-api.net/"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/lms-g03dbserver/databases/LMS_G03_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:ConnStr",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

@@ -14,11 +14,14 @@ namespace LMS_G03.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string SectionId { get; set; }
         public string SectionCode { get; set; }
+        // Co the null
+        public string SectionName { get; set; }
         public string Year { get; set; }
         public int Term { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         // Tai lieu chung cua lop
+        public string Description { get; set; }
         public string Document { get; set; }
         // Drive folder id
         public string SectionFolderId { get; set; }

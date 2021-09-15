@@ -218,6 +218,12 @@ namespace LMS_G03.Migrations
                     b.Property<string>("SectionId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("isAssignment")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isQuiz")
+                        .HasColumnType("bit");
+
                     b.HasKey("LectureId");
 
                     b.HasIndex("SectionId");
@@ -375,6 +381,9 @@ namespace LMS_G03.Migrations
                     b.Property<string>("CourseId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Document")
                         .HasColumnType("nvarchar(max)");
 
@@ -385,6 +394,9 @@ namespace LMS_G03.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SectionFolderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SectionName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartDate")

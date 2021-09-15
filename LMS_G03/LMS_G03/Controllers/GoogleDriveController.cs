@@ -18,14 +18,14 @@ namespace LMS_G03.Controllers
         public IActionResult CreateFolder([FromForm] GDriveTest1 upload)
         {
             string folderId = GoogleDriveFilesRepository.CreateFolder(upload.folderName, "testmail.trustme@gmail.com", "root", "writer");
-            string fileId = GoogleDriveFilesRepository.UploadFileInFolder(folderId, upload.uploadFile);
+            string fileId = GoogleDriveFilesRepository.UploadFileInFolder(folderId, upload.uploadFile,"no comment");
             return Ok(folderId + "|" + fileId);
         }
 
         [HttpPost("replacefile")]
-        public async Task<IActionResult> ReplaceFile(String oldFileId, String parentsId, String FileName)
+        public async Task<IActionResult> ReplaceFile(String oldFileId, String parentsId, IFormFile FileName)
         {
-            string fileId = GoogleDriveFilesRepository.ReplaceFileInFolder(oldFileId, parentsId, FileName);
+            string fileId = GoogleDriveFilesRepository.ReplaceFileInFolder(oldFileId, parentsId, FileName,"no comment");
             return Ok(parentsId + "|" + fileId);
         }
     }

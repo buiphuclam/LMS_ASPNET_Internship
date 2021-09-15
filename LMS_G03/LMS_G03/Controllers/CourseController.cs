@@ -4,6 +4,7 @@ using LMS_G03.Common.Helpers;
 using LMS_G03.IServices;
 using LMS_G03.Models;
 using LMS_G03.ViewModel;
+using LMS_G03.ViewModel.ReturnViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -86,6 +87,8 @@ namespace LMS_G03.Controllers
             {
                 CourseName = course.CourseName,
                 CourseShortDetail = course.CourseShortDetail,
+                CourseDocument = course.CourseDocument,
+                CoourseImg = course.CoourseImg,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 CourseCode = courseCode,
@@ -156,10 +159,13 @@ namespace LMS_G03.Controllers
             Section newclass = new Section()
             {
                 SectionCode = sectionCode,
+                SectionName = course.CourseName,
                 Year = section.Year,
                 Term = section.Term,
                 StartDate = section.StartDate,
                 EndDate = section.EndDate,
+                Document = section.Document,
+                Description = section.Description,
                 Course = course,
                 Teacher = teacher,
                 isEnroll = null,
@@ -179,11 +185,12 @@ namespace LMS_G03.Controllers
             return Ok(new Response { Status = 200, Message = Message.Success, Data = newclass });
         }
         [HttpPost("editsection")]
-        public async Task<IActionResult> EditSection([FromBody] SectionModel section, string sectionId)
+        public async Task<IActionResult> EditSection([FromBody] EditSectionModel section)
         {
-            var sectionn = await _context.Section.FindAsync(sectionId);
+            var sectionn = await _context.Section.FindAsync(section.sectionId);
 
-            sectionn.Document = section.Document;
+            sectionn.Document = section.sectionDocument;
+            sectionn.Description = section.sectionDescription;
             _context.Section.Update(sectionn);
             try
             {
@@ -193,7 +200,6 @@ namespace LMS_G03.Controllers
             {
                 return BadRequest(new Response { Status = 500, Message = ex.Message });
             }
-
             return Ok(new Response { Status = 200, Message = Message.Success, Data = sectionn });
         }
 
@@ -241,35 +247,113 @@ namespace LMS_G03.Controllers
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
 
+            var result = await _userManager.IsInRoleAsync(user, UserRoles.Student);
+            if (result)
+            {
+                return await GetStudentCourses(filter, user);
+            }
+            else
+            {
+                result = await _userManager.IsInRoleAsync(user, UserRoles.Teacher);
+                if (result)
+                {
+                    return await GetTeacherCourses(filter, user);
+                }
+                else return Unauthorized();
+            }
+        }
+
+        private async Task<IActionResult> GetTeacherCourses(PaginationFilter filter, User user)
+        {
+            //var count = pagedData.Count();
+            int totalRecoreds = await _context.Section.Where(a => a.TeacherId.Equals(user.Id)).CountAsync();
+
+            if (totalRecoreds == 0)
+                return NotFound(new Response { Status = 404, Message = Message.NotFound, Data = null });
+
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var pagedData = await _context.Section
+                .Where(a => a.TeacherId.Equals(user.Id))
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+
+            var pagedReponse = PageHelper.CreatePagedReponse<Section>(pagedData, validFilter, totalRecoreds, _uriService, route);
+
+            return Ok(pagedReponse);
+        }
+
+        private async Task<IActionResult> GetStudentCourses(PaginationFilter filter, User user)
+        {
+            //var count = pagedData.Count();
+            int totalRecoreds = await _context.Enroll.Where(a => a.StudentId.Equals(user.Id)).CountAsync();
+
+            if (totalRecoreds == 0)
+                return NotFound(new Response { Status = 404, Message = Message.NotFound, Data = null });
+
             var route = Request.Path.Value;
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
             var pagedData = await _context.Enroll
+                .Where(a => a.StudentId.Equals(user.Id))
                 .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
-                .Where(a => a.StudentId.Equals(user.Id))
                 .ToListAsync();
-
-            //var enrolls = await _context.Enroll.Where(a => a.StudentId.Equals(studentId)).ToListAsync();
-            if(pagedData.Count() == 0)
-                return NotFound(new Response { Status = 404, Message = Message.NotFound, Data = pagedData });
 
             List<Section> mycourses = new List<Section>();
             foreach (var enroll in pagedData)
             {
                 var section = _context.Section.Where(a => a.SectionId.Equals(enroll.SectionId)).FirstOrDefault();
                 section.Teacher = await _context.User.FindAsync(section.TeacherId);
-                section.Course = await _context.Course.FindAsync(section.CourseId);
+                //section.Course = await _context.Course.FindAsync(section.CourseId);
                 mycourses.Add(section);
             }
 
-            var count = await _context.Course.CountAsync();
-            var pagedReponse = PageHelper.CreatePagedReponse<Section>(mycourses, validFilter, count, _uriService, route);
-            if (count == 0)
+            var pagedReponse = PageHelper.CreatePagedReponse<Section>(mycourses, validFilter, totalRecoreds, _uriService, route);
+
+            return Ok(pagedReponse);
+        }
+
+        [HttpGet("statistic")]
+        public async Task<IActionResult> Statistic([FromQuery] PaginationFilter filter)
+        {
+            var jwt = Request.Cookies["jwt"];
+            var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+            User user = await _userManager.FindByIdAsync(token.Issuer);
+            if (user == null)
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
+
+            //var count = pagedData.Count();
+            int totalRecoreds = await _context.Enroll.Where(a => a.StudentId.Equals(user.Id)).CountAsync();
+            if (totalRecoreds == 0)
+                return NotFound(new Response { Status = 404, Message = Message.NotFound, Data = null });
+
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+
+            var pagedData = await _context.Enroll
+                .Where(a => a.StudentId.Equals(user.Id))
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+
+            List<ReturnStatistic> mycourses = new List<ReturnStatistic>();
+            for(int i = 0; i < pagedData.Count(); i++)
             {
-                pagedReponse.Status = 404;
-                pagedReponse.Message = "Not found";
+                mycourses.Add(new ReturnStatistic { enroll = pagedData[i], 
+                    sectionName = await _context.Section.Where(a => a.SectionId.Equals(pagedData[i].SectionId))
+                                                        .Select(n => n.SectionName).FirstOrDefaultAsync()
+                                                   });
             }
+
+            var pagedReponse = PageHelper.CreatePagedReponse<ReturnStatistic>(mycourses, validFilter, totalRecoreds, _uriService, route);
+            //if (count == 0)
+            //{
+            //    pagedReponse.Status = 404;
+            //    pagedReponse.Message = "Not found";
+            //}
 
             return Ok(pagedReponse);
         }

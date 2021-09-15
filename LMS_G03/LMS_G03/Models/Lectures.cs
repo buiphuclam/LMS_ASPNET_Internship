@@ -25,6 +25,8 @@ namespace LMS_G03.Models
         // THam chiếu Quiz
         public string QuizId { get; set; }
         public Section Section { get; set; }
+        public bool isQuiz { get; set; }
+        public bool isAssignment { get; set; }
         [ForeignKey("LectureId")]
         public ICollection<AssignmentForLectures> Assignments { get; set; }
     }

@@ -112,7 +112,7 @@ namespace LMS_G03.Controllers
 
                 //var tokenHandler = new JwtSecurityTokenHandler();
 
-                var authClaims = new List<Claim>
+                var idenClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
@@ -120,30 +120,46 @@ namespace LMS_G03.Controllers
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
+                var roleClaims = new List<Claim>();
                 foreach (var userRole in userRoles)
                 {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    roleClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
-                
+
+                var authClaims = idenClaims.Concat(roleClaims).ToList();
+
                 var claimsIdentity = new ClaimsIdentity(authClaims, JwtBearerDefaults.AuthenticationScheme);
                 var userPrincipal = new ClaimsPrincipal(new[] { claimsIdentity });
                 
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
                 var credentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(
+                var idenToken = new JwtSecurityToken(
                     issuer: user.Id,
                     expires: DateTime.Now.AddHours(24),
                     claims: authClaims.ToArray(),
                     signingCredentials: credentials
                     );
-
                 //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),authProperties);
                 // await HttpContext.SignInAsync(userPrincipal);
-                var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+                var jwt = new JwtSecurityTokenHandler().WriteToken(idenToken);
+
+                var roleToken = new JwtSecurityToken(
+                    expires: DateTime.Now.AddHours(24),
+                    claims: roleClaims.ToArray(),
+                    signingCredentials: credentials
+                    );
+                var jwt_r = new JwtSecurityTokenHandler().WriteToken(roleToken);
 
                 Response.Cookies.Append("jwt", jwt, new CookieOptions
                 {
                     HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None
+                });
+
+                Response.Cookies.Append("jwt_r", jwt_r, new CookieOptions
+                {
+                    HttpOnly = false,
                     Secure = true,
                     SameSite = SameSiteMode.None
                 });
@@ -157,22 +173,29 @@ namespace LMS_G03.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            if (Request.Cookies["jwt"] != null)
-            {
-                var jwt = Request.Cookies["jwt"];
-                // HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
-                Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.None,
-                    Expires = DateTime.Now.AddDays(-1)
-                });
-            }
+            //if (Request.Cookies["jwt"] != null)
+            //{
+            //    var jwt = Request.Cookies["jwt"];
+            //    // HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //    var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+            //    Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+            //    {
+            //        HttpOnly = true,
+            //        Secure = true,
+            //        SameSite = SameSiteMode.None,
+            //        Expires = DateTime.Now.AddDays(-1)
+            //    });
+            //}
 
             Response.Cookies.Delete("jwt", new CookieOptions {
                 HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+
+            Response.Cookies.Delete("jwt_r", new CookieOptions
+            {
+                HttpOnly = false,
                 Secure = true,
                 SameSite = SameSiteMode.None
             });
