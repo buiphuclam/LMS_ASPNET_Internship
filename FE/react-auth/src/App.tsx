@@ -16,6 +16,10 @@ import ForgotPass from './ForgotPass/ForgotPass';
 import ResetPassword from './ForgotPass/ResetPassword';
 import Details from './Pages/Details';
 import Drawer_Admin from './Pages/System_Admin/Drawer_Admin';
+import Addsection from './Pages/Manage/Addsection/Addsection';
+import Addlecture from './Pages/Manage/Addsection/Addlecture/Addlecture';
+import Addquiz from './Pages/Manage/Addsection/Addlecture/Addquiz';
+import Addquestion from './Pages/Manage/Addsection/Addlecture/Addquestion';
 
 
 
@@ -74,6 +78,20 @@ function App() {
       </main>
       <main className="form-signin">
           <Route path="/resetpassword" component={ResetPassword}/>
+      </main>
+      
+      <main className="form-signin">
+          <Route path="/addsection" component={Addsection}/>
+      </main>
+      
+      <main className="form-signin">
+          <Route path="/addlecture" component={Addlecture}/>
+      </main>
+      <main className="form-signin">
+          <Route path="/addquiz" component={Addquiz}/>
+      </main>
+      <main className="form-signin">
+          <Route path="/addquestion" component={Addquestion}/>
       </main>
       </BrowserRouter>
     </div>

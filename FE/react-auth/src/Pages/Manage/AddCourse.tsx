@@ -1,55 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types'
-import { Edit } from '@material-ui/icons';
-import AddChaper from './AddChaper';
-import Chapter from './Chaper';
-import Chaper from './Chaper';
-import { v4 as uuidv4 } from 'uuid';
-import { Grid } from '@material-ui/core';
-// import axios from 'axios'
 
 const AddCourse = (props: any) => {  
     const [courseName, setCourseName] = useState('');
-    const [courseShortDetail, setCourseText] = useState('');
-    const [categoryId, setCourseStatus] = useState('');
+    const [courseShortDetail, setcourseShortDetail] = useState('');
+    const [categoryId, setcategoryId] = useState('');
     const [courseDocument, setCourseDocument] = useState('');
     const [coourseImg, setCourseImg] = useState('');
-
-
-
-    const [todosState, setTodosState] = useState([{
-        id: uuidv4(),
-        title: 'Chương 1',
-        link: 'https://www.youtube.com/embed/tf2VslhpWHI',
-        content: `
-        chó lập bị thông đít 
-        chó lập bị thông đít chó lập bị 
-        thông đít chó lập bị thông đít thông đít`,
-        completed : false
-    },
-    {
-        id: uuidv4(),
-        title: 'Chương 2',
-        link: 'https://www.youtube.com/embed/pVrXLT7FH2E',
-        content: 'Đây là nội dung chương 2',
-        completed : false
-    }])
     
     const addTodoInputStype={
         flex: '10',
         padding :'5px',
         width: '300px'
 
-    }
-
-    const changeTitle = (event: any) => {
-        setCourseName(event.target.value)        
-    }
-    const changeText = (event: any) => {
-        setCourseText(event.target.value)        
-    }
-    const changeStatus = (event: any) => {
-        setCourseStatus(event.target.value)       
     }
     const add = async (name: any) =>{
         name.preventDefault()
@@ -68,55 +30,17 @@ const AddCourse = (props: any) => {
                 coourseImg
                 })
             });
-            console.log({
-                courseName,
-                courseShortDetail,
-                categoryId,
-                courseDocument,
-                coourseImg              
-            })
             const content = await response.json();
             console.log(content)
             if(content.message === 'Success!')
-            {   
-                console.log({
-                    courseName,
-                    courseShortDetail,
-                    categoryId              
-                })
+            {  
                 setCourseName('')
-                setCourseText('')          
+                setcourseShortDetail('')          
             }
         }
     
                   
-    }
-
-    const deleteTodo = (id:any) =>{
-        const newTodos = todosState.filter(todo=>{
-            return todo.id !== id
-        })
-        setTodosState(newTodos)
-    }
-
-    const markComplete = (id:any) =>{
-        const newTodos = todosState.map((todo)=>{
-            if (todo.id == id) todo.completed = !todo.completed
-            return todo
-        })
-
-        setTodosState(newTodos)
-    }
-    const addTodo = (title :any, link: any, content:any) =>{
-        const newTodos = [...todosState, {
-            id : uuidv4(),
-            title,
-            link,
-            content,
-            completed : false
-        }] //const newTodos = [{v1}, {v2}, {v3}, {id : 4,title,completed : false}]
-        setTodosState(newTodos)
-    }
+    }   
     const left ={
         width: '70%',
         
@@ -133,7 +57,7 @@ const AddCourse = (props: any) => {
     useEffect(() =>  {
         (
             async () => {               
-                const link = 'https://lmsg03.azurewebsites.net//api/Category/getcategory'
+                const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
                 const response = await fetch(link,{
                     method: 'GET',
                     headers: {'Content-Type': 'application/json'},
@@ -144,7 +68,7 @@ const AddCourse = (props: any) => {
                 setCategory(content.data)
                 if(categoryId == '')
                 {
-                    setCourseStatus(content.data[1].categoryId) 
+                    setcategoryId(content.data[1].categoryId) 
                 }
                   
         }    
@@ -158,45 +82,35 @@ const AddCourse = (props: any) => {
                 <h5>Tên: </h5>
                 <input type='text' name='name' placeholder='Nhập tên khóa học' style={addTodoInputStype}
                 value={courseName}
-                onChange={changeTitle}></input>
+                onChange={(e:any)=>setCourseName(e.target.value)}></input>
                 <pre></pre>
                 <h5>Mô tả: </h5>
                 <input type='text' name='text' placeholder='Nhập tả hóa học' style={addTodoInputStype}
                 value={courseShortDetail}
-                onChange={changeText}></input>
+                onChange={(e:any)=>setcourseShortDetail(e.target.value)}></input>
                 <pre></pre>
-                <label htmlFor="status">Chọn trạng thái: </label>
+                <label htmlFor="status">Chọn thể loại: </label>
                 <pre></pre>
-                <select id='status' name="status" style={addTodoInputStype} value={categoryId} onChange={changeStatus}>
+                <select id='status' name="status" style={addTodoInputStype} value={categoryId} onChange={(e:any)=>setcategoryId(e.target.value)}>
                     {category.map((todo: any, i)=>{
                     return <option value={todo.categoryId}>{todo.categoryShortDetail}</option>;
                     })}                            
                 </select>
+                <h5>Document: </h5>
+                <input type='text' name='text' placeholder='Nhập Document' style={addTodoInputStype}
+                value={courseDocument}
+                onChange={(e:any)=>setCourseDocument(e.target.value)}></input>
+                <pre></pre>
+                <h5>Img: </h5>
+                <input type='text' name='text' placeholder='Nhập Img' style={addTodoInputStype}
+                value={coourseImg}
+                onChange={(e:any)=>setCourseImg(e.target.value)}></input>
+                <pre></pre>
+                <input className="w-100 btn btn-lg btn-primary" type="submit" value="Thêm"/>
             </div>
-            <div style={left}>
-                <AddChaper addTodoFunc={addTodo}/>
-            </div>
-            </div>
-                                                        
-            <pre></pre>
-            <div>
-                {todosState.map((todo, i)=>{
-                // return <Chaper 
-                // key= {todo.id} 
-                // todoProps={todo} 
-                // markCompleteFunc={markComplete}
-                // deleteTodoFunc={deleteTodo}
-                // />;
-                return <p>                   
-                    {todo.title}
-                    <button onClick={deleteTodo.bind(this, todo.id)}>Delete</button>                   
-                </p>
-                })}
-            </div>
-        
-        <input className="w-100 btn btn-lg btn-primary" type="submit" value="Thêm"/>
+            </div>                           
     </form>
     )
 }
 
-export default AddCourse;
+export default AddCourse;            
