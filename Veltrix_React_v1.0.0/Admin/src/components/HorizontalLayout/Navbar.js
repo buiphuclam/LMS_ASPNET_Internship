@@ -90,40 +90,38 @@ const Navbar = props => {
 
                 </li>
                 {/* Quản lý hệ thống */}
-                <li className="nav-item dropdown mega-dropdown">
+                <li className="nav-item dropdown">
                   <Link
                     to="/#"
                     onClick={e => {
                       e.preventDefault()
-                      setui(!ui)
+                      setcomponent(!component)
                     }}
                     className="nav-link dropdown-toggle arrow-none"
                   >
                     <i className="ti-package me-2"></i>
                     {props.t("Quản lý hệ thống")}
                   </Link>
-                  <div
-                    className={classname(
-                      "dropdown-menu mega-dropdown-menu px-2 dropdown-menu-start dropdown-mega-menu-xl",
-                      { show: ui }
-                    )}
+                  
+                   <div
+                    className={classname("dropdown-menu", { show: component })}
                   >
-                    <Row>
-                      <Col lg={6}>
-                        <div>
-                          <Link to="Users" className="dropdown-item">
-                            {props.t("Danh sách người dùng")}
-                          </Link>
+                    <div className="dropdown">
+                    <Link
+                        to="/Instructors"
+                        className="dropdown-item dropdown-toggle arrow-none"
+                      >
+                        {props.t("Quản lý người dùng")} <div className="arrow-none"></div>
+                      </Link>
                         </div>
-                      </Col>
-                      <Col lg={6}>
+                      {/* </Col> */}
+                      {/* <Col lg={6}>
                         <div>
                           <Link to="ui-lightbox" className="dropdown-item">
                             {props.t("Danh sách khóa học")}
                           </Link>
                         </div>
-                      </Col>
-                    </Row>
+                      </Col> */}
                   </div>
                 </li>
                 {/* Quản lý instructor */}
@@ -147,7 +145,19 @@ const Navbar = props => {
                         to="/Instructors"
                         className="dropdown-item dropdown-toggle arrow-none"
                       >
-                        {props.t("Danh sách Instructor")} <div className="arrow-down"></div>
+                        {props.t("Danh sách Instructor")} <div className="arrow-none"></div>
+                      </Link>
+                      <Link
+                        to="/ThemKH"
+                        className="dropdown-item dropdown-toggle arrow-none"
+                      >
+                        {props.t("Thêm khóa học")} <div className="arrow-none"></div>
+                      </Link>
+                      <Link
+                        to="/ThemQuizz"
+                        className="dropdown-item dropdown-toggle arrow-none"
+                      >
+                        {props.t("Thêm Quizz")} <div className="arrow-none"></div>
                       </Link>
                     </div>
                   </div>
@@ -191,6 +201,7 @@ const Navbar = props => {
                     <i className="ti-harddrives me-2"></i>
                     {props.t("Quản lý ClassAdmin")}
                   </Link>
+                  
                   <div
                     className={classname("dropdown-menu", { show: component })}
                   >
@@ -199,7 +210,13 @@ const Navbar = props => {
                         to="/ClassAdmins"
                         className="dropdown-item dropdown-toggle arrow-none"
                       >
-                        {props.t("Danh sách Class Admin")} <div className="arrow-down"></div>
+                        {props.t("Danh sách Class Admin")} <div className="arrow-none"></div>
+                      </Link>
+                      <Link
+                        to="/danhsachsection"
+                        className="dropdown-item dropdown-toggle arrow-none"
+                      >
+                        {props.t("Danh Sách Lớp học")} <div className="arrow-none"></div>
                       </Link>
                     </div>
                   </div>

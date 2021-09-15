@@ -68,15 +68,18 @@ import ResponsiveTables from "../pages/Tables/ResponsiveTables"
 import EditableTables from "../pages/Tables/EditableTables"
 
 // Forms
-import FormElements from "../pages/Forms/FormElements"
+// import FormElements from "../pages/Forms/"
 import FormAdvanced from "../pages/Forms/FormAdvanced"
-import FormEditors from "../pages/Forms/FormEditors"
+import DanhSachSection from "../pages/ClassAdmin/DanhSachSection/DanhSachSection"
 import FormValidations from "../pages/Forms/FormValidations"
 import FormMask from "../pages/Forms/FormMask"
 import FormRepeater from "../pages/Forms/FormRepeater"
-import FormUpload from "../pages/Forms/FormUpload"
+// import ThemQuizz from "../pages/Forms/FormUpload"
 import FormWizard from "../pages/Forms/FormWizard"
 import FormXeditable from "../pages/Forms/FormXeditable"
+// Intrustor
+import ThemKH from "../pages/Instructor/ThemKH"
+import ThemQuizz from "../pages/Instructor/DanhSachQuizz/ThemQuizz"
 
 //Ui
 import Quanly_LMS from "../pages/Ui/Quanly_LMS"
@@ -163,15 +166,18 @@ const userRoutes = [
   { path: "/maps-leaflet", component: MapsLeaflet },
 
   // Forms
-  { path: "/form-elements", component: FormElements },
+  { path: "/themkh", component: ThemKH },
   { path: "/form-advanced", component: FormAdvanced },
-  { path: "/form-editors", component: FormEditors },
+  { path: "/danhsachsection", component: DanhSachSection},
   { path: "/form-mask", component: FormMask },
   { path: "/form-repeater", component: FormRepeater },
-  { path: "/form-uploads", component: FormUpload },
+  // { path: "/form-uploads", component: FormUpload },
   { path: "/form-wizard", component: FormWizard },
   { path: "/form-validation", component: FormValidations },
   { path: "/form-xeditable", component: FormXeditable },
+
+  { path: "/ThemQuizz", component: ThemQuizz },
+  
 
   // Ui
   { path: "/LMS", component: Quanly_LMS },
