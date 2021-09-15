@@ -37,11 +37,11 @@ namespace LMS_G03.Controllers
         [HttpPost("addlecture")]
         public async Task<IActionResult> AddLecture([FromBody] LectureModel lecture)
         {
-            var section = await _context.Section.FindAsync(lecture.SectionId);
+            var section = await _context.Section.FindAsync(lecture.SectionId.Trim());
             if (section == null)
                 return NotFound(new Response { Status = 404, Message = Message.NotFound });
 
-            var teacher = await _userManager.FindByIdAsync(section.TeacherId);
+            var teacher = await _userManager.FindByIdAsync(section.TeacherId.Trim());
             if (teacher == null)
                 return NotFound(new Response { Status = 404, Message = Message.NotFound });
 
@@ -50,12 +50,14 @@ namespace LMS_G03.Controllers
 
             Lectures newlecture = new Lectures()
             {
-                SectionId = lecture.SectionId,
-                LectureName = "Lecture " + noOfLecture + " " + lecture.LectureName,
-                LectureDate = lecture.LectureDate,
-                LectureDetail = lecture.LectureDetail,
-                Description = lecture.Description,
-                Document = lecture.Document,
+                SectionId = lecture.SectionId.Trim(),
+                LectureName = lecture.LectureName.Trim(),
+                LectureDate = lecture.LectureDate.Trim(),
+                LectureDetail = lecture.LectureDetail.Trim(),
+                Description = lecture.Description.Trim(),
+                Document = lecture.Document.Trim(),
+                isAssignment = lecture.isAssignment,
+                isQuiz = lecture.isQuiz,
                 Section = section,
                 LectureFolderId = GoogleDriveFilesRepository.CreateFolder(folderName, teacher.Email, section.SectionFolderId, "reader")
             };
@@ -73,15 +75,43 @@ namespace LMS_G03.Controllers
             return Ok(new Response { Status = 200, Message = Message.Success, Data = newlecture });
         }
 
+        [HttpPost("editlecture")]
+        public async Task<IActionResult> EditLecture([FromBody] LectureModel lecture)
+        {
+            var targetLecture = await _context.Lecture.FindAsync(lecture.LectureId.Trim());
+            if (targetLecture == null)
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
+
+            targetLecture.LectureName = lecture.LectureName.Trim();
+            targetLecture.LectureDetail = lecture.LectureDetail.Trim();
+            targetLecture.Description = lecture.Description.Trim();
+            targetLecture.Document = lecture.Document.Trim();
+            targetLecture.isAssignment = lecture.isAssignment;
+            targetLecture.isQuiz = lecture.isQuiz;
+
+            try
+            {
+                _context.Lecture.Update(targetLecture);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = targetLecture });
+        }
+
         [HttpPost("getlecture")]
         public async Task<IActionResult> GetLecture([FromBody] string sectionId)
         {
             ReturnSection thisSection = new ReturnSection();
             try
             {
-                var s = await _context.Section.FindAsync(sectionId);
+                var s = await _context.Section.FindAsync(sectionId.Trim());
                 thisSection.section = s;
-                thisSection.section.Lectures = await _context.Lecture.Where(a => a.SectionId.Equals(sectionId)).ToListAsync();
+                thisSection.section.Lectures = await _context.Lecture.Where(a => a.SectionId.Equals(sectionId.Trim()))
+                                                            .OrderBy(a => a.LectureDate).ToListAsync();
                 var teacherLastName = await _context.User.Where(a => a.Id.Equals(thisSection.section.TeacherId))
                                                         .Select(n => n.LastName).FirstOrDefaultAsync();
                 var teacherFirstName = await _context.User.Where(a => a.Id.Equals(thisSection.section.TeacherId))
@@ -107,7 +137,7 @@ namespace LMS_G03.Controllers
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
 
-            var lecture = await _context.Lecture.FindAsync(submit.LectureId);
+            var lecture = await _context.Lecture.FindAsync(submit.LectureId.Trim());
             if (lecture == null)
                 return NotFound(new Response { Status = 404, Message = Message.NotFound });
 

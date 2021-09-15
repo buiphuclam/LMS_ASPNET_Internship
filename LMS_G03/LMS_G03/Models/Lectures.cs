@@ -23,6 +23,7 @@ namespace LMS_G03.Models
         public string LectureFolderId { get; set; }
         public string SectionId { get; set; }
         public Section Section { get; set; }
+        public bool isQuiz { get; set; }
         public bool isAssignment { get; set; }
         [ForeignKey("LectureId")]
         public ICollection<AssignmentForLectures> Assignments { get; set; }

@@ -30,6 +30,21 @@ namespace LMS_G03.Controllers
             var questions = await _context.Questions.ToListAsync();
            return Ok(new Response { Status = 200, Message = Message.Success, Data = questions });
         }
+
+        // GET: api/Questions
+        [HttpGet("getquestionbyQuizId/{quizid}")]
+        public async Task<ActionResult<IEnumerable<Questions>>> GetQuestionsByQuizId(string quizid)
+        {
+            var questions = await _context.Questions.Where(s => s.QuizId == quizid).ToListAsync();
+
+            if (questions.Count == 0 || questions == null)
+            {
+                return NotFound(new Response { Status = 404, Message = "NotFound! please check QuizId" });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = questions });
+        }
+
         [HttpGet("getquestionbyCourseIdAndQuizId/{courseid}/{quizid}")]
         // GET: getquestionbyCourseIdAndQuizId/{courseid}/{quizid}
         public async Task<ActionResult<Questions>> GetQuestionsByCourseAndQuiz(string courseid,string quizid)

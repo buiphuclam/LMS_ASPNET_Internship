@@ -8,6 +8,7 @@ namespace LMS_G03.ViewModel
 {
     public class LectureModel
     {
+        public string LectureId { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public string LectureName { get; set; }
         public string LectureDetail { get; set; }
@@ -19,5 +20,7 @@ namespace LMS_G03.ViewModel
         public string Document { get; set; }
         // All assignment link (only for GV)
         public string SectionId { get; set; }
+        public bool isAssignment { get; set; }
+        public bool isQuiz { get; set; }
     }
 }
