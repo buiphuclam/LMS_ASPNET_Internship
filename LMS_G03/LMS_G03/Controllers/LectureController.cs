@@ -93,6 +93,27 @@ namespace LMS_G03.Controllers
             result.LectureId = LectureId;
             result.StudentId = StudentId;
         }
+
+        // GET: api/Quizs/5
+        [HttpGet("getreviewquiz/{idlecture}/{idstudent}")]
+        public async Task<ActionResult> GetQuizReview(string idlecture, string idstudent)
+        {
+            //var quiz = await _context.Quiz.FindAsync(id);
+            if(idlecture ==null || idstudent == null)
+                return BadRequest(new Response { Status = 400, Message = "LectureId and StudentId must not be null!" });
+            var findlecture = await _context.Lecture.FindAsync(idlecture);
+            var findstudent = await _context.User.FindAsync(idstudent);
+            if(findlecture == null || findstudent == null)
+                return BadRequest(new Response { Status = 400, Message = "LectureId or StudentId Invalid!" });
+            var quiz = await _context.Result.Where(s => s.LectureId == idlecture && s.StudentId == idstudent).ToListAsync();
+
+            if (quiz == null || quiz.Count == 0)
+            {
+                return BadRequest(new Response { Status = 400, Message = "Answer List is emply!" });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success, Data = quiz });
+        }
         [HttpPost("submitquiz")]
         public async Task<ActionResult> submitquiz([FromBody] List<QuestionSubmit> questionSubmits, string idlecture,string idstudent)
         {
@@ -114,7 +135,8 @@ namespace LMS_G03.Controllers
 
             foreach (var item in questionSubmits)
             {
-                numberCorrect++;
+                if(item.Chose == item.Correct)
+                    numberCorrect++;
                 Result result = new Result();
                 SetValuesResult(ref result, findquiz.QuizName, item.QuestionText, item.Correct, item.Wrong1, item.Wrong2, item.Wrong3, idlecture, idstudent, item.Chose);
                 _context.Result.Add(result);
@@ -133,10 +155,20 @@ namespace LMS_G03.Controllers
             }
             catch
             {
+                var quiz = await _context.QuizForLecture.Where(s => s.LectureId == idlecture && s.StudentId == idstudent).ToListAsync();
+
+                if (quiz.Count != 0)
+                {
+                    return BadRequest(new Response { Status = 400, Message = "You have Done it Before!" });
+                }
                 return BadRequest(new Response { Status = 400, Message = "Submit Failed, please try again!" });
             }
-
-            return Ok(new Response { Status = 200, Message = "Submited", Data = findlecture });
+            ResultSubmit resultSubmit = new ResultSubmit();
+            resultSubmit.QuizName = findquiz.QuizName;
+            resultSubmit.TotalQuestions = totalquestion;
+            resultSubmit.NumberOfCorrect = numberCorrect;
+            resultSubmit.Mark = ScoreForQuiz(numberCorrect, totalquestion);
+            return Ok(new Response { Status = 200, Message = "Submited", Data = resultSubmit });
         }
 
         [HttpPost("addquizforlecture/{idlecture}/{idquiz}")]
