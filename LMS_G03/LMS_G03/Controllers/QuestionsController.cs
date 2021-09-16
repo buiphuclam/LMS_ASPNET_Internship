@@ -80,6 +80,10 @@ namespace LMS_G03.Controllers
         {
             if(questions.QuestionText == null || questions.Correct == null|| questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null || questions.CourseId == null )
                 return BadRequest(new Response { Status = 400, Message = "QuestionText, Correct, Wrong1, Wrong2, Wrong3, CourseId Not Null!" });
+            if(questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
+                || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions .Wrong3)
+                return BadRequest(new Response { Status = 400, Message = "Answers cannot be repeated" });
+
             var findquestion = await _context.Questions.FindAsync(questions.QuestionId);
             if (findquestion == null)
             {
@@ -112,6 +116,9 @@ namespace LMS_G03.Controllers
         {
             if (questions.QuestionText == null || questions.Correct == null || questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null || questions.CourseId == null)
                 return BadRequest(new Response { Status = 400, Message = "QuestionText, Correct, Wrong1, Wrong2, Wrong3, CourseId Not Null!" });
+            if (questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
+                || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions.Wrong3)
+                return BadRequest(new Response { Status = 400, Message = "Answers cannot be repeated" });
             var newquestion = new Questions();
             newquestion.QuestionText = questions.QuestionText;
             newquestion.Correct = questions.Correct;
