@@ -35,7 +35,7 @@ namespace LMS_G03.Controllers
         [HttpGet("getquestionbyQuizId/{quizid}")]
         public async Task<ActionResult<IEnumerable<Questions>>> GetQuestionsByQuizId(string quizid)
         {
-            var questions = await _context.Questions.Where(s => s.QuizId == quizid).ToListAsync();
+            var questions = await _context.Questions.Where(s => s.QuizId == quizid).Select(s=> new QuestionSubmit() { QuestionId = s.QuestionId, QuestionText = s.QuestionText, CourseId = s.CourseId, Correct = s.Correct, Wrong1 = s.Wrong1, Wrong2 = s.Wrong2, Wrong3 = s.Wrong3, QuizId = s.QuizId} ).ToListAsync();
 
             if (questions.Count == 0 || questions == null)
             {
@@ -114,10 +114,10 @@ namespace LMS_G03.Controllers
         [HttpPost("addquestion")]
         public async Task<ActionResult<QuestionModel>> PostQuestions(QuestionModel questions)
         {
-            if (questions.QuestionText == null || questions.Correct == null || questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null || questions.CourseId == null)
+            if(questions.QuestionText == null || questions.Correct == null|| questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null || questions.CourseId == null )
                 return BadRequest(new Response { Status = 400, Message = "QuestionText, Correct, Wrong1, Wrong2, Wrong3, CourseId Not Null!" });
-            if (questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
-                || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions.Wrong3)
+            if(questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
+                || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions .Wrong3)
                 return BadRequest(new Response { Status = 400, Message = "Answers cannot be repeated" });
             var newquestion = new Questions();
             newquestion.QuestionText = questions.QuestionText;

@@ -74,7 +74,68 @@ namespace LMS_G03.Controllers
 
             return Ok(new Response { Status = 200, Message = Message.Success, Data = newlecture });
         }
+        private double ScoreForQuiz(int numberCorrect, int totalQuestions)
+        {
+            double score = ((double)numberCorrect / totalQuestions) * 10.0;
+            return Math.Round(score, 2);
+        }
+        private void SetValues
+        [HttpPost("submitquiz")]
+        public async Task<ActionResult> submitquiz([FromBody] List<QuestionSubmit> questionSubmits, string idlecture,string idstudent)
+        {
+            if(questionSubmits.Count == 0 || questionSubmits == null)
+                return BadRequest(new Response { Status = 400, Message = "Answer is empty!" });
+            if (idlecture == null || idstudent == null)
+                return BadRequest(new Response { Status = 400, Message = "LectureId and StudentId must Not be Null!" });
+            var findlecture = await _context.Lecture.FindAsync(idlecture);
+            var findstudent = await _context.User.FindAsync(idstudent);
+            if (findlecture == null || findstudent == null)
+            {
+                return BadRequest(new Response { Status = 400, Message = "LectureId or StudentId Not Invalid!" });
+            }
+            int totalquestion = questionSubmits.Count;
+            int numberCorrect = 0;
 
+            foreach (var item in questionSubmits)
+            {
+                numberCorrect++;
+                
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return BadRequest(new Response { Status = 400, Message = "Insert Failed, please try again!" });
+            }
+
+            return Ok(new Response { Status = 200, Message = "Inserted", Data = findlecture });
+        }
+
+        [HttpPost("addquizforlecture/{idlecture}/{idquiz}")]
+        public async Task<ActionResult<QuizModel>> AddQuiz(string idlecture, string idquiz )
+        {
+            if (idlecture == null || idquiz == null)
+                return BadRequest(new Response { Status = 400, Message = "LectureId and QuizId must Not be Null!" });
+            var findlecture = await _context.Lecture.FindAsync(idlecture);
+            var findquiz = await _context.Quiz.FindAsync(idquiz);
+            if (findlecture == null || findquiz == null)
+            {
+                return BadRequest(new Response { Status = 400, Message = "LectureId or QuizId Not Invalid!" });
+            }
+            findlecture.QuizId = idquiz;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return BadRequest(new Response { Status = 400, Message = "Insert Failed, please try again!" });
+            }
+
+            return Ok(new Response { Status = 200, Message = "Inserted", Data = findlecture });
+        }
         [HttpPost("editlecture")]
         public async Task<IActionResult> EditLecture([FromBody] LectureModel lecture)
         {
