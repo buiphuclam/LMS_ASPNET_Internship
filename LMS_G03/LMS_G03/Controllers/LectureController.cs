@@ -79,7 +79,20 @@ namespace LMS_G03.Controllers
             double score = ((double)numberCorrect / totalQuestions) * 10.0;
             return Math.Round(score, 2);
         }
-        private void SetValues
+        private void SetValuesResult( ref Result result, string QuizName,
+            string QuestionText, string Correct, string Wrong1, 
+            string Wrong2, string Wrong3, string LectureId, string StudentId, 
+            string Chose)
+        {
+            result.QuizName = QuizName;
+            result.QuestionText = QuestionText;
+            result.Correct = Correct;
+            result.Wrong1 = Wrong1;
+            result.Wrong2 = Wrong2;
+            result.Wrong3 = Wrong3;
+            result.LectureId = LectureId;
+            result.StudentId = StudentId;
+        }
         [HttpPost("submitquiz")]
         public async Task<ActionResult> submitquiz([FromBody] List<QuestionSubmit> questionSubmits, string idlecture,string idstudent)
         {
@@ -93,24 +106,37 @@ namespace LMS_G03.Controllers
             {
                 return BadRequest(new Response { Status = 400, Message = "LectureId or StudentId Not Invalid!" });
             }
+
+            var findquiz = await _context.Quiz.FindAsync(questionSubmits[0].QuizId);
+
             int totalquestion = questionSubmits.Count;
             int numberCorrect = 0;
 
             foreach (var item in questionSubmits)
             {
                 numberCorrect++;
-                
+                Result result = new Result();
+                SetValuesResult(ref result, findquiz.QuizName, item.QuestionText, item.Correct, item.Wrong1, item.Wrong2, item.Wrong3, idlecture, idstudent, item.Chose);
+                _context.Result.Add(result);
             }
+
+
+            QuizForLecture quizForLecture = new QuizForLecture();
+            quizForLecture.LectureId = idlecture;
+            quizForLecture.StudentId = idstudent;
+            quizForLecture.QuizName = findquiz.QuizName;
+            quizForLecture.Mark = ScoreForQuiz(numberCorrect, totalquestion);
+            _context.QuizForLecture.Add(quizForLecture);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch
             {
-                return BadRequest(new Response { Status = 400, Message = "Insert Failed, please try again!" });
+                return BadRequest(new Response { Status = 400, Message = "Submit Failed, please try again!" });
             }
 
-            return Ok(new Response { Status = 200, Message = "Inserted", Data = findlecture });
+            return Ok(new Response { Status = 200, Message = "Submited", Data = findlecture });
         }
 
         [HttpPost("addquizforlecture/{idlecture}/{idquiz}")]
