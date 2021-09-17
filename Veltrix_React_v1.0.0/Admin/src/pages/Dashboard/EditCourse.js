@@ -107,6 +107,8 @@ export default function EditCourse(props) {
         
         const courseShortDetail = convertToRaw(courseShortDetail1.getCurrentContent()).blocks[0].text;
         const courseDocument = convertToRaw(courseDocument1.getCurrentContent()).blocks[0].text;
+        // console.log(courseName);
+        // console.log(categoryId);
         setCourseImg(null);
         if(courseName !== '')
         {                       

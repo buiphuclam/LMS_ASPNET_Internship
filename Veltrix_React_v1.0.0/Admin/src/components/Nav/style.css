@@ -1,0 +1,698 @@
+.layout-top {
+    padding-top: 2.5rem;
+}
+
+.layout-bottom {
+    padding-bottom: 2.5rem;
+}
+
+.inline {
+    display: inline-block
+}
+
+.nav-logo{
+    /* logo-white-background 1 */
+
+    position: static;
+    width: 100px;
+    height: 70px;
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+    margin: 0px 0px;
+    margin-right:   0px;
+
+}
+.nav {
+    text-align: center;
+    height: 70px;
+    padding: 0 50px;
+
+    color: rgb(60, 59, 55);
+    -webkit-box-shadow: 10px 10px 10px 10px rgba(0.15, 0.15, 0, 0.15);
+    -moz-box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.15);
+}
+.nav1 {
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.navName{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.nav-position {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 999;
+}
+
+nav {
+    background-color: white;
+    margin: auto;
+    padding: auto;
+}
+
+
+.outline-none {
+    outline: none;
+    box-shadow: none;
+}
+
+.none-button {
+    outline: none;
+    width: 135px;
+}
+
+.partner-button {
+    background-color: #eea10c;
+    font-weight: bold;
+    margin-left: 320px;
+    height: 40px;
+    width: 250px;
+    
+}
+
+.partner-button:hover {
+    border: 1px solid #ffaa01;
+    display: block;
+    background-color: #ffaa01;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+  .container-fluid {
+    position:relative;
+    text-align: center;
+    color: white;
+  }
+  
+
+  .bottom-left {
+    position: absolute;
+    bottom: 80px;
+    left: 120px;
+  }
+  
+  
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+  
+
+  .top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+  }
+  
+  
+  .bottom-right {
+    position: absolute;
+    bottom: 80px;
+    right: 250px;
+  }
+  
+
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .mid-left{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+  }
+
+  .youremail-search{
+    height: 40px;
+    width: 280px;
+    margin-right: 280px;
+    
+    background: #EFEFEF;
+    border: 2px solid #E8E8E8;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+  .mid-img{
+    width: 1500px;    
+    font-family: Advent Pro;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 70px;
+    background: -webkit-linear-gradient( #3DC6D9, #E75B2E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+  }
+  .mid2-text{
+    width: 400px;
+    
+    font-family: Berlin Sans FB;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 60px;
+    color: black;
+
+
+  }
+  .mid3-top-left {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+  }
+  .mid3-text{
+    font-family: Bahnschrift;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    width: 400px;
+
+  }
+  
+
+  .mid3-mid-right {
+    position: absolute;
+    top: 30%;
+    right: 5%;
+
+  }
+  
+
+  .mid3-mid-left {
+    position: absolute;
+    top: 30%;
+    left: 5%;
+
+  }
+  .mid3-mid-mid {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .mid3-frame{
+    width: 400px;
+    height: 50px;
+    background: #415EA8;
+  }
+
+
+  .mid3-top-left {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+  }
+  .mid3-text{
+    font-family: Bahnschrift;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    width: 400px;
+
+  }
+
+  .mid4-header{
+      width: 600px;
+      text-align: center;
+      color:black;
+      margin: 50px 250px;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: bold;
+  }
+  .mid4-frame{
+    width: 250px;
+    height: 280px;
+    border: 1px solid black;
+    background-color: #ffff;
+    margin: 10px;
+    
+  }
+  .mid4-frame-doitac{
+    width: 100%;
+    height: 200px;
+    border: 1px solid black;
+    background: #C24E4E;
+  }
+
+  .mid4{
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 110px;
+    color: rgb(60, 59, 55);
+
+  }
+.mid4-row{
+    height: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 110px;
+    color: rgb(60, 59, 55);
+}
+.mid5-img-left{
+    position: absolute;
+    top: 25%;
+    left: 10%;
+}
+.mid5-top-right{
+    position: absolute;
+    top: 10%;
+    right: 20%;
+}
+.mid5-header{
+    position: absolute;
+    width: 600px;
+    text-align: center;
+    color:black;
+    font-size: 25px;
+}
+.mid5-right-round{
+    position: absolute;
+    top: 24%;
+    right: 55%;
+    margin-top: 10px;
+}
+.mid5-round{
+position: absolute;
+width: 50px;
+height: 50px;
+padding-top: 10px;
+text-align: center;
+
+border: 5px solid #EEA10C;
+border-radius: 50%;
+}
+.mid5-right-round-text{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+
+}
+.mid5-text{
+    width: 400px;
+    font-size: 20px;
+    text-align: left;
+    font-family: Roboto;
+    color:black;
+    font-weight: bold;
+}
+.mid5-margin-top2{
+    margin-top: 100px;
+}
+.mid5-margin-top3{
+    margin-top: 200px;
+}
+.mid5-margin-top4{
+    margin-top: 300px;
+}
+
+.mid5-line-p{
+width: 45px;
+height: 0px;
+border: 1px dashed #000000;
+transform: rotate(90deg);
+}
+.mid5-line{
+    position: absolute;
+    top: 31.5%;
+    left: 45%;
+
+}
+.mid6-top-mid{
+    position: absolute;
+    top:20%;
+}
+.mid6-frame-p{
+width: 100%;
+height: 150px;
+background-color: #ffff;
+}
+.mid6-header-text{
+position: static;
+width: 920px;
+height: 80px;
+margin-left: 18%;
+
+
+
+font-family: Mulish;
+font-style: normal;
+font-weight: bold;
+font-size: 32px;
+
+
+text-align: center;
+letter-spacing: 0.1px;
+
+color: #EEA10C;
+
+}
+.mid6-header-text2{
+position: static;
+width: 920px;
+margin-left: 18%;
+
+font-family: Mulish;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+
+text-align: center;
+letter-spacing: 0.3px;
+
+color: #737B7D;
+
+}
+.mid7.logo-p{
+    width: 50%;
+    height: 50%;
+}
+.mid7-logo{
+    position: absolute;
+    top: 10%;
+    left: 3%;
+}
+.mid7-icon{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+}
+.mid7-text{
+    position: absolute;
+    top:30%;
+    left: 55%;
+}
+.mid7-text-p{
+    width: 500px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+}
+.mid7-margin-left{
+    margin-left: 20px;
+    margin-top:10px;
+}
+.mid7-margin-left2{
+    margin-left: 200px;
+}
+.mid7-margin-left3{
+    margin-left: 450px;
+}
+.mid7-margin-top{
+    margin-top:50px;
+}
+.mid7-margin-top2{
+    margin: 110px 5px;
+}
+.mid7-margin-top-left{
+    margin: 60px 20px;
+}
+.mid7-margin-top-left2{
+    margin: 120px 20px;
+}
+.mid7-bottom{
+    position: absolute;
+    bottom: 20%;
+    left: 45%;
+}
+.mid7-bottom1{
+    position: absolute;
+    bottom: 15%;
+    right: 0%;
+}
+.mid7-bottom2{
+    position: absolute;
+    bottom: 5%;
+    left:70%;
+}
+.mid7-bottom3{
+    position: absolute;
+    bottom: 5%;
+    left:72%;
+}
+.mid7-text-p2{
+    width: 300px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+
+    color: #FCC400;
+}
+.mid7-text-p3{
+    width: 250px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+
+    color: #FCC400;
+}
+.mid7-text-p4{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+
+    color: #FCC400;
+}
+.mid7-icon-bottom{
+    position: absolute;
+    bottom: 5%;
+    left:86%;
+}
+.mid7-icon-bottom1{
+    position: absolute;
+    bottom: 5%;
+    left:89%;
+}
+.mid7-icon-bottom2{
+    position: absolute;
+    bottom: 5%;
+    left:92%;
+}
+
+
+
+
+.nav-button {
+    outline: none;
+    width: 135px;
+}
+
+.nav-giaohang-button {
+    background-color: #eea10c;
+    font-weight: bold;
+    margin: 0 50px;
+    margin-left: 200px;
+    height: 40px;
+    width: 250px;
+}
+
+.nav-giaohang-button:hover {
+    border: 1px solid #ffaa01;
+    display: block;
+    background-color: #ffaa01;
+}
+
+a {
+    color: black;
+}
+.a-white{
+    color:white;
+}
+
+a:hover {
+    color: #212529;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* dialog box */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+  
+  /* Modal Content/Box */
+.modal-content{
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and   */
+    padding: 20px;
+    border: 1px solid #888;
+    
+    width: 50%; /* Could be more or less, depending on screen size */
+
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+  
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+
+.modal-header{
+    padding: 0px 180px;
+    background-color: #ffff;
+    color: white;
+    
+}
+
+.modal-body{
+    padding: 2px 16px;
+}
+
+.modal-text{
+font-family: Roboto;
+font-style: Bold;
+font-size: 30px;
+
+}
+.modal-button{
+    background-color: #ffff;
+    /* font-weight: bold; */
+    margin: 0 0px;
+    border:none;
+    color:#aaa;
+    padding: 0px 5px;
+}
+.modal-button:hover {
+    
+    border: none;
+    color: black;
+    background-color: #ffff;
+
+}
+.modal-input{
+    height: 50px;
+    width: 280px;
+    margin: 35px 0px;
+    background: #ffff;
+    border: 2px solid #E8E8E8;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.modal-input1{
+    height: 50px;
+    width: 280px;
+    margin: 10px 0px;
+    background: #ffff;
+    border: 2px solid #E8E8E8;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #ffff;
+    color: white;
+  }
+
+.modal-dangnhap-button {
+    background-color: #eea10c;
+    font-weight: bold;
+    margin: 0px 0px;
+    height: 40px;
+    width: 100%;
+}
+
+.modal-dangnhap-button:hover {
+    border: 1px solid #ffaa01;
+    display: block;
+    background-color: #ffaa01;
+}
+  /* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+  
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+
+
+
+.de:before {
+    background-image: url(https://www.countryflags.io/de/flat/32.png);
+}
+
+.en:before {
+    background-image: url(https://www.countryflags.io/us/flat/32.png);
+}
+
+.fr:before {
+    background-image: url(https://www.countryflags.io/fr/flat/32.png);
+}
+
+.ar:before {
+    background-image: url(https://www.countryflags.io/ae/flat/32.png);
+}
+
+.home-mid3-vitri-btn{
+    position: absolute;
+    bottom: 10%;
+    left: 40%;
+}
+.home-mid3-btn{
+    border: 1px solid #EEA10C;
+    background-color: #eea10c;
+    border-radius: 5px;
+    color: #ffff;
+    text-align: center;
+    padding: 12px 100px;
+}

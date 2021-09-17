@@ -119,8 +119,8 @@ const DanhSachSection = () => {
         <MetaTags>
           <title>Form Editors | Veltrix - Responsive Bootstrap 5 Admin Dashboard</title>
         </MetaTags>
-        <Container fluid={true}>
-          <Breadcrumbs maintitle="Veltrix" title="Form" breadcrumbItem="Danh Sách Lớp Học" />
+        <Container fluid={false}>
+          
 
           <Row>
             <Col>

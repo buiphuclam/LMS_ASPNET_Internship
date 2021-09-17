@@ -23,6 +23,22 @@ import Breadcrumbs from "../../../components/Common/Breadcrumb"
 
 import { Link } from "react-router-dom"
 
+const useStyle={
+  formControl: {
+      display:'flex',
+      flexDirection: 'collum',
+      justifyContent: 'space-between',
+      
+      color: 'black'
+  },
+  fontColor: {
+      color: 'black',
+      textAlign: 'left',
+  }
+  
+}
+
+
 const ThemQuizz = (props) => {
   
   const [listQuizz, setlistQuizz] = useState([])
@@ -87,8 +103,8 @@ const ThemQuizz = (props) => {
           <Row>
             <Col className="col-12">
               <Card>
-                <CardBody>
-                  <CardTitle className="h4">Danh Sách Quizz</CardTitle>
+                <CardBody style={useStyle.fontColor}>
+                  <CardTitle className="h4 text-black" >Danh Sách Quizz</CardTitle>
                   
                   <div className="card-title-desc">
                     <AddQuiz />

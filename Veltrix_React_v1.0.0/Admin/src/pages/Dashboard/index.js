@@ -53,9 +53,25 @@ import Salesdonut from "../AllCharts/apex/salesdonut";
 
 //i18n
 
+const useStyle={
+  formControl: {
+      display:'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      textAlign: 'left',
+      color: 'black'
+  },
+  fontColor: {
+      color: 'black',
+      textAlign: 'left',
+  }
+  
+}
+
 
 
 const Dashboard = props => {
+  
 
   
   const [course1, setCourse] = useState([]);
@@ -106,8 +122,8 @@ const Dashboard = props => {
       <MetaTags>
           <title>Form Editors | Veltrix - Responsive Bootstrap 5 Admin Dashboard</title>
         </MetaTags>
-        <Container fluid={true}>
-          <Breadcrumbs maintitle="Veltrix" title="Form" breadcrumbItem="Dashboard" />
+        <Container fluid={false} style={useStyle.fontColor}>
+          <h4 color="black" >Dashboard</h4>
           <Row>
             {course}
           </Row>
