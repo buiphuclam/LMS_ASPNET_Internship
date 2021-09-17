@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react";
-import MetaTags from 'react-meta-tags';
+
 import TablePagination from '@material-ui/core/TablePagination';
 import {
   Alert,
@@ -78,11 +78,9 @@ const Students = () => {
   return (
     <React.Fragment>
       <div className="page-content">
-        <MetaTags>
-          <title>System Admin | Danh sách học sinh</title>
-        </MetaTags>
+
         <Container fluid={true}>
-          <Breadcrumbs maintitle="System Admin" title="Quản lý học sinh" breadcrumbItem="Danh sách học sinh" />
+
           <Row>
             <Col lg={12}>
               <Card>

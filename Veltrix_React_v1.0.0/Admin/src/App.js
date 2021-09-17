@@ -1,31 +1,16 @@
-import PropTypes from 'prop-types'
-// import Cookies from 'js-cookie';
 import Cookies from 'universal-cookie';
 import React, {useEffect,useState,useLayoutEffect} from "react"
 import { BrowserRouter, Route,Redirect } from 'react-router-dom';
 
 import {
-  Form,
-  Card,
-  CardBody,
-  Col,
-  Row,
-  CardTitle,
-  CardSubtitle,
   Container,
-  Collapse,
 } from "reactstrap"
-
-import { Switch, BrowserRouter as Router } from "react-router-dom"
 
 import Nav from "./components/Nav/Nav"
 
 // Import scss
 import "./assets/scss/theme.scss"
-
-
-
-
+//Import login
 import Login from 'pages/Authentication/Login'
 
 //SystemAdmin
@@ -44,35 +29,6 @@ import DanhSachQuizz from 'pages/Instructor/DanhSachQuizz/ThemQuizz'
 import DanhSachSection from 'pages/ClassAdmin/DanhSachSection/DanhSachSection';
 
 
-
-
-// Import Firebase Configuration file
-// import { initFirebaseBackend } from "./helpers/firebase_helper"
-
-// import fakeBackend from "./helpers/AuthType/fakeBackend"
-
-// // Activating fake backend
-// fakeBackend()
-
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_APIKEY,
-//   authDomain: process.env.REACT_APP_AUTHDOMAIN,
-//   databaseURL: process.env.REACT_APP_DATABASEURL,
-//   projectId: process.env.REACT_APP_PROJECTID,
-//   storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-//   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-//   appId: process.env.REACT_APP_APPID,
-//   measurementId: process.env.REACT_APP_MEASUREMENTID,
-// }
-
-// init firebase backend
-// initFirebaseBackend(firebaseConfig)
-// const useStyle = {
-//   formControl: {
-    
-//   }
-// }
-
 const App = props => {
 
   const [name,setName] = useState('')
@@ -88,7 +44,7 @@ const App = props => {
                     {name: 'QL Học Sinh', path: 'quanlyhocsinh'}];
   const listNavCA = [{name: 'Xem lớp học', path:'danhsachsection'}];
   const listNavINS = [{name: 'Xem khóa học', path: 'danhsachkhoahoc'},{name: 'Thêm khóa học', path: 'themkh'},{name: 'Danh sách Quizz', path:'danhsachquizz'}];
-  const listDetail =[];
+
 
     useLayoutEffect(() =>  {
       const cookies = new Cookies();
@@ -139,10 +95,7 @@ const App = props => {
               const content2 = await response2.json()
               
               setRole(content2.data)
-              console.log(role)
-             
-              
-              
+              console.log(role)    
       }    
       )();
       },[name,token,role,isAuth]);
@@ -155,45 +108,40 @@ const App = props => {
       {(role === 1) ? <Nav name={name} setName={setName} listNav={listNavINS} setIsAuth={setIsAuth} /> : (role=== 4) ? <Nav name={name} setName={setName} listNav={listNavCA} setIsAuth={setIsAuth} /> 
       : (role===5) ? <Nav name={name} setName={setName} listNav={listNavSA} setIsAuth={setIsAuth} /> : <Nav name={name} setName={setName} listNav={[]} setIsAuth={setIsAuth} /> }
         <Container fluid={false}>
-        <Switch>
+
+       
       {!isAuth ? <Route path="/login" exact component={() => <Login setName={setName}/> }/> : 
-      
         (role === 1) ?
-        <Switch>
-          <Route path="/danhsachkhoahoc" exact component={() => <Dashboard/>}/>
-          <Route path="/themkh" exact component={() => <ThemKH/>}/>
-          <Route path="/danhsachquizz" exact component={() => <DanhSachQuizz/>}/>
-        </Switch>
+      <>
+          <Route path="/danhsachkhoahoc"  component={() => <Dashboard/>}/>
+          <Route path="/themkh" component={() => <ThemKH/>}/>
+          <Route path="/danhsachquizz"  component={() => <DanhSachQuizz/>}/>
+          </>
           : (role=== 4) ?
-           <Route path="/danhsachsection" exact component={() => <DanhSachSection/>}/>
+           <Route path="/danhsachsection" component={() => <DanhSachSection/>}/>
         : (role===5) ? 
-        <Switch>
+          <>
           <Route path="/quanlynguoidung" exact component={() => <QuanLyNguoiDung/>}/>
-          <Route path="/quanlygiaovien" exact component={() => <QuanLyGiaoVien/>}/>
-          <Route path="/quanlyclassadmin" exact component={() => <QuanLyClassAdmin/>}/>
-          <Route path="/quanlyhocsinh" exact component={() => <QuanLyHocSinh/>}/>
-          <Route path="/quanlyinstructor" exact component={() => <QuanLyInstructor/>}/>
-        </Switch>
+          <Route path="/quanlygiaovien"  component={() => <QuanLyGiaoVien/>}/>
+          <Route path="/quanlyclassadmin"  component={() => <QuanLyClassAdmin/>}/>
+          <Route path="/quanlyhocsinh"  component={() => <QuanLyHocSinh/>}/>
+          <Route path="/quanlyinstructor"  component={() => <QuanLyInstructor/>}/>
+          </>
          : <Redirect to="/login" /> 
         }
+      
 
+         <Route path="/">
+          {
+          (role === 1) ? 
+          <Redirect to="/danhsachkhoahoc" />
+          : (role=== 4) ?  <Redirect to="/danhsachsection" />
+          : (role=== 5) ?
+             <Redirect to="/quanlynguoidung" /> 
+          :   <Redirect to="/login" /> 
+          }
+          </Route>
 
-      <Route path="/">
-      {
-      (role === 1) ? <Redirect to="/danhsachkhoahoc" /> 
-      : (role=== 4) ? <Redirect to="/danhsachsection" />
-      : (role=== 5) ? <Redirect to="/quanlygiaovien" /> 
-      :   <Redirect to="/login" /> 
-      }
-
-      </Route>
-        
-        
-        
-        
-
-          </Switch>
-      {/* <Footer/> */}
       </Container>
       </BrowserRouter>
   )

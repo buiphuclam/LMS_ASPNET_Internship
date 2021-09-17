@@ -39,6 +39,7 @@ const useStyle = {
 export default function Nav(props) {
   const {name, setName, listNav,setIsAuth} = props
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [redirect, setRedirect] = React.useState(false)
 
   const logout = async () => {
     await fetch('https://lmsg03.azurewebsites.net/api/Authenticate/logout',{
@@ -49,6 +50,7 @@ export default function Nav(props) {
 
     setName('');
     setIsAuth(false)
+    // setRedirect(true)
   }   
 
   const handleClick = (event) => {
@@ -60,6 +62,8 @@ export default function Nav(props) {
   };
   let { url } = useRouteMatch();
   let menu;
+  // if(redirect)
+  //   return <Redirect to="/" />
 
   if(name === '' || name === undefined || name === null) {
       menu = (
