@@ -1,10 +1,15 @@
 import React, {useState} from 'react'
-import Cookies from 'js-cookie'
+
 import { Redirect,Link } from "react-router-dom";
 import { Card, Container,CardBody,Row } from 'reactstrap'
 import './Login.css'
 import img2 from '../../assets/images/bg.jpg'
 
+const useStyle = {
+  formControl: {
+    textAlign: 'center'
+  }
+}
 
 export default function Login(props) {
     const {setName } = props
@@ -27,12 +32,10 @@ export default function Login(props) {
         });
   
         const content = await response.json();
-        console.log(content.message)
-        
-        let jwt = Cookies.get('jwt_r')
-        console.log(jwt)
+        console.log(content.status)
+
         // const content = await response.json();
-        if(content.message === 'Success!')
+        if(content.status === 200)
         {
             
             setRedirect(true);
@@ -53,7 +56,7 @@ export default function Login(props) {
 
     return (
     
-<>  
+<React.Fragment>  
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"></link>
 
 
@@ -68,7 +71,7 @@ export default function Login(props) {
                   <div className="card-body">
                     <p className="login-card-description">Đăng Nhập</p>
 
-                    <form method="post" onSubmit={submit}>
+                    <form method="post" onSubmit={submit} style={useStyle.formControl}>
                       <div className="form-group">
                         <label htmlFor="user" className="sr-only">Tài khoản</label>
                         <input 
@@ -92,10 +95,10 @@ export default function Login(props) {
                         onChange={handlePassChange}
                         />
                       </div>
-                      <input name="login" id="login" className="btn btn-block login-btn mb-4" type="submit" defaultValue="Login" />
+                      <input name="login" id="login" className="btn btn-block login-btn mb-4" type="submit" defaultValue="Login"  />
                     </form>
                     <Link to="#!" className="forgot-password-link">Forgot password?</Link>
-                    <p className="login-card-footer-text">Don't have an account? <Link to="/Register" className="text-reset">Register here</Link></p>
+                    <p className="login-card-footer-text"></p>
                     <Link to="/" className="text-reset">Back to Home!</Link><p />
                     <nav className="login-card-footer-nav">
                       <Link to="#!">Terms of use.</Link>
@@ -108,6 +111,6 @@ export default function Login(props) {
         </div>
 
     </div>
-    </>
+    </React.Fragment>  
     )
 }

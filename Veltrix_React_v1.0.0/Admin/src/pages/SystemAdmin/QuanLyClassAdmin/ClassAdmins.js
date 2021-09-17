@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react";
-import MetaTags from 'react-meta-tags';
+
 import TablePagination from '@material-ui/core/TablePagination';
 import {
   Alert,
@@ -15,14 +15,15 @@ import {
 import { Link } from "react-router-dom"
 
 // import images
-import user2 from "../../assets/images/users/user-2.jpg";
+
+import user2 from "../../../assets/images/users/user-2.jpg";
 
 
 //Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb"
+import Breadcrumbs from "../../../components/Common/Breadcrumb"
 
 
-const Teachers = () => {
+const ClassAdmins = () => {
   
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
@@ -31,7 +32,7 @@ const Teachers = () => {
   const [redirect, setRedirect] = useState(false);
 
   const loadUsers = async () => {
-    const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser/:role?roleName=TEACHER",{
+    const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser/:role?roleName=CLASSADMIN",{
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
@@ -78,11 +79,9 @@ const Teachers = () => {
   return (
     <React.Fragment>
       <div className="page-content">
-        <MetaTags>
-          <title>System Admin | Danh sách giáo viên</title>
-        </MetaTags>
+
         <Container fluid={true}>
-          <Breadcrumbs maintitle="System Admin" title="Quản lý giáo viên" breadcrumbItem="Danh sách giáo viên" />
+
           <Row>
             <Col lg={12}>
               <Card>
@@ -151,4 +150,4 @@ const Teachers = () => {
   )
 }
 
-export default Teachers;
+export default ClassAdmins;

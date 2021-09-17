@@ -8,7 +8,18 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useParams,
+  useRouteMatch
+} from "react-router-dom";
+import { autofill } from 'redux-form';
+import Dashboard from 'pages/Dashboard/index';
 
 const useStyle = {
   navControl: {
@@ -19,11 +30,14 @@ const useStyle = {
   buttonControl: {
     margin: 'auto 10px',
     border: '1px solid black'
+  },
+  buttonControl1:{
+    with: 'auto'
   }
 }
 
 export default function Nav(props) {
-  const {name, setName, listNav} = props
+  const {name, setName, listNav,setIsAuth} = props
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const logout = async () => {
@@ -34,6 +48,7 @@ export default function Nav(props) {
     });
 
     setName('');
+    setIsAuth(false)
   }   
 
   const handleClick = (event) => {
@@ -43,7 +58,7 @@ export default function Nav(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  let { url } = useRouteMatch();
   let menu;
 
   if(name === '' || name === undefined || name === null) {
@@ -97,11 +112,11 @@ export default function Nav(props) {
                           <Link to="login">Đăng Nhập</Link>
                           </button>
                       </Col>
-                      <Col sm={6}>
+                      {/* <Col sm={6}>
                         <button className="nav-button btn" style={useStyle.buttonControl}>
                         <Link to="login">Đăng Ký</Link>
                         </button>
-                      </Col>
+                      </Col> */}
                       </div>
                     </Row>
   
@@ -118,22 +133,22 @@ export default function Nav(props) {
           <Row>
             <Col sm={6}>
               <div className="nav1">
-              <Col sm={3}>
+              <Col sm={2}>
                     <div className="nav-logo">
                       <a href="Home.html"><img src="imgs/logo_kall.png" height="70px" /></a>
                     </div>
                 </Col>
                 {listNav.map((value, i)=>{
-                   return <Col sm={3}>
-                            <button className="nav-button btn">
-                              <Link to="/">{value.name}</Link>
+                   return <Col sm={2}>
+                            <button className="nav-button btn" style={useStyle.buttonControl1}>
+                              <Link to={value.path}>{value.name}</Link>
                             </button>
                           </Col>
                    })}
               </div>
             </Col>
 
-              <Col sm={6} className="navName">
+              <Col sm={4} className="navName">
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                   {name}
                 </Button>
@@ -148,6 +163,11 @@ export default function Nav(props) {
                 </Menu>
             </Col>
             </Row>
+            <Switch>
+        <Route path={`${url}/:id`}>
+          <Dashboard />
+        </Route>
+      </Switch>
            
         </div>
     </nav>

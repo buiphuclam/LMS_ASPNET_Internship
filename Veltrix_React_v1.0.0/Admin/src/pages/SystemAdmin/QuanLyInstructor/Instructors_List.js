@@ -1,6 +1,5 @@
 import React,{useState, useEffect} from "react";
-import MetaTags from 'react-meta-tags';
-import queryString from 'query-string';
+
 import TablePagination from '@material-ui/core/TablePagination';
 import {
   Alert,
@@ -16,83 +15,44 @@ import {
 import { Link } from "react-router-dom"
 
 // import images
-import user2 from "../../assets/images/users/user-2.jpg";
+import user2 from "../../../assets/images/users/user-2.jpg";
 
 
 //Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb"
+import Breadcrumbs from "../../../components/Common/Breadcrumb"
 
 
-const Users = () => {
-
+const Instructors = () => {
+  
   const [users, setUsers] = useState([]);
-  const [page, setPage] = useState([]);
-  const [pagenext, setPageNextPage] = useState('');
-  const [pageprevious, setPagePreviousPage] = useState('');
+  const [page, setPage] = useState(0);
   const [id, setID] = useState('');
-
-  // const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [filters, setFilters] = useState({
-    pageNumber: 1,
-    pageSize: 10,
-  });
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [redirect, setRedirect] = useState(false);
-  const [linkpage, setLinkPage] = useState('https://lmsg03.azurewebsites.net/api/Admin/getuser?pageNumber=1&pageSize=10');
-
-  // const page = useRef(
-  //   <ul className="pagination justify-content-center">
-  //     <li><Link to={{ pathname: '/mycourse/' + currentPage}} className="active">{currentPage}</Link></li>
-  //   </ul>);
 
   const loadUsers = async () => {
-    const paramsString = queryString.stringify(filters);
-    const requestUrl = `https://lmsg03.azurewebsites.net/api/Admin/getuser?${paramsString}`;
-    const res = await fetch(requestUrl,{
+    const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser/:role?roleName=INSTRUCTOR",{
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
-  },[filters]);
+  });
 
   const content = await res.json();
-  if(content.message ==='Success')
-    {
-      setUsers(content.data);
-      setPage(content);
-      //setPageNextPage(content.nextPage);
-      //setPagePreviousPage(content.previousPage);
-    }
+  if(content.message ==='Success!')
+    setUsers(content.data)
   }
 
   useEffect(() => {
     loadUsers();
-  });
+  }, []);
 
-
-  // async function handleNextPage () {
-  //   if(page.nextPage != null)
-  //   {
-  //     console.log("Trang");
-  //     setLinkPage(page.nextPage);
-  //   }
-  //   else console.log("Trang cuoi");
-  // };
-  
-  // async function handlePreviousPage (){
-  //   if(page.previousPage != null)
-  //   { 
-  //     setLinkPage(page.previousPage);
-  //   }
-  //   else console.log("Trang dau");
-  // };
-
-  function handleChangePage (newPage) {
-    setFilters({
-      ... filters,
-      pageNumber: newPage,
-    });
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
-  
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+  };
 
   const handleDelete = async (id) => {
     setID(id);
@@ -117,12 +77,10 @@ const Users = () => {
 
   return (
     <React.Fragment>
-      <div className="page-content" id="table_student">
-        <MetaTags>
-          <title>System Admin | Danh sách người dùng</title>
-        </MetaTags>
+      <div className="page-content">
+
         <Container fluid={true}>
-          <Breadcrumbs maintitle="System Admin" title="Quản lý hệ thống" breadcrumbItem="Danh sách người dùng" />
+     
           <Row>
             <Col lg={12}>
               <Card>
@@ -141,8 +99,8 @@ const Users = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {users.slice().map((user) => (
-                        <tr key={user['id']}>
+                        {users.slice(page * rowsPerPage,page * rowsPerPage + rowsPerPage).map((user) => (
+                        <tr hover role="checkbox" tabIndex={-1} key={user['id']}>
                           <td>
                             <div>
                               <img
@@ -176,22 +134,19 @@ const Users = () => {
               </Card>
             </Col>
             </Row>
-            <button className="btn btn-primary btn-sm" disabled={page.pageNumber < 2} 
-            onClick={() =>handleChangePage(page.pageNumber-1)}
-            >
-              Previous
-            </button>
-            <button className="btn btn-primary btn-sm" disabled={page.pageNumber > (page.totalPages - 1)} 
-            onClick={() =>handleChangePage(page.pageNumber+1)}
-            >
-              Next
-            </button>
+            <TablePagination
+              rowsPerPageOptions={[3, 5, 10]}
+              component="div"
+              count={users.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Container>
       </div>
     </React.Fragment>
   )
 }
 
-
-
-export default Users;
+export default Instructors;

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-// import Cookies from 'js-cookie'; rac vl
+// import Cookies from 'js-cookie';
 import Cookies from 'universal-cookie';
 import React, {useEffect,useState,useLayoutEffect} from "react"
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route,Redirect } from 'react-router-dom';
 
 import {
   Form,
@@ -17,28 +17,33 @@ import {
 } from "reactstrap"
 
 import { Switch, BrowserRouter as Router } from "react-router-dom"
-import { connect } from "react-redux"
 
-// Import Routes all
-import { userRoutes, authRoutes } from "./routes/allRoutes"
-
-// Import all middleware
-import Authmiddleware from "./routes/middleware/Authmiddleware"
-
-// layouts Format
-import VerticalLayout from "./components/VerticalLayout/"
-import HorizontalLayout from "./components/HorizontalLayout/"
-import NonAuthLayout from "./components/NonAuthLayout"
 import Nav from "./components/Nav/Nav"
 
 // Import scss
 import "./assets/scss/theme.scss"
-import Dashboard from './pages/Dashboard/index';
 
-import DanhSachSection from 'pages/ClassAdmin/DanhSachSection/DanhSachSection';
-import DanhSachQuizz from 'pages/Instructor/DanhSachQuizz/ThemQuizz'
+
+
 
 import Login from 'pages/Authentication/Login'
+
+//SystemAdmin
+import QuanLyNguoiDung from 'pages/SystemAdmin/QuanLyNguoiDung/Users_List'
+import QuanLyClassAdmin from 'pages/SystemAdmin/QuanLyClassAdmin/ClassAdmins'
+import QuanLyHocSinh from 'pages/SystemAdmin/QuanLyHocSinh/Students_List'
+import QuanLyGiaoVien from 'pages/SystemAdmin/QuanLyTeacher/Teachers_List'
+import QuanLyInstructor from 'pages/SystemAdmin/QuanLyInstructor/Instructors_List'
+
+//Instructor
+import Dashboard from './pages/Dashboard/index';
+import ThemKH from 'pages/Instructor/ThemKH'
+import DanhSachQuizz from 'pages/Instructor/DanhSachQuizz/ThemQuizz'
+
+// ClassAdmin
+import DanhSachSection from 'pages/ClassAdmin/DanhSachSection/DanhSachSection';
+
+
 
 
 // Import Firebase Configuration file
@@ -73,14 +78,17 @@ const App = props => {
   const [name,setName] = useState('')
   const [token,setToken] = useState('')
   const [role,setRole] =  useState(0)
+  const [isAuth,setIsAuth] = useState(false)
   
   
-  const listNavSA = [{name: 'Quản lý người dùng'}];
-  const listNavCA = [{name: 'Quản lý giáo viên'}, {name: 'Danh sách lớp học'}];
-  const listNavINS = [{name: 'Quản lý'},{name: 'Danh sách khóa học'},{name: 'Thêm khóa học'},{name: 'Danh sách Quizz'}];
+  const listNavSA = [{name: 'QL Người Dùng', path: 'quanlynguoidung'},
+                    {name: 'QL Class Admin', path: 'quanlyclassadmin'},
+                    {name: 'QL Instructor', path: 'quanlyinstructor'},
+                    {name: 'QL Giáo viên', path: 'quanlygiaovien'},
+                    {name: 'QL Học Sinh', path: 'quanlyhocsinh'}];
+  const listNavCA = [{name: 'Xem lớp học', path:'danhsachsection'}];
+  const listNavINS = [{name: 'Xem khóa học', path: 'danhsachkhoahoc'},{name: 'Thêm khóa học', path: 'themkh'},{name: 'Danh sách Quizz', path:'danhsachquizz'}];
   const listDetail =[];
-
-  
 
     useLayoutEffect(() =>  {
       const cookies = new Cookies();
@@ -101,76 +109,90 @@ const App = props => {
               });
               
               const content = await response.json();
+              
               if(content.status === 200)
               {
                 setName(content.data.userName)
                 console.log(content.data.userName)
+                if(name !== '')
+                {
+                  setIsAuth(true)
+                  console.log(isAuth)
+                }
+                
               }
               
               
-              // const myHeaders = new Headers();
-              // myHeaders.append('Content-Type', 'application/json')
-              // if(jwt)
-              // {
-              //   setToken(jwt);
-              //   myHeaders.append('Authorization','Bearer ' + token);
-              // }
-              
-              // const response2 = await fetch ('https://lmsg03.azurewebsites.net/api/Authenticate/authorize', {
-              //   method: 'GET',
-              //   headers: myHeaders,
-              //   credentials: 'include'
-              // });
-              // const content2 = await response2.json()
-              // setRole(content2.data)
-
-              // console.log(content2.data)
-              console.log('2- ' + jwt)
               const myHeaders = new Headers();
-                  myHeaders.append('Content-Type', 'application/json');
-                  if(jwt)
-                  {
-                    setToken(jwt)
-                    myHeaders.append('Authorization', 'Bearer ' + token);
-                  }
-                  console.log(token);
-                const response2 = await fetch('https://lmsg03.azurewebsites.net/api/Authenticate/authorize',{
-                    method: 'GET',
-                    headers: myHeaders,
-                    credentials: 'include'
-              // setRole(await response2.json());
-                }
-                  
-                )
-                console.log((await response2.json()).data)
+              myHeaders.append('Content-Type', 'application/json')
+              if(jwt)
+              {
+                setToken(jwt);
+                myHeaders.append('Authorization','Bearer ' + token);
+              }
               
+              const response2 = await fetch ('https://lmsg03.azurewebsites.net/api/Authenticate/authorize', {
+                method: 'GET',
+                headers: myHeaders,
+                credentials: 'include'
+              });
+              const content2 = await response2.json()
+              
+              setRole(content2.data)
+              console.log(role)
+             
               
               
       }    
       )();
-      },[name,token,role]);
+      },[name,token,role,isAuth]);
 
       console.log('3- ' + token)
   return (
-    
+    // 1 instructor // 4 classadmin // 5 systemadmin
     <BrowserRouter>
-      {(role === 1) ? <Nav name={name} setName={setName} listNav={listNavINS} /> : (role== 4) ? <Nav name={name} setName={setName} listNav={listNavCA} /> 
-      : (role==5) ? <Nav name={name} setName={setName} listNav={listNavSA} /> : <Nav name={name} setName={setName} listNav={[]} /> }
+    
+      {(role === 1) ? <Nav name={name} setName={setName} listNav={listNavINS} setIsAuth={setIsAuth} /> : (role=== 4) ? <Nav name={name} setName={setName} listNav={listNavCA} setIsAuth={setIsAuth} /> 
+      : (role===5) ? <Nav name={name} setName={setName} listNav={listNavSA} setIsAuth={setIsAuth} /> : <Nav name={name} setName={setName} listNav={[]} setIsAuth={setIsAuth} /> }
         <Container fluid={false}>
-        
-        <Route path="/" exact component={() => <Dashboard/>}/>
-        <Route path="/danhsachsection" exact component={() => <DanhSachSection/>}/>
-        <Route path="/danhsachquizz" exact component={() => <DanhSachQuizz/>}/>
-        <Route path="/login" exact component={() => <Login setName={setName}/>}/>
-        
-        {/* <Route path="/" component={() => <Dashboard/>}/>
-        <Route path="/" component={() => <Dashboard/>}/> */}
-        {/* <Route path="/profile" component={() => <Profile/>}/>
-        <Route path="/mycourse/:n" component={() => <MyCourse/>}/>
-        <Route path="/course" component={() => <Course/>}/>
-        <Route path="/course" component={() => <Course sectionId='null'/>}/>
-        <Route path="/statistic/:n" component={() => <Statistic/>}/> */}
+        <Switch>
+      {!isAuth ? <Route path="/login" exact component={() => <Login setName={setName}/> }/> : 
+      
+        (role === 1) ?
+        <Switch>
+          <Route path="/danhsachkhoahoc" exact component={() => <Dashboard/>}/>
+          <Route path="/themkh" exact component={() => <ThemKH/>}/>
+          <Route path="/danhsachquizz" exact component={() => <DanhSachQuizz/>}/>
+        </Switch>
+          : (role=== 4) ?
+           <Route path="/danhsachsection" exact component={() => <DanhSachSection/>}/>
+        : (role===5) ? 
+        <Switch>
+          <Route path="/quanlynguoidung" exact component={() => <QuanLyNguoiDung/>}/>
+          <Route path="/quanlygiaovien" exact component={() => <QuanLyGiaoVien/>}/>
+          <Route path="/quanlyclassadmin" exact component={() => <QuanLyClassAdmin/>}/>
+          <Route path="/quanlyhocsinh" exact component={() => <QuanLyHocSinh/>}/>
+          <Route path="/quanlyinstructor" exact component={() => <QuanLyInstructor/>}/>
+        </Switch>
+         : <Redirect to="/login" /> 
+        }
 
+
+      <Route path="/">
+      {
+      (role === 1) ? <Redirect to="/danhsachkhoahoc" /> 
+      : (role=== 4) ? <Redirect to="/danhsachsection" />
+      : (role=== 5) ? <Redirect to="/quanlygiaovien" /> 
+      :   <Redirect to="/login" /> 
+      }
+
+      </Route>
+        
+        
+        
+        
+
+          </Switch>
       {/* <Footer/> */}
       </Container>
       </BrowserRouter>

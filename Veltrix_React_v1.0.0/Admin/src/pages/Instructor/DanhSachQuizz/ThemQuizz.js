@@ -67,24 +67,10 @@ const ThemQuizz = (props) => {
   
     const getListQuizz =(value) => {
       return (
-        // <Col sm={3}>
-        <>
-        
-          {/* <h2 className="accordion-header" id="headingOne"> */}
             
             <CardQuizz {...value} />
-            
-          {/* </h2> */}
-
-
-         
-          
-
-        {/* <CardQuestion {...value}/> */}
-          
-          
-        </>
-        // </Col>
+      
+        
         );
     }
     
@@ -94,11 +80,7 @@ const ThemQuizz = (props) => {
   return (
     <React.Fragment>
       <div className="page-content">
-        <MetaTags>
-          <title>Form File Upload | Veltrix - Responsive Bootstrap 5 Admin Dashboard</title>
-        </MetaTags>
         <Container fluid={true}>
-          <Breadcrumbs maintitle="Veltrix" title="Form" breadcrumbItem="Thêm Quizz" />
 
           <Row>
             <Col className="col-12">

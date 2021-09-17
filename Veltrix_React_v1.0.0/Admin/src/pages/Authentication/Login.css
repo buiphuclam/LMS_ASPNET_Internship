@@ -18,7 +18,7 @@ body {
     overflow: hidden; }
 .login-card-img {
     border-radius: 0;
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
@@ -34,7 +34,7 @@ body {
     font-weight: normal;
     margin-bottom: 23px; }
 .login-card form {
-    max-width: 326px; }
+    max-width: 100%; }
 .login-card .form-control {
     border: 1px solid #d5dae2;
     padding: 15px 25px;

@@ -15,14 +15,14 @@ import {
 import { Link } from "react-router-dom"
 
 // import images
-import user2 from "../../assets/images/users/user-2.jpg";
+import user2 from "../../../assets/images/users/user-2.jpg";
 
 
 //Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb"
+import Breadcrumbs from "../../../components/Common/Breadcrumb"
 
 
-const Instructors = () => {
+const Students = () => {
   
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
@@ -31,7 +31,7 @@ const Instructors = () => {
   const [redirect, setRedirect] = useState(false);
 
   const loadUsers = async () => {
-    const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser/:role?roleName=INSTRUCTOR",{
+    const res = await fetch("https://lmsg03.azurewebsites.net/api/Admin/getuser/:role?roleName=STUDENT",{
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
@@ -79,10 +79,10 @@ const Instructors = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>System Admin | Danh sách Instructor</title>
+          <title>System Admin | Danh sách học sinh</title>
         </MetaTags>
         <Container fluid={true}>
-          <Breadcrumbs maintitle="System Admin" title="Quản lý Instructor" breadcrumbItem="Danh sách Instructor" />
+          <Breadcrumbs maintitle="System Admin" title="Quản lý học sinh" breadcrumbItem="Danh sách học sinh" />
           <Row>
             <Col lg={12}>
               <Card>
@@ -151,4 +151,4 @@ const Instructors = () => {
   )
 }
 
-export default Instructors;
+export default Students;
