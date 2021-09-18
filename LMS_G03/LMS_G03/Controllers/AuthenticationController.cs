@@ -136,6 +136,12 @@ namespace LMS_G03.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            if(model.Username == null || model.Password == null)
+                return BadRequest(new Response { Status = 400, Message = "Username and Password is Required" });
+            if (model.Username.Length > 30 || model.Password.Length > 30 )
+                return BadRequest(new Response { Status = 400, Message = "Username, Password length up to 30 characters" });
+            if (!checkpass(model.Password))
+                return BadRequest(new Response { Status = 400, Message = "Passwords are between 8 and 30 characters long and must contain at least one number, uppercase and special characters" });
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
@@ -203,7 +209,7 @@ namespace LMS_G03.Controllers
 
                 return Ok(new Response { Status = 200, Message = Message.Success, Data = jwt });
             }
-            return Unauthorized();
+            return BadRequest(new Response { Status = 400, Message = "Username or Password is not valid" }); 
         }
 
         [HttpPost]
