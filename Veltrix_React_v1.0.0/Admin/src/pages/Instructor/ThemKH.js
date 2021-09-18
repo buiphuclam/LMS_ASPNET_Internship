@@ -26,8 +26,10 @@ const useStyle ={
   formControl: {
     maxWidth: '1000px',
     margin: 'auto',
+    color: 'black'
     // width: 'fit-content',
   }
+  
 }
 
 const ThemKH = () => {
