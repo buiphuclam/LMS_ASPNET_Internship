@@ -202,7 +202,7 @@ namespace LMS_G03.Controllers
                 return BadRequest(new Response { Status = 400, Message = "Insert Failed, please try again!" });
             }
 
-            return Ok(new Response { Status = 200, Message = "Inserted", Data = findlecture });
+            return Ok(new Response { Status = 200, Message = "Inserted "+idquiz , Data = findlecture });
         }
         [HttpPost("editlecture")]
         public async Task<IActionResult> EditLecture([FromBody] LectureModel lecture)

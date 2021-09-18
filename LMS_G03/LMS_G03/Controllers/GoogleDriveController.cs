@@ -23,7 +23,7 @@ namespace LMS_G03.Controllers
         }
 
         [HttpPost("replacefile")]
-        public async Task<IActionResult> ReplaceFile(String oldFileId, String parentsId, IFormFile FileName)
+        public IActionResult ReplaceFile(String oldFileId, String parentsId, IFormFile FileName)
         {
             string fileId = GoogleDriveFilesRepository.ReplaceFileInFolder(oldFileId, parentsId, FileName,"no comment");
             return Ok(parentsId + "|" + fileId);

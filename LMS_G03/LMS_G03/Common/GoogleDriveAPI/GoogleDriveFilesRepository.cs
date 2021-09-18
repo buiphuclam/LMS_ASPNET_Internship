@@ -55,8 +55,8 @@ namespace LMS_G03.Common
         {
             var tokenResponse = new TokenResponse
             {
-                AccessToken = "ya29.a0ARrdaM814syvaVHAJqw6Tw1PPaxPBxzNsxSaaXdg6SRr5Q2aBiRRKwrxrEBfM32lY9M1nIZQj4COcq88P8g1KC1bXgjrrWe8E224-57MR6cLU0FBU8VRrvijgSxxyIuTVsmtL_jSYKjiOWiCv-3eaRCeoLXn",
-                RefreshToken = "1//04F_Yaklv1AZCCgYIARAAGAQSNwF-L9IrktUsLfwKM3kjC_A_z3DkQxtcoldvJStq2wleyn38XR_tBx5hyiLVge_qR38ODRItIRc"
+                AccessToken = "ya29.a0ARrdaM9cVLMK_VIu1vjcJK8-OD0JHyY9iUlAQ9JIMMffTwdVsK5ic6OCDXjTl-fj-zfSF5BjoE7v8ULEROy2eVuiILHmSXYWY3Rjtmh_guNeT2nYwgRB6SFTHJdGjyO0qe9U6e0Og4ncdYE4c6oEeS2chWYZ",
+                RefreshToken = "1//04sRBfq-ttabSCgYIARAAGAQSNwF-L9IrDOEw2Q4PJLp5VmXvi7wHe_Ydv4_1Lu1WkRYzdVyGUTdeRk033ekXYUl3RBflw3r1Xzc"
             };
 
             var applicationName = "Oauth2SACredentials";

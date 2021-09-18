@@ -32,6 +32,26 @@ namespace LMS_G03.Controllers
 
         }
 
+        [HttpGet("search")]
+        public async Task<ActionResult> SearchQuiz([FromQuery] string keyword)
+        {
+            try
+            {
+                if (keyword.Equals(null))
+                    return NotFound(new Response { Status = 404, Message = Message.NotFound });
+
+                var quizlist = await _context.Quiz.Where(q => q.QuizName.Contains(keyword.Trim())).ToListAsync();
+                if (quizlist.Count <= 0)
+                    return NotFound(new Response { Status = 404, Message = Message.NotFound });
+
+                return Ok(new Response { Status = 200, Message = Message.Success, Data = quizlist });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
+            }
+        }
+
         // GET: api/Quizs/5
         [HttpGet("getquiz/{id}")]
         public async Task<ActionResult<Quiz>> GetQuiz(string id)
@@ -59,11 +79,11 @@ namespace LMS_G03.Controllers
             {
                 return NotFound(new Response { Status = 404, Message = "QuizId Not Exits" });
             }
-            if (quiz.QuizName == null || quiz.QuizTime == null)
+            if (quiz.QuizName == null)
                 return BadRequest(new Response { Status = 400, Message = "QuizName and QuizTime must Not be Null!" });
 
-            if (quiz.QuizTime < 0)
-                return BadRequest(new Response { Status = 400, Message = "QuizTime must >= 0 " });
+            if (quiz.QuizTime <= 0)
+                return BadRequest(new Response { Status = 400, Message = "QuizTime must > 0 " });
             var checkname = await _context.Quiz.Where(s => s.QuizName == quiz.QuizName).ToListAsync();
 
             if (checkname.Count != 0)
@@ -90,11 +110,11 @@ namespace LMS_G03.Controllers
         [HttpPost("addquiz")]
         public async Task<ActionResult<QuizModel>> PostQuiz([FromBody] QuizModel quiz)
         {
-            if (quiz.QuizName == null || quiz.QuizTime == null)
+            if (quiz.QuizName == null)
                 return BadRequest(new Response { Status = 400, Message = "QuizName and QuizTime must Not be Null!" });
 
-            if (quiz.QuizTime < 0)
-                return BadRequest(new Response { Status = 400, Message = "QuizTime must >= 0 " });
+            if (quiz.QuizTime <= 0)
+                return BadRequest(new Response { Status = 400, Message = "QuizTime must > 0 " });
             var checkname = await _context.Quiz.Where(s => s.QuizName == quiz.QuizName).ToListAsync();
 
             if (checkname.Count != 0)

@@ -88,7 +88,7 @@ namespace LMS_G03.Controllers
                 CourseName = course.CourseName,
                 CourseShortDetail = course.CourseShortDetail,
                 CourseDocument = course.CourseDocument,
-                CoourseImg = course.CoourseImg,
+                //CoourseImg = course.CoourseImg,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd"),
                 CourseCode = courseCode,
@@ -96,9 +96,9 @@ namespace LMS_G03.Controllers
                 CourseFolderId = GoogleDriveFilesRepository.CreateFolder(courseCode, "testmail.trustme@gmail.com", "root", "writer")
             };
 
-            _context.Course.Add(newcourse);
             try
             {
+                _context.Course.Add(newcourse);
                 var result = await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace LMS_G03.Controllers
         {
             var coursee = await _context.Course.FindAsync(courseId);
 
-            coursee.CoourseImg = course.CoourseImg;
+            //coursee.CoourseImg = course.CoourseImg;
             coursee.CourseDocument = course.CourseDocument;
             coursee.CourseShortDetail = course.CourseShortDetail;
             coursee.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd");

@@ -14,6 +14,6 @@ namespace LMS_G03.ViewModel
         public string CourseShortDetail { get; set; }
         public string CategoryId { get; set; }
         public string CourseDocument { get; set; }
-        public byte[] CoourseImg { get; set; }
+        public string CoourseImg { get; set; }
     }
 }
