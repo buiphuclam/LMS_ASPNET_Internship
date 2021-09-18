@@ -304,6 +304,7 @@ namespace LMS_G03.Controllers
         [Route("forgetpassword")]
         public async Task<IActionResult> ForgotPassword(ForgetPasswordModel forgetPasswordModel)
         {
+
             var user = await _userManager.FindByEmailAsync(forgetPasswordModel.Email);
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
@@ -324,6 +325,14 @@ namespace LMS_G03.Controllers
         [Route("resetpassword")]
         public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
+            if(resetPasswordModel.NewPassword == null || resetPasswordModel.ConfirmNewPassword == null)
+                return BadRequest(new Response { Status = 400, Message = "New Password, Confirm New Password are required" });
+            if (resetPasswordModel.NewPassword.Length > 30 || resetPasswordModel.ConfirmNewPassword.Length > 30)
+                return BadRequest(new Response { Status = 400, Message = "New Password, Confirm New Password length up to 30 characters" });
+            if (resetPasswordModel.NewPassword.Length < 8 || resetPasswordModel.ConfirmNewPassword.Length < 8 || checkpass(resetPasswordModel.NewPassword) == false || checkpass(resetPasswordModel.ConfirmNewPassword) == false)
+                return BadRequest(new Response { Status = 400, Message = "Passwords are between 8 and 30 characters long and must contain at least one number, uppercase and special characters" });
+            if (resetPasswordModel.NewPassword != resetPasswordModel.ConfirmNewPassword)
+                return BadRequest(new Response { Status = 400, Message = "Confirm password does not match" });
             var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
             if (user == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
