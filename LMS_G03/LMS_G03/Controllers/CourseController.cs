@@ -110,8 +110,12 @@ namespace LMS_G03.Controllers
         [HttpPost("editcourse")]
         public async Task<IActionResult> EditCourse([FromBody] CourseModel course, string courseId)
         {
+            
             var coursee = await _context.Course.FindAsync(courseId);
-
+            if(coursee == null)
+                return BadRequest(new Response { Status = 400, Message = "not Found courseId" });
+            coursee.CourseName = course.CourseName;
+            coursee.CategoryId = course.CategoryId;
             coursee.CoourseImg = course.CoourseImg;
             coursee.CourseDocument = course.CourseDocument;
             coursee.CourseShortDetail = course.CourseShortDetail;
