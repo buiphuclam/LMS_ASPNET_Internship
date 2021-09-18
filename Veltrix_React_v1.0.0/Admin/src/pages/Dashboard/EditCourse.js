@@ -76,31 +76,34 @@ export default function EditCourse(props) {
         return s.blocks[0].text.trim().length > 0 && s1.blocks[0].text.trim().length > 0;
       };
 
-    useEffect(() =>  {
-    (
-        async () => {               
-            const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
-            const response = await fetch(link,{
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include'
-            });
-            
-            const content = await response.json();
-            setCategory(content.data)
-            console.log(content.data)
-            // if(categoryId == '')
-            // {
-            //     setcategoryId(content.data[1].categoryId) 
-            // }
-            // if(categoryid == categoryId){
-            //     setCategoryPosition(content.data[1].categoryId)
-            // }
-            
-              
-        }    
-    )();
-    },[]);
+    const loadCatory = async () => {               
+      const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
+      const response = await fetch(link,{
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include'
+      });
+      
+      const content = await response.json();
+      if (content.status === 200)
+      {
+        setCategory(content.data);
+        // console.log(content.data);
+      }
+
+      // if(categoryId == '')
+      // {
+      //     setcategoryId(content.data[1].categoryId) 
+      // }
+      // if(categoryid == categoryId){
+      //     setCategoryPosition(content.data[1].categoryId)
+      // }
+      
+        
+  }   
+    useEffect(() => {
+      loadCatory();
+    }, []);
 
     const change = async (name) =>{
         name.preventDefault()
@@ -126,7 +129,11 @@ export default function EditCourse(props) {
             });
             const content = await response.json();
             
-            console.log(content.data);
+            if (content.status === 200)
+            {
+              loadCatory();
+              console.log(content.data);
+            }
             // if(content.message === 'Success!')
             // {  
             //     setCourseName('')
@@ -233,7 +240,7 @@ export default function EditCourse(props) {
               <Button onClick={handleClose} color="primary">
                 Đóng
               </Button>
-              <Button type="submit" color="primary" autoFocus disabled={!validateForm() }>
+              <Button type="submit" color="primary" autoFocus disabled={!validateForm()} onClick={handleClose}>
                 Lưu
               </Button>
 

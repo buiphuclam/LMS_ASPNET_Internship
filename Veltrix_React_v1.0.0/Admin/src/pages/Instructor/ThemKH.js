@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import MetaTags from 'react-meta-tags';
 // import FormEditor from './FormEditors';
 import {useEffect} from "react";
+import { Redirect } from "react-router-dom";
 
 import {
   Card,
@@ -58,6 +59,7 @@ const ThemKH = () => {
   const [categoryId, setcategoryId] = useState('');
   const [courseDocument1, setcourseDocument] = useState(EditorState.createEmpty());
   const [coourseImg, setCourseImg] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
 
   const onEditorStateChange1 = courseShortDetail1 => {
@@ -114,36 +116,39 @@ const ThemKH = () => {
         console.log(content.data);
         if(content.message === 'Success!')
         {  
-            setCourseName('')
-            setcourseShortDetail(EditorState.createEmpty())
-            setcourseDocument(EditorState.createEmpty())                 
+            setRedirect(true);
+            setCourseName('');
+            loadCourse();
+            setcourseShortDetail(EditorState.createEmpty());
+            setcourseDocument(EditorState.createEmpty());              
         }
        
     }
   }
   const [category, setCategory] = useState([]);
-  useEffect(() =>  {
-      (
-          async () => {               
-              const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
-              const response = await fetch(link,{
-                  method: 'GET',
-                  headers: {'Content-Type': 'application/json'},
-                  credentials: 'include'
-              });
-              
-              const content = await response.json();
-              setCategory(content.data)
-              console.log(content.data)
-              if(categoryId == '')
-              {
-                  setcategoryId(content.data[1].categoryId) 
-              }
-                
-      }    
-      )();
-      },[]);
+  const loadCourse = async () => {               
+    const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
+    const response = await fetch(link,{
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    });
+    
+    const content = await response.json();
+    setCategory(content.data)
+    console.log(content.data)
+    if(categoryId == '')
+    {
+        setcategoryId(content.data[1].categoryId) 
+    }
+      
+  }   
+  useEffect(() => {
+    loadCourse();
+  }, []);
 
+  if(redirect)
+    return <Redirect to="/danhsachkhoahoc"/>;
 
   return (
     <React.Fragment>
@@ -212,6 +217,7 @@ const ThemKH = () => {
                     <label
                         htmlFor="example-text-input"
                         className="col-md-2 col-form-label"
+                        
                       >
                         Course Short Detail
                     </label>
@@ -221,6 +227,7 @@ const ThemKH = () => {
                           toolbarClassName="toolbarClassName"
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClassName"
+                          style ={{color:"black"}}
                           onEditorStateChange={onEditorStateChange1}
                           
                         />
@@ -241,6 +248,7 @@ const ThemKH = () => {
                           toolbarClassName="toolbarClassName"
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClassName"
+                          style ={{color:"black"}}
                           onEditorStateChange={onEditorStateChange2}
                           
                         />

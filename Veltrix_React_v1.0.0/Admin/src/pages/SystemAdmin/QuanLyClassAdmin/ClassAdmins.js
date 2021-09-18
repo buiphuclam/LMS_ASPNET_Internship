@@ -66,9 +66,12 @@ const ClassAdmins = () => {
     });
 
     const content = await res.json();
-    if(content.message ==='Success!')
+    if(content.status === 200)
+    {
       alert("Xóa thành công !");
+      loadUsers();
       setRedirect(true);
+    }
     
   };
 

@@ -76,30 +76,32 @@ const Dashboard = props => {
   
   const [course1, setCourse] = useState([]);
 
-  useEffect(() =>  {
-      (
-          async () => {               
-              const link = 'https://lmsg03.azurewebsites.net/api/Course/getcourse'
-              const response = await fetch(link,{
-                  method: 'GET',
-                  headers: {'Content-Type': 'application/json'},
-                  credentials: 'include'
-              });
-              
-              const content = await response.json();
+  const loadCourses = async () => {               
+    const link = 'https://lmsg03.azurewebsites.net/api/Course/getcourse'
+    const response = await fetch(link,{
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    });
+    
+    const content = await response.json();
 
-              // const {}
-              console.log(content.data);
-              setCourse(content.data);
-              
-              // if(course1 == '')
-              // {
-              //     setcategoryId(content.data[1].categoryId) 
-              // }
-                
-      }    
-      )();
-      },[])
+    // const {}
+    if (content.status === 200)
+    {
+      setCourse(content.data);
+      loadCourses();
+    }
+
+    
+    // if(course1 == '')
+    // {
+    //     setcategoryId(content.data[1].categoryId) 
+    // }
+    }
+    useEffect(() => {
+      loadCourses();
+    }, []);
 
 
 

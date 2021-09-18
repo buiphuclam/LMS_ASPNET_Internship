@@ -10,27 +10,33 @@ export default function ListSection(props) {
 
     
 
-      useEffect(() =>  {
-        (
-            async () => {
-                // const courseId = GetURLParameter('courseId')            
-                const link = 'https://lmsg03.azurewebsites.net/api/Course/getsection?courseId='+ courseId
-                const response = await fetch(link,{
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'},
-                    credentials: 'include',
-                });
-                
-                const content = await response.json();
-                console.log(content.data)
-                setSectionList(content.data)
-                if(sectionlist1 == '')
-                {
-                    <div>Không có dữ liệu</div>
-                }                     
-        }    
-        )();
-        },[]);
+    const loadSection = async () => {
+        // const courseId = GetURLParameter('courseId')            
+        const link = 'https://lmsg03.azurewebsites.net/api/Course/getsection?courseId='+ courseId
+        const response = await fetch(link,{
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+        });
+        
+        const content = await response.json();
+        if(content.status === 200)
+        {
+            //console.log(content.data)
+            setSectionList(content.data);
+            loadSection();
+        }
+
+        if(sectionlist1 == '')
+        {
+            <div>Không có dữ liệu</div>
+        }                     
+    }  
+    
+
+    useEffect(() => {
+        loadSection();
+    }, []);
 
 
         const sectionlist = sectionlist1;

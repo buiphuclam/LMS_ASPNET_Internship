@@ -45,6 +45,11 @@ const handDelete = async () =>{
 
     });
     const content = await response.json();
+    if(content.status === 200)
+    {
+      setRedirect(true);
+      loadCardQuiz();
+    }
     // courseId(null);
     // console.log(content.data.courseId);
     // alert(courseId);
@@ -56,31 +61,28 @@ const handDelete = async () =>{
         setCol1(!col1)
       }
   
-    useEffect(() =>  {
-        (
+    const loadCardQuiz = async () => {          
+      const link = 'https://lmsg03.azurewebsites.net/api/Questions/getquestionbyQuizId/' + quizId
+      const response = await fetch(link,{
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+          credentials: 'include',
+      });
+      
+      const content = await response.json();
+      if(content.data !== null)
+      {
+        loadCardQuiz();
+        setlistQuess(content.data)
+        console.log(content.data)
+      }
 
-            async () => {          
-                const link = 'https://lmsg03.azurewebsites.net/api/Questions/getquestionbyQuizId/' + quizId
-                const response = await fetch(link,{
-                    method: 'GET',
-                    headers: {'Content-Type': 'application/json'},
-                    credentials: 'include',
-                });
-                
-                const content = await response.json();
-                if(content.data !== null)
-                {
-                setlistQuess(content.data)
-                console.log(content.data)
-                
-               
-
-                }
-
-                // setquizId(content.data[0].quizId)                             
-        }    
-        )();
-        },[]);
+      // setquizId(content.data[0].quizId)                             
+      }    
+  
+    useEffect(() => {
+      loadCardQuiz();
+    }, []);
         
 
 

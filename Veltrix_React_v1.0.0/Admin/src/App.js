@@ -37,7 +37,7 @@ const App = props => {
   const [isAuth,setIsAuth] = useState(false)
   
   
-  const listNavSA = [{name: 'QL Người Dùng', path: 'quanlynguoidung'},
+  const listNavSA = [
                     {name: 'QL Class Admin', path: 'quanlyclassadmin'},
                     {name: 'QL Instructor', path: 'quanlyinstructor'},
                     {name: 'QL Giáo viên', path: 'quanlygiaovien'},
@@ -122,7 +122,7 @@ const App = props => {
         : (role===5) ? 
           <>
           <Route path="/quanlynguoidung" exact component={() => <QuanLyNguoiDung/>}/>
-          <Route path="/quanlygiaovien"  component={() => <QuanLyGiaoVien/>}/>
+          <Route path="/quanlygiaovien" component={() => <QuanLyGiaoVien/>}/>
           <Route path="/quanlyclassadmin"  component={() => <QuanLyClassAdmin/>}/>
           <Route path="/quanlyhocsinh"  component={() => <QuanLyHocSinh/>}/>
           <Route path="/quanlyinstructor"  component={() => <QuanLyInstructor/>}/>

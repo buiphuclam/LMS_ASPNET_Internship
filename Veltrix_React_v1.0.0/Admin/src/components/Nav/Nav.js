@@ -7,6 +7,7 @@ import {
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import logo from '../../assets/images/logo-sm.png';
 
 
 import {
@@ -77,7 +78,7 @@ export default function Nav(props) {
                     <div className="nav1">
                     <Col sm={3}>
                     <div className="nav-logo">
-                      <a href="Home.html"><img src="imgs/logo_kall.png" height="70px" /></a>
+                      <a href="Home.html"><img src={logo} height="50px" /></a>
                     </div>
                     </Col>
                     
@@ -139,7 +140,7 @@ export default function Nav(props) {
               <div className="nav1">
               <Col sm={2}>
                     <div className="nav-logo">
-                      <a href="Home.html"><img src="imgs/logo_kall.png" height="70px" /></a>
+                      <a href="Home.html"><img src={logo} height="60px" /></a>
                     </div>
                 </Col>
                 {listNav.map((value, i)=>{

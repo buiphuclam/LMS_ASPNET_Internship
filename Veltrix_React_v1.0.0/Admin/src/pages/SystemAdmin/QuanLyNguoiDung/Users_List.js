@@ -51,7 +51,7 @@ const Users = () => {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
-  },[filters]);
+  });
 
   const content = await res.json();
   if(content.message ==='Success')
@@ -65,7 +65,7 @@ const Users = () => {
 
   useEffect(() => {
     loadUsers();
-  });
+  },[]);
 
 
   // async function handleNextPage () {
@@ -105,9 +105,12 @@ const Users = () => {
     });
 
     const content = await res.json();
-    if(content.message ==='Success!')
+    if(content.status === 200)
+    {
       alert("Xóa thành công !");
+      loadUsers();
       setRedirect(true);
+    }
     
   };
 
@@ -175,12 +178,12 @@ const Users = () => {
             </Col>
             </Row>
             <button className="btn btn-primary btn-sm" disabled={page.pageNumber < 2} 
-            onClick={() =>handleChangePage(page.pageNumber-1)}
+            onClick={() =>handleChangePage(page.pageNumber-1), loadUsers()}
             >
               Previous
             </button>
             <button className="btn btn-primary btn-sm" disabled={page.pageNumber > (page.totalPages - 1)} 
-            onClick={() =>handleChangePage(page.pageNumber+1)}
+            onClick={() =>handleChangePage(page.pageNumber+1), loadUsers()}
             >
               Next
             </button>

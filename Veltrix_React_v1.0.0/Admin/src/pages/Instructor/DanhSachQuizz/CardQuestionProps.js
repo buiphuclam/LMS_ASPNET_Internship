@@ -33,6 +33,10 @@ const handDelete = async () =>{
 
     });
     const content = await response.json();
+    if(content.status === 200)
+    {
+      setRedirect(true);
+    }
     // courseId(null);
     // console.log(content.data.courseId);
     // alert(courseId);
