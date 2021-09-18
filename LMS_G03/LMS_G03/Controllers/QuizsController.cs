@@ -62,8 +62,8 @@ namespace LMS_G03.Controllers
             if (quiz.QuizName == null || quiz.QuizTime == null)
                 return BadRequest(new Response { Status = 400, Message = "QuizName and QuizTime must Not be Null!" });
 
-            if (quiz.QuizTime < 0)
-                return BadRequest(new Response { Status = 400, Message = "QuizTime must >= 0 " });
+            if (quiz.QuizTime < 0 || quiz.QuizTime >300)
+                return BadRequest(new Response { Status = 400, Message = "QuizTime must >= 0 and <= 300 " });
             var checkname = await _context.Quiz.Where(s => s.QuizName == quiz.QuizName).ToListAsync();
 
             if (checkname.Count != 0)
@@ -93,8 +93,8 @@ namespace LMS_G03.Controllers
             if (quiz.QuizName == null || quiz.QuizTime == null)
                 return BadRequest(new Response { Status = 400, Message = "QuizName and QuizTime must Not be Null!" });
 
-            if (quiz.QuizTime < 0)
-                return BadRequest(new Response { Status = 400, Message = "QuizTime must >= 0 " });
+            if (quiz.QuizTime < 0 || quiz.QuizTime > 300)
+                return BadRequest(new Response { Status = 400, Message = "QuizTime must >= 0 and <= 300 " });
             var checkname = await _context.Quiz.Where(s => s.QuizName == quiz.QuizName).ToListAsync();
 
             if (checkname.Count != 0)
