@@ -83,7 +83,8 @@ namespace LMS_G03.Controllers
             if(questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
                 || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions .Wrong3)
                 return BadRequest(new Response { Status = 400, Message = "Answers cannot be repeated" });
-
+            if (questions.Correct == null)
+                return BadRequest(new Response { Status = 400, Message = "Please choose correct!" });
             var findquestion = await _context.Questions.FindAsync(questions.QuestionId);
             if (findquestion == null)
             {
@@ -118,6 +119,8 @@ namespace LMS_G03.Controllers
             if(questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
                 || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions .Wrong3)
                 return BadRequest(new Response { Status = 400, Message = "Answers cannot be repeated" });
+            if(questions.Correct == null)
+                return BadRequest(new Response { Status = 400, Message = "Please choose correct!" });
             var newquestion = new Questions();
             newquestion.QuestionText = questions.QuestionText;
             newquestion.Correct = questions.Correct;
