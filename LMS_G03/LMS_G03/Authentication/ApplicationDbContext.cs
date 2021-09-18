@@ -80,10 +80,10 @@ namespace LMS_G03.Authentication
                 .HasMany(c => c.Sections)
                 .WithOne(e => e.Course)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.Entity<Course>()
-                .HasMany(c => c.Questions)
-                .WithOne(e => e.Course)
-                .OnDelete(DeleteBehavior.SetNull);
+            //builder.Entity<Course>()
+            //    .HasMany(c => c.Questions)
+            //    .WithOne(e => e.Course)
+            //    .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Section>()
                 .HasMany(c => c.Lectures)

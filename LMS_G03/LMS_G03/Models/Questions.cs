@@ -13,8 +13,6 @@ namespace LMS_G03.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string QuestionId { get; set; }
         public string QuestionText { get; set; }
-        public string CourseId { get; set; }
-        public Course Course { get; set; }
         public string Correct { get; set; }
         public string Wrong1 { get; set; }
         public string Wrong2 { get; set; }

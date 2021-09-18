@@ -22,11 +22,10 @@ namespace LMS_G03.Controllers
     public class WeatherForecastController : ControllerBase
     {
         [HttpGet]
-        [Route("Teacher")]
-        [Authorize("Teacher")]
-        public bool Teacher()
+        [Route("authorize")]
+        public int Authorize()
         {
-            return true;
+            return -1;
         }
     }
 }

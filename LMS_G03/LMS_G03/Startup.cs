@@ -44,6 +44,24 @@ namespace LMS_G03
             Global.DomainName = Configuration["DomainName"];
 
             services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Allow",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:3000", "http://localhost",
+                                          "http://localhost:3001", "https://lmsg03.herokuapp.com")
+                                            .AllowAnyHeader()
+                                            .AllowCredentials()
+                                            .AllowAnyMethod();
+                                      builder.AllowAnyHeader();
+                                      builder.AllowAnyMethod();
+                                      builder.AllowCredentials();
+                                      //builder.AllowAnyOrigin();
+                                      builder.SetIsOriginAllowedToAllowWildcardSubdomains();
+                                      builder.SetIsOriginAllowed(_ => true);
+                                  });
+            });
 
             services.ConfigureApplicationCookie(options => {
                 options.Cookie.SameSite = SameSiteMode.None;
@@ -112,17 +130,17 @@ namespace LMS_G03
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"])),
                     RoleClaimType = ClaimTypes.Role
                 };
-                options.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        var jwt = (context.SecurityToken as JwtSecurityToken)?.ToString();
-                        // get your JWT token here if you need to decode it e.g on https://jwt.io
-                        // And you can re-add role claim if it has different name in token compared to what you want to use in your ClaimIdentity:  
-                        AddRoleClaims(context.Principal);
-                        return Task.CompletedTask;
-                    }
-                };
+                //options.Events = new JwtBearerEvents
+                //{
+                //    OnTokenValidated = context =>
+                //    {
+                //        var jwt = (context.SecurityToken as JwtSecurityToken)?.ToString();
+                //        // get your JWT token here if you need to decode it e.g on https://jwt.io
+                //        // And you can re-add role claim if it has different name in token compared to what you want to use in your ClaimIdentity:  
+                //        AddRoleClaims(context.Principal);
+                //        return Task.CompletedTask;
+                //    }
+                //};
             });
             //.AddCookie()
             //.AddGoogleOpenIdConnect(options =>
@@ -135,8 +153,16 @@ namespace LMS_G03
             {
                 options.AddPolicy("SystemAdmin",
                     options => options.RequireClaim(ClaimTypes.Role, UserRoles.SystemAdmin));
+                options.AddPolicy("ClassAdmin",
+                    options => options.RequireClaim(ClaimTypes.Role, UserRoles.ClassAdmin));
                 options.AddPolicy("Teacher",
                     options => options.RequireClaim(ClaimTypes.Role, UserRoles.Teacher));
+                options.AddPolicy("MentorTA",
+                    options => options.RequireClaim(ClaimTypes.Role, UserRoles.MentorTA));
+                options.AddPolicy("Instructor",
+                    options => options.RequireClaim(ClaimTypes.Role, UserRoles.Instructor));
+                options.AddPolicy("Student",
+                    options => options.RequireClaim(ClaimTypes.Role, UserRoles.Student));
             });
 
             services.Configure<IdentityOptions>(opts =>
@@ -188,11 +214,12 @@ namespace LMS_G03
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("Allow");
             app.UseCors(builder => builder
                 //.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .SetIsOriginAllowed(hostName => true)
+                .SetIsOriginAllowed(_ => true)
                 .AllowCredentials());
 
             app.UseRouting();

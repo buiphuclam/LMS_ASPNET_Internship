@@ -35,9 +35,9 @@ namespace LMS_G03.Controllers
         [HttpGet("getquestionbyQuizId/{quizid}")]
         public async Task<ActionResult<IEnumerable<Questions>>> GetQuestionsByQuizId(string quizid)
         {
-            var questions = await _context.Questions.Where(s => s.QuizId == quizid).Select(s=> new QuestionSubmit() { QuestionId = s.QuestionId, QuestionText = s.QuestionText, CourseId = s.CourseId, Correct = s.Correct, Wrong1 = s.Wrong1, Wrong2 = s.Wrong2, Wrong3 = s.Wrong3, QuizId = s.QuizId} ).ToListAsync();
+            var questions = await _context.Questions.Where(s => s.QuizId == quizid).Select(s=> new QuestionSubmit() { QuestionId = s.QuestionId, QuestionText = s.QuestionText, Correct = s.Correct, Wrong1 = s.Wrong1, Wrong2 = s.Wrong2, Wrong3 = s.Wrong3, QuizId = s.QuizId} ).ToListAsync();
 
-            if (questions.Count == 0 || questions == null)
+            if (questions.Count() == 0 || questions == null)
             {
                 return NotFound(new Response { Status = 404, Message = "NotFound! please check QuizId" });
             }
@@ -45,19 +45,19 @@ namespace LMS_G03.Controllers
             return Ok(new Response { Status = 200, Message = Message.Success, Data = questions });
         }
 
-        [HttpGet("getquestionbyCourseIdAndQuizId/{courseid}/{quizid}")]
-        // GET: getquestionbyCourseIdAndQuizId/{courseid}/{quizid}
-        public async Task<ActionResult<QuestionModel>> GetQuestionsByCourseAndQuiz(string courseid,string quizid)
-        {
-            var questions = await _context.Questions.Where(s => s.CourseId == courseid && s.QuizId == quizid).ToListAsync();
+        //[HttpGet("getquestionbyCourseIdAndQuizId/{courseid}/{quizid}")]
+        //// GET: getquestionbyCourseIdAndQuizId/{courseid}/{quizid}
+        //public async Task<ActionResult<QuestionModel>> GetQuestionsByCourseAndQuiz(string courseid,string quizid)
+        //{
+        //    var questions = await _context.Questions.Where(s => s.CourseId == courseid && s.QuizId == quizid).ToListAsync();
 
-            if (questions.Count == 0 || questions == null)
-            {
-                return NotFound(new Response { Status = 404, Message = "NotFound! please check CourseId and QuizId" });
-            }
+        //    if (questions.Count == 0 || questions == null)
+        //    {
+        //        return NotFound(new Response { Status = 404, Message = "NotFound! please check CourseId and QuizId" });
+        //    }
 
-            return Ok(new Response { Status = 200, Message = Message.Success, Data = questions });
-        }
+        //    return Ok(new Response { Status = 200, Message = Message.Success, Data = questions });
+        //}
         // GET: api/Questions/5
         [HttpGet("getquestionbyid/{id}")]
         public async Task<ActionResult<Questions>> GetQuestions(string id)
@@ -78,7 +78,7 @@ namespace LMS_G03.Controllers
         [HttpPut("updatequestion")]
         public async Task<IActionResult> PutQuestions([FromBody]QuestionModel questions)
         {
-            if(questions.QuestionText == null || questions.Correct == null|| questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null || questions.CourseId == null )
+            if(questions.QuestionText == null || questions.Correct == null|| questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null)
                 return BadRequest(new Response { Status = 400, Message = "QuestionText, Correct, Wrong1, Wrong2, Wrong3, CourseId Not Null!" });
             if(questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
                 || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions .Wrong3)
@@ -96,7 +96,6 @@ namespace LMS_G03.Controllers
                 findquestion.Wrong1 = questions.Wrong1;
                 findquestion.Wrong2 = questions.Wrong2;
                 findquestion.Wrong3 = questions.Wrong3;
-                findquestion.CourseId = questions.CourseId;
                 findquestion.QuizId = questions.QuizId;
                 await _context.SaveChangesAsync();
 
@@ -114,7 +113,7 @@ namespace LMS_G03.Controllers
         [HttpPost("addquestion")]
         public async Task<ActionResult<QuestionModel>> PostQuestions(QuestionModel questions)
         {
-            if(questions.QuestionText == null || questions.Correct == null|| questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null || questions.CourseId == null )
+            if(questions.QuestionText == null || questions.Correct == null|| questions.Wrong1 == null || questions.Wrong2 == null || questions.Wrong3 == null)
                 return BadRequest(new Response { Status = 400, Message = "QuestionText, Correct, Wrong1, Wrong2, Wrong3, CourseId Not Null!" });
             if(questions.Correct == questions.Wrong1 || questions.Correct == questions.Wrong2 || questions.Correct == questions.Wrong3
                 || questions.Wrong1 == questions.Wrong2 || questions.Wrong1 == questions.Wrong3 || questions.Wrong2 == questions .Wrong3)
@@ -125,7 +124,6 @@ namespace LMS_G03.Controllers
             newquestion.Wrong1 = questions.Wrong1;
             newquestion.Wrong2 = questions.Wrong2;
             newquestion.Wrong3 = questions.Wrong3;
-            newquestion.CourseId = questions.CourseId;
             newquestion.QuizId = questions.QuizId;
             _context.Questions.Add(newquestion);
             try

@@ -173,19 +173,27 @@ namespace LMS_G03.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            //if (Request.Cookies["jwt"] != null)
-            //{
-            //    var jwt = Request.Cookies["jwt"];
-            //    // HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //    var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
-            //    Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
-            //    {
-            //        HttpOnly = true,
-            //        Secure = true,
-            //        SameSite = SameSiteMode.None,
-            //        Expires = DateTime.Now.AddDays(-1)
-            //    });
-            //}
+            if (Request.Cookies["jwt"] != null && Request.Cookies["jwt_r"] != null)
+            {
+                var jwt = Request.Cookies["jwt"];
+                // HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+                Response.Cookies.Append("jwt", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+                jwt = Request.Cookies["jwt_r"];
+                Response.Cookies.Append("jwt_r", new JwtSecurityTokenHandler().WriteToken(token), new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+            }
 
             Response.Cookies.Delete("jwt", new CookieOptions {
                 HttpOnly = true,
@@ -258,7 +266,7 @@ namespace LMS_G03.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             //var resetPasswordLink = Url.Action(/*nameof(ResetPassword)*/"http://localhost:3000/api/authenticate/resetpassword", "Authenticate", new { token, email = user.Email }, Request.Scheme);
-            var message = "http://localhost:3000/resetpassword?email=" + user.Email + "&token=" + token;
+            var message = "https://lmsg03.herokuapp.com/resetpassword?email=" + user.Email + "&token=" + token;
             bool emailResponse = _mailHelperService.SendEmail(forgetPasswordModel.Email, message, "Reset password confirmation");
 
             if (emailResponse)
@@ -316,6 +324,37 @@ namespace LMS_G03.Controllers
             }
         }
 
-        
+        [HttpGet]
+        //[Authorize]
+        [Route("authorize")]
+        public async Task<IActionResult> Authorize()
+        {
+            int rolekey = -1;
+            try
+            {
+                var jwt_r = Request.Cookies["jwt_r"];
+                var token = _verifyJwtService.Verify(jwt_r, _configuration["JWT:Secret"]);
+                var claims = token.Claims;
+                var roles = claims.Where(c => c.Type == ClaimTypes.Role).ToList();
+
+                if (roles == null)
+                    return Unauthorized(new Response { Status = 401, Message = Message.InvalidUser, Data = rolekey });
+
+                foreach(var role in roles)
+                {
+                    if (role.Value.Equals(UserRoles.Student)) rolekey = 0;
+                    if (role.Value.Equals(UserRoles.Instructor)) rolekey = 1;
+                    if (role.Value.Equals(UserRoles.MentorTA)) rolekey = 2;
+                    if (role.Value.Equals(UserRoles.Teacher)) rolekey = 3;
+                    if (role.Value.Equals(UserRoles.ClassAdmin)) rolekey = 4;
+                    if (role.Value.Equals(UserRoles.SystemAdmin)) rolekey = 5;
+                }
+                return Ok(new Response { Status = 200, Message = Message.Success, Data = rolekey });
+            }
+            catch
+            {
+                return Unauthorized(new Response { Status = 401, Message = Message.InvalidUser, Data = rolekey });
+            }
+        }
     }
 }

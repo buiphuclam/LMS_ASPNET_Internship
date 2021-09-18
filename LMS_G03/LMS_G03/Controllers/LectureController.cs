@@ -39,11 +39,11 @@ namespace LMS_G03.Controllers
         {
             var section = await _context.Section.FindAsync(lecture.SectionId.Trim());
             if (section == null)
-                return NotFound(new Response { Status = 404, Message = Message.NotFound });
+                return NotFound(new Response { Status = 404, Message = "Section not found" });
 
             var teacher = await _userManager.FindByIdAsync(section.TeacherId.Trim());
             if (teacher == null)
-                return NotFound(new Response { Status = 404, Message = Message.NotFound });
+                return NotFound(new Response { Status = 404, Message = "Teacher not found" });
 
             var noOfLecture = _context.Lecture.Where(a => a.Section.SectionId.Equals(lecture.SectionId)).Count() + 1;
             string folderName = "Lecture_" + noOfLecture.ToString() + "_" + lecture.LectureDate.ToString();
@@ -115,17 +115,23 @@ namespace LMS_G03.Controllers
             return Ok(new Response { Status = 200, Message = Message.Success, Data = quiz });
         }
         [HttpPost("submitquiz")]
-        public async Task<ActionResult> submitquiz([FromBody] List<QuestionSubmit> questionSubmits, string idlecture,string idstudent)
+        public async Task<ActionResult> submitquiz([FromBody] List<QuestionSubmit> questionSubmits, string idlecture)
         {
-            if(questionSubmits.Count == 0 || questionSubmits == null)
+            var jwt = Request.Cookies["jwt"];
+            var token = _verifyJwtService.Verify(jwt, _configuration["JWT:Secret"]);
+            User user = await _userManager.FindByIdAsync(token.Issuer);
+            if (user == null)
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
+
+            if (questionSubmits.Count == 0 || questionSubmits == null)
                 return BadRequest(new Response { Status = 400, Message = "Answer is empty!" });
-            if (idlecture == null || idstudent == null)
-                return BadRequest(new Response { Status = 400, Message = "LectureId and StudentId must Not be Null!" });
+            if (idlecture == null)
+                return BadRequest(new Response { Status = 400, Message = "LectureId must Not be Null!" });
             var findlecture = await _context.Lecture.FindAsync(idlecture);
-            var findstudent = await _context.User.FindAsync(idstudent);
-            if (findlecture == null || findstudent == null)
+
+            if (findlecture == null)
             {
-                return BadRequest(new Response { Status = 400, Message = "LectureId or StudentId Not Invalid!" });
+                return BadRequest(new Response { Status = 400, Message = "LectureId Not Invalid!" });
             }
 
             var findquiz = await _context.Quiz.FindAsync(questionSubmits[0].QuizId);
@@ -138,14 +144,14 @@ namespace LMS_G03.Controllers
                 if(item.Chose == item.Correct)
                     numberCorrect++;
                 Result result = new Result();
-                SetValuesResult(ref result, findquiz.QuizName, item.QuestionText, item.Correct, item.Wrong1, item.Wrong2, item.Wrong3, idlecture, idstudent, item.Chose);
+                SetValuesResult(ref result, findquiz.QuizName, item.QuestionText, item.Correct, item.Wrong1, item.Wrong2, item.Wrong3, idlecture, user.Id, item.Chose);
                 _context.Result.Add(result);
             }
 
 
             QuizForLecture quizForLecture = new QuizForLecture();
             quizForLecture.LectureId = idlecture;
-            quizForLecture.StudentId = idstudent;
+            quizForLecture.StudentId = user.Id;
             quizForLecture.QuizName = findquiz.QuizName;
             quizForLecture.Mark = ScoreForQuiz(numberCorrect, totalquestion);
             _context.QuizForLecture.Add(quizForLecture);
@@ -155,13 +161,16 @@ namespace LMS_G03.Controllers
             }
             catch
             {
-                var quiz = await _context.QuizForLecture.Where(s => s.LectureId == idlecture && s.StudentId == idstudent).ToListAsync();
+                var quiz = await _context.QuizForLecture.Where(s => s.LectureId == idlecture && s.StudentId == user.Id).FirstOrDefaultAsync();
 
-                if (quiz.Count != 0)
+                if (quiz != null)
                 {
-                    return BadRequest(new Response { Status = 400, Message = "You have Done it Before!" });
+                    //return BadRequest(new Response { Status = 400, Message = "You have Done it Before!" });
+                    quiz.Mark = ScoreForQuiz(numberCorrect, totalquestion);
+                    _context.Update(quiz);
+                    await _context.SaveChangesAsync();
                 }
-                return BadRequest(new Response { Status = 400, Message = "Submit Failed, please try again!" });
+                //return BadRequest(new Response { Status = 400, Message = "Submit Failed, please try again!" });
             }
             ResultSubmit resultSubmit = new ResultSubmit();
             resultSubmit.QuizName = findquiz.QuizName;
@@ -219,6 +228,26 @@ namespace LMS_G03.Controllers
             }
 
             return Ok(new Response { Status = 200, Message = Message.Success, Data = targetLecture });
+        }
+
+        [HttpDelete("deletelecture")]
+        public async Task<IActionResult> DeleteLecture([FromBody] string lectureId)
+        {
+            var targetLecture = await _context.Lecture.FindAsync(lectureId.Trim());
+            if (targetLecture == null)
+                return NotFound(new Response { Status = 404, Message = Message.NotFound });
+
+            try
+            {
+                _context.Lecture.Remove(targetLecture);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response { Status = 500, Message = ex.Message });
+            }
+
+            return Ok(new Response { Status = 200, Message = Message.Success });
         }
 
         [HttpPost("getlecture")]
