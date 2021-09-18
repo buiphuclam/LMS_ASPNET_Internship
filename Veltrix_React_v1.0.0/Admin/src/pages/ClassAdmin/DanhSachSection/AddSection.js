@@ -83,6 +83,12 @@ export default function AddSection(props) {
                 })
             });
             const content = await response.json();
+            if(content.status === 200)
+            {
+                //console.log(content.data)
+                alert("Thêm lớp học thành công !");
+            }
+
         }                 
     }
     

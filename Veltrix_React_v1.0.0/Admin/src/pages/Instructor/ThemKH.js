@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import {useEffect} from "react";
+import { Redirect } from "react-router-dom";
 
 import {
   Card,
@@ -9,7 +10,8 @@ import {
   Container,
   Input,
   FormGroup,
-  Button
+  Button,
+
 } from "reactstrap"
 
 // Form Editor
@@ -18,7 +20,15 @@ import { EditorState } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw } from 'draft-js';
 import { AvForm, AvField } from "availity-reactstrap-validation"
+import FormControl from '@material-ui/core/FormControl';
 
+const useStyle ={
+  formControl: {
+    maxWidth: '1000px',
+    margin: 'auto',
+    // width: 'fit-content',
+  }
+}
 
 const ThemKH = () => {
 
@@ -30,6 +40,8 @@ const ThemKH = () => {
   const [categoryId, setcategoryId] = useState('');
   const [courseDocument1, setcourseDocument] = useState(EditorState.createEmpty());
   const [coourseImg, setCourseImg] = useState('');
+  const [redirect, setRedirect] = useState(false);
+  const [category, setCategory] = useState([]);
 
 
   const onEditorStateChange1 = courseShortDetail1 => {
@@ -72,35 +84,41 @@ const ThemKH = () => {
         console.log(content.data);
         if(content.message === 'Success!')
         {  
-            setCourseName('')
-            setcourseShortDetail(EditorState.createEmpty())
-            setcourseDocument(EditorState.createEmpty())                 
+          setRedirect(true);
+          setCourseName('');
+          loadCourse();
+          setcourseShortDetail(EditorState.createEmpty());
+          setcourseDocument(EditorState.createEmpty());  
+              
         }
        
     }
   }
-  const [category, setCategory] = useState([]);
-  useEffect(() =>  {
-      (
-          async () => {               
-              const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
-              const response = await fetch(link,{
-                  method: 'GET',
-                  headers: {'Content-Type': 'application/json'},
-                  credentials: 'include'
-              });
-              
-              const content = await response.json();
-              setCategory(content.data)
-              console.log(content.data)
-              if(categoryId == '')
-              {
-                  setcategoryId(content.data[1].categoryId) 
-              }
-                
-      }    
-      )();
-      },[]);
+  
+  const loadCourse = async () => {               
+    const link = 'https://lmsg03.azurewebsites.net/api/Category/getcategory'
+    const response = await fetch(link,{
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    });
+    
+    const content = await response.json();
+    setCategory(content.data)
+    console.log(content.data)
+    if(categoryId == '')
+    {
+        setcategoryId(content.data[1].categoryId) 
+    }
+      
+  }   
+  useEffect(() => {
+    loadCourse();
+  }, []);
+
+  if(redirect)
+    return <Redirect to="/danhsachkhoahoc"/>;
+
 
 
   return (
@@ -111,15 +129,9 @@ const ThemKH = () => {
           <Row>
             <Col>
               <Card>
-                <CardBody>
-                  <Row className="mb-3">
+                <CardBody >
 
-                      <label 
-                      htmlFor="example-text-input"
-                        className="col-md-2 col-form-label">
-                      First name
-                      </label>
-                      <div className="col-md-10">
+                  <Row className="mb-3" style={useStyle.formControl}>
                         <AvField
                           className="form-control"
                           type="text"
@@ -131,18 +143,11 @@ const ThemKH = () => {
                           placeholder="Nhập tên khóa học"
                           onChange={(e)=>setCourseName(e.target.value)}
                         />
-                     </div>
                      
                   </Row>
 
-                  <Row className="mb-3">
-                    <label
-                        htmlFor="example-text-input"
-                        className="col-md-2 col-form-label"
-                      >
-                        Category
-                    </label>
-                    <div className="col-md-10">
+                  <Row className="mb-3" style={useStyle.formControl}>
+                    
                       <FormGroup>
                           <Input type="select" name="select" id="status"  name="status" value={categoryId} onChange={(e)=>setcategoryId(e.target.value)}>
                             {category.map((todo, i)=>{
@@ -150,39 +155,25 @@ const ThemKH = () => {
                             })} 
                           </Input>
                       </FormGroup>
-                    </div>
-                  
+                    </Row>
+
+                  <Row className="mb-3" style={useStyle.formControl}>
+                    <FormControl>
+                          <Editor
+                            editorState={courseShortDetail1}
+                            editorStyle={{color: 'black'}}
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                            onEditorStateChange={onEditorStateChange1}
+                            
+                          />
+
+                    </FormControl>
                   </Row>
 
-                  <Row className="mb-3">
-                    <label
-                        htmlFor="example-text-input"
-                        className="col-md-2 col-form-label"
-                      >
-                        Course Short Detail
-                    </label>
-                    <div className="col-md-10">
-                        <Editor
-                          editorState={courseShortDetail1}
-                          editorStyle={{color: 'black'}}
-                          toolbarClassName="toolbarClassName"
-                          wrapperClassName="wrapperClassName"
-                          editorClassName="editorClassName"
-                          onEditorStateChange={onEditorStateChange1}
-                          
-                        />
-                        
-                    </div>
-                  
-                  </Row>
-                  <Row className="mb-3">
-                    <label
-                        htmlFor="example-text-input"
-                        className="col-md-2 col-form-label"
-                      >
-                        Course Document
-                    </label>
-                    <div className="col-md-10">
+                  <Row className="mb-3" style={useStyle.formControl}>
+                    <FormControl>
                         <Editor
                           editorState={courseDocument1}
                           editorStyle={{color: 'black'}}
@@ -190,19 +181,22 @@ const ThemKH = () => {
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClassName"
                           onEditorStateChange={onEditorStateChange2}
-                          
+                        
                         />
-                    </div>
-                  </Row>
-                           
+                    </FormControl>
+                    </Row>
+
                 </CardBody>
+  
                 <Button 
                 color="primary" 
-                size="lg" 
-                block tyle='submit' 
+                size="lg"
+                tyle='submit' 
                 disabled={!validateForm() }
-                >Thêm</Button>
+                >Thêm
+                </Button>
               </Card>
+              
             </Col>
           </Row>
         </Container>

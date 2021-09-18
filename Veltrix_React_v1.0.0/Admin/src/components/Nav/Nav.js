@@ -1,12 +1,17 @@
 import React from 'react'
 import "./style.css"
 import {
-  Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle,Row,Col
+  Row,Col,
+  Button,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+
 } from 'reactstrap';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import logo from '../../assets/images/logo-sm.png';
+// import '../../assets/images/'
+
 
 
 import {
@@ -39,7 +44,6 @@ const useStyle = {
 export default function Nav(props) {
   const {name, setName, listNav,setIsAuth} = props
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [redirect, setRedirect] = React.useState(false)
 
   const logout = async () => {
     await fetch('https://lmsg03.azurewebsites.net/api/Authenticate/logout',{
@@ -50,7 +54,6 @@ export default function Nav(props) {
 
     setName('');
     setIsAuth(false)
-    // setRedirect(true)
   }   
 
   const handleClick = (event) => {
@@ -77,36 +80,13 @@ export default function Nav(props) {
                     <div className="nav1">
                     <Col sm={3}>
                     <div className="nav-logo">
-                      <a href="Home.html"><img src="imgs/logo_kall.png" height="70px" /></a>
+                      <Link to="/"><img src={logo} height="50px" /></Link>
                     </div>
                     </Col>
-                    
-      
-                    {/* <Col sm={3}>
-                    <button className="nav-button btn"><a href="Home.html">TRANG CHỦ</a></button>
-                    </Col>
-                    <Col sm={3}>
-                    <button className="nav-button btn"><a href="Home.html">CHÚNG TÔI</a></button>
-                    </Col>
-                    <Col sm={3}>
-                    <button className="nav-button btn " ><a href="Home.html">LIÊN HỆ</a></button>
-                    </Col> */}
                     </div>
                   </Row>
-                  
-                  {/* <div className="nav1">
-                    
-                    
-                    <div>
-                      <button className="nav-button btn " id="btnkhachhang">KHÁCH HÀNG</button>
-                    </div>
-                    <div>
-                      <button className="nav-button btn"><a href="Home.html">CHÚNG TÔI</a></button>
-                    </div>
-                    <div>
-                      <button className="nav-button btn "><a href="Home.html">LIÊN HỆ</a></button>
-                    </div>
-                  </div> */}
+                
+
                 </Col>
                 <Col sm={6} style={useStyle.navControl} >
                     <Row >
@@ -139,11 +119,11 @@ export default function Nav(props) {
               <div className="nav1">
               <Col sm={2}>
                     <div className="nav-logo">
-                      <a href="Home.html"><img src="imgs/logo_kall.png" height="70px" /></a>
+                    <Link to="/"><img src={logo} height="50px" /></Link>
                     </div>
                 </Col>
                 {listNav.map((value, i)=>{
-                   return <Col sm={2}>
+                   return <Col sm={3}>
                             <button className="nav-button btn" style={useStyle.buttonControl1}>
                               <Link to={value.path}>{value.name}</Link>
                             </button>
@@ -152,19 +132,18 @@ export default function Nav(props) {
               </div>
             </Col>
 
-              <Col sm={4} className="navName">
-                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                  {name}
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={logout}>Logout</MenuItem>
-                </Menu>
+              <Col sm={6} className="navName">
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    {name}
+                  </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem onClick={logout}>
+                      Đăng Xuất
+                        
+                      </DropdownItem>
+                    </DropdownMenu>
+              </UncontrolledDropdown>
             </Col>
             </Row>
             <Switch>

@@ -82,14 +82,16 @@ export default function AddQuestion(props) {
             });
             const content = await response.json();
             console.log(content)
-            if(content.message === 'Inserted'){
-                // alert(content.message)              
-                // setquestionText('')
-                // setT('')
-                // setF1('')
-                // setF2('')
-                // setF3('')               
-            }
+            if(content.status === 200){
+              alert("Thêm thành công");   
+              setRedirect(true);     
+               // setquestionText('')
+               // setT('')
+               // setF1('')
+               // setF2('')
+               // setF3('')               
+              }   
+
         }                 
     }
 

@@ -45,23 +45,30 @@ const ThemQuizz = (props) => {
 
  
 
-    useEffect(() =>  {
-      (
-        async () => {          
-            const link = 'https://lmsg03.azurewebsites.net/api/Quizs/getallquizs'
-            const response = await fetch(link,{
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include',
-            });
-            
-            const content = await response.json();
-            setlistQuizz(content.data)
-            console.log(content.data)
-            // setquizId(content.data[0].quizId)                             
-        }    
-      )();
-    },[]);
+  const loadQuiz = async () => {          
+    const link = 'https://lmsg03.azurewebsites.net/api/Quizs/getallquizs'
+    const response = await fetch(link,{
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+    });
+    
+    const content = await response.json();
+    if (content.status === 200)
+    {
+      
+      setlistQuizz(content.data);
+      // console.log(content.data);
+      loadQuiz();
+    }
+
+    // setquizId(content.data[0].quizId)    
+  }
+
+  useEffect(() => {
+    loadQuiz();
+  }, []);
+
     
     
   

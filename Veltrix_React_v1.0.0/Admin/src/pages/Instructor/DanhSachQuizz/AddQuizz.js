@@ -65,11 +65,13 @@ export default function AddQuizz() {
             });
             const content = await response.json();
             
-            console.log(content.data);
-            if(content.message === 'Success!')
+            if(content.status === 200)
             {  
                  
+              alert("Thêm quiz thành công !");
+              setRedirect(true);
             }
+
            
         }
       }

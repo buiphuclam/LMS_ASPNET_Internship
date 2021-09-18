@@ -67,12 +67,11 @@ export default function AddStudent(props) {
                 })
             });
             const content = await response.json();
-            
-            // console.log(content.data);
-            // if(content.message === 'Success!')
-            // {  
-                 
-            // }
+            if(content.status === 200)
+            {  
+                 alert("Thêm thành công học sinh vào lớp !");
+            }
+
            
         }
       }
