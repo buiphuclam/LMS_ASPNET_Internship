@@ -8,8 +8,6 @@ import {
 
 import Nav from "./components/Nav/Nav"
 
-// Import scss
-import "./assets/scss/theme.scss"
 //Import login
 import Login from 'pages/Authentication/Login'
 

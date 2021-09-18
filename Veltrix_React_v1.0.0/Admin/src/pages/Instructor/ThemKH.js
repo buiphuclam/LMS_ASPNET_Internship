@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import MetaTags from 'react-meta-tags';
-// import FormEditor from './FormEditors';
 import {useEffect} from "react";
 
 import {
@@ -8,47 +6,21 @@ import {
   CardBody,
   Col,
   Row,
-  CardTitle,
   Container,
-  Label,
   Input,
-  Form,
-  CardSubtitle,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu,
   FormGroup,
   Button
 } from "reactstrap"
-
-//Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb"
 
 // Form Editor
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw } from 'draft-js';
-
 import { AvForm, AvField } from "availity-reactstrap-validation"
-// import draftToHtml from 'draftjs-to-html';
-// import htmlToDraft from 'html-to-draftjs';
+
 
 const ThemKH = () => {
-  const [customchk, setcustomchk] = useState(true)
-  const [customchkPrimary, setcustomchkPrimary] = useState(true)
-  const [customchkSuccess, setcustomchkSuccess] = useState(true)
-  const [customchkInfo, setcustomchkInfo] = useState(true)
-  const [customchkWarning, setcustomchkWarning] = useState(true)
-  const [customchkDanger, setcustomchkDanger] = useState(true)
-  const [customOutlinePrimary, setcustomOutlinePrimary] = useState(true)
-  const [customOutlineSuccess, setcustomOutlineSuccess] = useState(true)
-  const [customOutlineInfo, setcustomOutlineInfo] = useState(true)
-  const [customOutlineWarning, setcustomOutlineWarning] = useState(true)
-  const [customOutlineDanger, setcustomOutlineDanger] = useState(true)
-  const [toggleSwitch, settoggleSwitch] = useState(true)
-  const [toggleSwitchSize, settoggleSwitchSize] = useState(true)
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -73,21 +45,7 @@ const ThemKH = () => {
     var s1 = convertToRaw(courseDocument1.getCurrentContent());
     return s.blocks[0].text.trim().length > 0 && s1.blocks[0].text.trim().length > 0;
   };
-  // const validateForm1 = () => {
-  //   var s = convertToRaw(courseDocument1.getCurrentContent());
-    
-  //   return s.blocks[0].text.trim().length > 0;
-  // };
 
-  // const formSubmitHandler = (e) => {
- 
-  //   e.preventDefault();
-
-  //   // setcourseShortDetail((convertToRaw(courseShortDetail.getCurrentContent()).blocks[0].text));
-  //   // setCourseDocument((convertToRaw(courseDocument.getCurrentContent()).blocks[0].text));
-    
-  //   console.log({courseShortDetail});
-  // };
 
   const add = async (name) =>{
     name.preventDefault()
@@ -148,24 +106,12 @@ const ThemKH = () => {
   return (
     <React.Fragment>
       <div className="page-content">
-        <MetaTags>
-          <title>Form Elements | Veltrix - Responsive Bootstrap 5 Admin Dashboard</title>
-        </MetaTags>
         <AvForm onSubmit={add} className="needs-validation">
         <Container fluid={true}>
-          <Breadcrumbs maintitle="Veltrix" title="Form" breadcrumbItem="Thêm khóa học" />
-
           <Row>
             <Col>
               <Card>
                 <CardBody>
-                  {/* <CardTitle className="h4">Textual inputs</CardTitle>
-                  <p className="card-title-desc">
-                    Here are examples of <code>.form-control</code> applied to
-                    each textual HTML5 <code>&lt;input&gt;</code>{" "}
-                    <code>type</code>.
-                  </p> */}
-
                   <Row className="mb-3">
 
                       <label 
@@ -218,6 +164,7 @@ const ThemKH = () => {
                     <div className="col-md-10">
                         <Editor
                           editorState={courseShortDetail1}
+                          editorStyle={{color: 'black'}}
                           toolbarClassName="toolbarClassName"
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClassName"
@@ -238,6 +185,7 @@ const ThemKH = () => {
                     <div className="col-md-10">
                         <Editor
                           editorState={courseDocument1}
+                          editorStyle={{color: 'black'}}
                           toolbarClassName="toolbarClassName"
                           wrapperClassName="wrapperClassName"
                           editorClassName="editorClassName"
@@ -246,11 +194,7 @@ const ThemKH = () => {
                         />
                     </div>
                   </Row>
-                  {/* <input type='text' name='text' placeholder='Nhập Img'
-                value={coourseImg}
-                onChange={(e)=>setCourseImg(e.target.value)}></input> */}
-                  
-                  
+                           
                 </CardBody>
                 <Button 
                 color="primary" 

@@ -1,7 +1,5 @@
 import React, {useState} from 'react'
-
 import { Redirect,Link } from "react-router-dom";
-import { Card, Container,CardBody,Row } from 'reactstrap'
 import './Login.css'
 import img2 from '../../assets/images/bg.jpg'
 
