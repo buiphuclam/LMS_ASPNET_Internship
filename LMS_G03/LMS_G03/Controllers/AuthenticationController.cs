@@ -289,6 +289,14 @@ namespace LMS_G03.Controllers
         [Route("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel changePasswordModel)
         {
+            if (changePasswordModel.CurrentPassword == null || changePasswordModel.ConfirmNewPassword == null || changePasswordModel.NewPassword == null)
+                return BadRequest(new Response { Status = 400, Message = "CurrentPassword, New Password, Confirm New Password are required" });
+            if (changePasswordModel.CurrentPassword.Length > 30 || changePasswordModel.ConfirmNewPassword.Length > 30 || changePasswordModel.NewPassword.Length > 30)
+                return BadRequest(new Response { Status = 400, Message = "CurrentPassword, New Password, Confirm New Password length up to 30 characters" });
+            if (changePasswordModel.NewPassword.Length < 8 || changePasswordModel.ConfirmNewPassword.Length < 8 || checkpass(changePasswordModel.NewPassword) == false || checkpass(changePasswordModel.ConfirmNewPassword) == false)
+                return BadRequest(new Response { Status = 400, Message = "Passwords are between 8 and 30 characters long and must contain at least one number, uppercase and special characters" });
+            if (changePasswordModel.NewPassword != changePasswordModel.ConfirmNewPassword)
+                return BadRequest(new Response { Status = 400, Message = "Confirm password does not match" });
             var userExists = await _userManager.FindByNameAsync(changePasswordModel.Username);
             if (userExists == null)
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = 404, Message = Message.InvalidUser });
