@@ -46,11 +46,47 @@ namespace LMS_G03.Controllers
             //_signInManager = signInManager;
         }
 
+        private bool checkpass(string pass)
+        {
+            bool check = false;
+            string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,";
+            string numberChar = @"0123456789";
+            foreach (var item in specialChar)
+            {
+                if (pass.Contains(item))
+                {
+                    check = true;
+                    break;
+                }
+            }
+            foreach (var item in numberChar)
+            {
+
+                if (pass.Contains(item))
+                {
+                    check = true;
+                    break;
+                }
+            }
+            if (pass.Any(char.IsUpper))
+                check = true;
+            else
+                check = false;
+            return check;
+        }
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
+            if(registerModel.Username == null || registerModel.Password == null || registerModel.ConfirmPassword == null || registerModel.Email == null )
+                return BadRequest(new Response { Status = 400, Message = "Username, Email, Password, ConfirmPassword must not be null" });
+            if(registerModel.Username.Length > 30 || registerModel.Password.Length > 30 || registerModel.ConfirmPassword.Length > 30 || registerModel.Email.Length > 30)
+                return BadRequest(new Response { Status = 400, Message = "Username, Email, Password, ConfirmPassword length up to 30 characters" });
+            if(registerModel.Password.Length < 8 || registerModel.ConfirmPassword.Length < 8 || checkpass(registerModel.Password) == false || checkpass(registerModel.ConfirmPassword) == false)
+                return BadRequest(new Response { Status = 400, Message = "Passwords are between 8 and 30 characters long and must contain at least one number, uppercase and special characters" });
+            if (registerModel.Password != registerModel.ConfirmPassword)
+                return BadRequest(new Response { Status = 400, Message = "Confirm password does not match" });
             var userExists = await _userManager.FindByNameAsync(registerModel.Username);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = 500, Message = Message.UserAlreadyCreated });
@@ -84,12 +120,12 @@ namespace LMS_G03.Controllers
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authenticate", new { token, email = registerModel.Email }, Request.Scheme);
                 bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
 
-                if (emailResponse)
+                //if (emailResponse)
                     return Ok(new Response { Status = 200, Message = Message.UserCreatedVerifyMail });
-                else
-                {
-                    return BadRequest(new Response { Status = 500, Message = Message.ErrorFound });
-                }
+                //else
+                //{
+                //    return BadRequest(new Response { Status = 500, Message = Message.ErrorFound });
+                //}
             }
         }
 

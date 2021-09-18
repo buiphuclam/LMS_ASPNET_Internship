@@ -90,6 +90,7 @@ namespace LMS_G03.Controllers
             result.Wrong1 = Wrong1;
             result.Wrong2 = Wrong2;
             result.Wrong3 = Wrong3;
+            result.Chose = Chose;
             result.LectureId = LectureId;
             result.StudentId = StudentId;
         }
