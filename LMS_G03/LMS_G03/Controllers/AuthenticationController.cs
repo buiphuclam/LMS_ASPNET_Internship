@@ -48,14 +48,16 @@ namespace LMS_G03.Controllers
 
         private bool checkpass(string pass)
         {
-            bool check = false;
+            bool checkspecial = false;
+            bool checknumber = false;
+            bool checkUpper = false;
             string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,";
             string numberChar = @"0123456789";
             foreach (var item in specialChar)
             {
                 if (pass.Contains(item))
                 {
-                    check = true;
+                    checkspecial = true;
                     break;
                 }
             }
@@ -64,15 +66,16 @@ namespace LMS_G03.Controllers
 
                 if (pass.Contains(item))
                 {
-                    check = true;
+                    checknumber = true;
                     break;
                 }
             }
             if (pass.Any(char.IsUpper))
-                check = true;
+                checkUpper = true;
+            if (checknumber && checkspecial && checkUpper)
+                return true;
             else
-                check = false;
-            return check;
+                return false;
         }
         [HttpPost]
         [AllowAnonymous]
@@ -88,7 +91,7 @@ namespace LMS_G03.Controllers
             if (registerModel.Password != registerModel.ConfirmPassword)
                 return BadRequest(new Response { Status = 400, Message = "Confirm password does not match" });
             var userExists = await _userManager.FindByNameAsync(registerModel.Username);
-            if (userExists != null)
+             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = 500, Message = Message.UserAlreadyCreated });
 
             var mailExists = await _userManager.FindByEmailAsync(registerModel.Email);
@@ -102,6 +105,11 @@ namespace LMS_G03.Controllers
                 UserName = registerModel.Username,
                 //UserInfo = new UserInfo()
             };
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authenticate", new { token, email = registerModel.Email }, Request.Scheme);
+            bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
+            if (!emailResponse)
+                return BadRequest(new Response { Status = 500, Message = "Email does not exist" });
 
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
@@ -116,16 +124,9 @@ namespace LMS_G03.Controllers
                     await _userManager.AddToRoleAsync(user, UserRoles.Student.ToString());
                 }
 
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authenticate", new { token, email = registerModel.Email }, Request.Scheme);
-                bool emailResponse = _mailHelperService.SendEmail(registerModel.Email, confirmationLink, "Email confirmation");
+                return Ok(new Response { Status = 200, Message = "Sign Up Success" });
 
-                //if (emailResponse)
-                    return Ok(new Response { Status = 200, Message = Message.UserCreatedVerifyMail });
-                //else
-                //{
-                //    return BadRequest(new Response { Status = 500, Message = Message.ErrorFound });
-                //}
+               
             }
         }
 
