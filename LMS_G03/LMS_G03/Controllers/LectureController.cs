@@ -166,12 +166,12 @@ namespace LMS_G03.Controllers
 
                 if (quiz != null)
                 {
-                    //return BadRequest(new Response { Status = 400, Message = "You have Done it Before!" });
-                    quiz.Mark = ScoreForQuiz(numberCorrect, totalquestion);
-                    _context.Update(quiz);
-                    await _context.SaveChangesAsync();
+                    return BadRequest(new Response { Status = 400, Message = "You have Done it Before! Score:" + quiz.Mark });
+                    //quiz.Mark = ScoreForQuiz(numberCorrect, totalquestion);
+                    //_context.Update(quiz);
+                    //await _context.SaveChangesAsync();
                 }
-                //return BadRequest(new Response { Status = 400, Message = "Submit Failed, please try again!" });
+                return BadRequest(new Response { Status = 400, Message = "Submit Failed, please try again!" });
             }
             ResultSubmit resultSubmit = new ResultSubmit();
             resultSubmit.QuizName = findquiz.QuizName;

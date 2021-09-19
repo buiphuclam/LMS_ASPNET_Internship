@@ -430,3 +430,9 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.pdb
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.genruntimeconfig.cache
 C:\Users\Admin\Desktop\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Debug\netcoreapp3.1\LMS_G03.csprojAssemblyReference.cache
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\FireSharp.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Microsoft.Threading.Tasks.Extensions.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\Microsoft.Threading.Tasks.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\System.Net.Http.Extensions.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Debug\netcoreapp3.1\System.Net.Http.Primitives.dll

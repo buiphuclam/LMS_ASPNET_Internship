@@ -46,6 +46,10 @@
               "target": "Package",
               "version": "[2.0.35, )"
             },
+            "FireSharp": {
+              "target": "Package",
+              "version": "[2.0.4, )"
+            },
             "Google.Apis.Auth.AspNetCore3": {
               "target": "Package",
               "version": "[1.54.0, )"

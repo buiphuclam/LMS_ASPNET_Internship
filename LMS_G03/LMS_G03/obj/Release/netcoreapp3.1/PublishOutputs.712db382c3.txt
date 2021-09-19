@@ -7,6 +7,7 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Releas
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\LMS_G03.runtimeconfig.json
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\LMS_G03.pdb
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Dapper.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\FireSharp.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.PlatformServices.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Google.Apis.Auth.dll
@@ -21,6 +22,9 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Releas
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.JsonPatch.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.AspNetCore.Razor.Language.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Threading.Tasks.Extensions.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Threading.Tasks.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.Bcl.HashCode.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.CodeAnalysis.dll
@@ -56,6 +60,8 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Releas
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.IdentityModel.Protocols.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\System.Net.Http.Extensions.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\System.Net.Http.Primitives.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.OpenApi.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll

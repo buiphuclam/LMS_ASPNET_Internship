@@ -176,3 +176,9 @@ D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Releas
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\FireSharp.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\Microsoft.Threading.Tasks.Extensions.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\Microsoft.Threading.Tasks.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\System.Net.Http.Extensions.dll
+D:\HK2_Nam3\ThucTap\Project\hcm21_cpl_net_04_group_03\LMS_G03\LMS_G03\bin\Release\netcoreapp3.1\System.Net.Http.Primitives.dll
